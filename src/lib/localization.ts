@@ -134,6 +134,25 @@ export function useNavigationLabels() {
   return navigationLabels[currentLocale] || navigationLabels.en;
 }
 
+// Development banner labels
+export const developmentBannerLabels = {
+  en: {
+    title: 'Portfolio Under Development',
+    message: 'We sincerely apologize that our portfolio is not yet complete. We are currently in the process of adding new projects and implementing various configurations to enhance your browsing experience. We appreciate your patience and understanding as we work diligently to complete the portfolio as soon as possible.',
+    thankYou: 'Thank you for your understanding and continued support.',
+  },
+  fr: {
+    title: 'Portfolio en Développement',
+    message: 'Nous nous excusons sincèrement que notre portfolio ne soit pas encore terminé. Nous sommes actuellement en train d\'ajouter de nouveaux projets et d\'implémenter diverses configurations pour améliorer votre expérience de navigation. Nous apprécions votre patience et votre compréhension pendant que nous travaillons assidûment pour terminer le portfolio dès que possible.',
+    thankYou: 'Merci pour votre compréhension et votre soutien continu.',
+  },
+  de: {
+    title: 'Portfolio in Entwicklung',
+    message: 'Wir entschuldigen uns aufrichtig dafür, dass unser Portfolio noch nicht vollständig ist. Wir sind derzeit dabei, neue Projekte hinzuzufügen und verschiedene Konfigurationen zu implementieren, um Ihr Browsing-Erlebnis zu verbessern. Wir schätzen Ihre Geduld und Ihr Verständnis, während wir fleißig daran arbeiten, das Portfolio so schnell wie möglich zu vervollständigen.',
+    thankYou: 'Vielen Dank für Ihr Verständnis und Ihre kontinuierliche Unterstützung.',
+  },
+};
+
 // Contact form labels
 export const contactFormLabels = {
   en: {
@@ -191,6 +210,65 @@ export function useContactFormLabels() {
   return contactFormLabels[currentLocale] || contactFormLabels.en;
 }
 
+// Hook to get development banner labels
+export function useDevelopmentBannerLabels() {
+  const pathname = usePathname();
+  const currentLocale = getLocaleFromPathname(pathname);
+  
+  return developmentBannerLabels[currentLocale] || developmentBannerLabels.en;
+}
+
+// All labels combined for the comprehensive useLocalization hook
+const allLabels = {
+  en: {
+    ...navigationLabels.en,
+    ...contactFormLabels.en,
+    developmentBanner: developmentBannerLabels.en,
+  },
+  fr: {
+    ...navigationLabels.fr,
+    ...contactFormLabels.fr,
+    developmentBanner: developmentBannerLabels.fr,
+  },
+  de: {
+    ...navigationLabels.de,
+    ...contactFormLabels.de,
+    developmentBanner: developmentBannerLabels.de,
+  },
+};
+
+// Main localization hook that provides everything
+export function useLocalization() {
+  const pathname = usePathname();
+  const currentLocale = getLocaleFromPathname(pathname);
+  const config = configs[currentLocale] || configs.en;
+  const labels = allLabels[currentLocale] || allLabels.en;
+
+  // Translation function that supports nested keys
+  const t = (key: string) => {
+    const keys = key.split('.');
+    let result: any = labels;
+    
+    for (const k of keys) {
+      if (result && typeof result === 'object' && k in result) {
+        result = result[k];
+      } else {
+        return key; // Return the key itself if translation not found
+      }
+    }
+    
+    return typeof result === 'string' ? result : key;
+  };
+
+  return {
+    config,
+    locale: currentLocale,
+    labels,
+    t,
+    isRTL: false,
+  };
+}
+
 export default {
   usePortfolioConfig,
   getPortfolioConfig,
@@ -198,4 +276,6 @@ export default {
   getLanguageDirection,
   useNavigationLabels,
   useContactFormLabels,
+  useDevelopmentBannerLabels,
+  useLocalization,
 };

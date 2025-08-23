@@ -4,6 +4,7 @@ import Hero from '@/components/sections/Hero'
 import ClientWrapper from '@/components/ClientWrapper'
 import ScrollProgress from '@/components/ScrollProgress'
 import SmoothScrollEnhancer from '@/components/SmoothScrollEnhancer'
+import DevelopmentBanner from '@/components/DevelopmentBanner'
 import dynamic from 'next/dynamic'
 import { notFound } from 'next/navigation'
 
@@ -67,6 +68,9 @@ export default function LocalePage({ params }: LocalePageProps) {
 
   return (
     <ClientWrapper>
+      {/* Development Banner - Shows first to new visitors */}
+      <DevelopmentBanner />
+      
       <main className="min-h-screen relative overflow-x-hidden">
         {/* Enhanced smooth scrolling */}
         <SmoothScrollEnhancer />
