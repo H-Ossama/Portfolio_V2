@@ -6,7 +6,7 @@ A modern, responsive portfolio website built with Next.js, Tailwind CSS, and Fra
 
 [![Portfolio Website](https://img.shields.io/badge/🌐_Live_Demo-Visit_Portfolio-4F46E5?style=for-the-badge&logoColor=white)](https://portfolio-v2-eight-lovat.vercel.app/)
 
-**🚀 [View Live Site](https://portfolio-v2-eight-lovat.vercel.app/)** • **📱 [Mobile Preview](https://portfolio-v2-eight-lovat.vercel.app/)** • **🌍 [Multi-Language](https://portfolio-v2-eight-lovat.vercel.app/fr)**
+**🚀 [View Live Site](https://portfolio-v2-eight-lovat.vercel.app/)** 
 
 > Experience the portfolio in action - fully responsive design with smooth animations and multi-language support
 
