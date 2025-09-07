@@ -8,7 +8,7 @@ export const portfolioConfig = {
     location: "M'RIRT, MOROCCO",
     location_description: "Mit Sitz in Marokko bin ich immer begeistert, neue Herausforderungen anzunehmen und mit Teams zu arbeiten, die eine Leidenschaft für Innovation und Qualität teilen. Ob es um die Erstellung responsiver Benutzeroberflächen oder die Entwicklung robuster Backend-Systeme geht, ich gehe jedes Projekt mit Enthusiasmus und Liebe zum Detail an.",
     interests: "Wenn ich nicht programmiere, finden Sie mich dabei, die neuesten Webentwicklungstrends zu erkunden, zu Open-Source-Projekten beizutragen oder neue Technologien zu lernen, um in diesem sich schnell entwickelnden Bereich vorne zu bleiben.",
-    profileImage: "/images/oussama.png", // Professionelles Foto mit transparentem Hintergrund
+    profileImage: "/images/Ousaama.jpg?v=1", // Professionelles Foto mit transparentem Hintergrund
   },
 
   // Contact Information - Kontaktinformationen

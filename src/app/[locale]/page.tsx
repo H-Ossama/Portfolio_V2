@@ -9,7 +9,7 @@ import dynamic from 'next/dynamic'
 import { notFound } from 'next/navigation'
 
 // Lazy load non-critical components for better initial performance
-const About = dynamic(() => import('@/components/sections/About'), {
+const About = dynamic(() => import('@/components/sections/About').then(mod => ({ default: mod.default })), {
   loading: () => <div className="min-h-screen bg-transparent" />
 })
 

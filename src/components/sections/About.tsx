@@ -3,10 +3,18 @@
 import { motion } from 'framer-motion'
 import { usePortfolioConfig, useNavigationLabels } from '@/lib/localization'
 import Image from 'next/image'
+import { useEffect } from 'react'
 
 export default function About() {
   const { config } = usePortfolioConfig()
   const labels = useNavigationLabels()
+  
+  // Force refresh on component mount
+  useEffect(() => {
+    // This will force Next.js to rerender this component
+    console.log('About component mounted - forcing refresh');
+  }, []);
+  
   return (
     <section id="about" className="section-padding relative">
       {/* Background elements */}
@@ -72,7 +80,7 @@ export default function About() {
             </div>
           </motion.div>
 
-          {/* Enhanced Image Section */}
+          {/* Enhanced Image Section - Improved Design */}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -80,33 +88,43 @@ export default function About() {
             viewport={{ once: true, margin: "60px 0px" }}
             className="relative perspective-1000"
           >
-            <div className="relative">
-              {/* Glowing background */}
-              <div className="absolute -inset-8 bg-gradient-to-br from-primary-500/20 via-purple-500/20 to-cyan-500/20 rounded-3xl blur-2xl opacity-50 animate-glow-pulse"></div>
+            <div className="relative mx-auto max-w-md">
+              {/* Modern gradient halo effect */}
+              <div className="absolute -inset-4 bg-gradient-to-br from-primary-500/30 via-purple-500/20 to-cyan-500/30 rounded-2xl blur-xl opacity-70 animate-pulse"></div>
               
-              {/* Main glass card */}
-              <div className="relative glass-card-theme p-8 hover:shadow-glow-lg transition-all duration-500 transform hover:scale-105">
-                <div className="relative h-96 rounded-2xl overflow-hidden">
+              {/* Improved glass card with better padding */}
+              <div className="relative glass-card-theme p-6 border border-white/10 hover:shadow-lg transition-all duration-500 transform hover:scale-105 rounded-2xl">
+                {/* Reduced height container with better aspect ratio */}
+                <div className="relative w-full h-80 md:h-96 rounded-xl overflow-hidden shadow-md">
                   <Image
                     src={config.personal.profileImage}
                     alt={`${config.personal.name} - About`}
                     fill
-                    className="object-cover"
+                    className="object-cover object-center"
+                    unoptimized={true}
+                    key={`profile-img-${Date.now()}`} // Force re-render
                   />
-                  {/* Overlay gradient */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-dark-900/50 via-transparent to-transparent"></div>
+                  {/* Improved overlay gradient */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent"></div>
+                  
+                  {/* Added subtle inner border */}
+                  <div className="absolute inset-0 border border-white/10 rounded-xl pointer-events-none"></div>
                 </div>
               </div>
+              
+              {/* Decorative corner accent */}
+              <div className="absolute -top-2 -right-2 w-8 h-8 border-t-2 border-r-2 border-primary-400 rounded-tr-lg"></div>
+              <div className="absolute -bottom-2 -left-2 w-8 h-8 border-b-2 border-l-2 border-primary-400 rounded-bl-lg"></div>
             </div>
 
-            {/* Floating tech icons */}
-            <div className="absolute -top-6 -right-6 w-16 h-16 glass-card-theme rounded-full flex items-center justify-center floating-element">
+            {/* Improved floating tech icons with better positioning */}
+            <div className="absolute -top-4 -right-4 w-16 h-16 glass-card-theme rounded-full flex items-center justify-center floating-element shadow-lg">
               <span className="text-2xl">⚛️</span>
             </div>
-            <div className="absolute -bottom-8 -left-8 w-20 h-20 glass-card-theme rounded-full flex items-center justify-center floating-element-delayed">
+            <div className="absolute -bottom-6 -left-6 w-20 h-20 glass-card-theme rounded-full flex items-center justify-center floating-element-delayed shadow-lg">
               <span className="text-3xl">🔧</span>
             </div>
-            <div className="absolute top-1/2 -left-4 w-12 h-12 glass-card-theme rounded-full flex items-center justify-center floating-element">
+            <div className="absolute top-1/2 -left-3 w-12 h-12 glass-card-theme rounded-full flex items-center justify-center floating-element shadow-md">
               <span className="text-xl">💻</span>
             </div>
           </motion.div>
