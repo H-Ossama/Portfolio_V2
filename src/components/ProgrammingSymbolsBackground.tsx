@@ -2,9 +2,38 @@
 
 import { motion } from 'framer-motion'
 import { useTheme } from '@/contexts/ThemeContext'
+import { usePerformanceMode, getAnimationConfig } from '@/lib/usePerformanceMode'
+import { memo } from 'react'
 
 const ProgrammingSymbolsBackground = () => {
   const { theme } = useTheme()
+  const performanceMode = usePerformanceMode()
+  const { 
+    enableBackgroundEffects, 
+    particleCount, 
+    durationMultiplier,
+    enableMotionEffects,
+    maxConcurrentAnimations
+  } = getAnimationConfig(performanceMode)
+  
+  // If low performance mode, show minimal or no background
+  if (!enableBackgroundEffects) {
+    return (
+      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+        {/* Just show subtle grid pattern */}
+        <div 
+          className={`absolute inset-0 ${theme === 'dark' ? 'opacity-[0.01]' : 'opacity-[0.02]'}`}
+          style={{
+            backgroundImage: `
+              linear-gradient(${theme === 'dark' ? 'rgba(59, 130, 246, 0.03)' : 'rgba(59, 130, 246, 0.05)'} 1px, transparent 1px),
+              linear-gradient(90deg, ${theme === 'dark' ? 'rgba(59, 130, 246, 0.03)' : 'rgba(59, 130, 246, 0.05)'} 1px, transparent 1px)
+            `,
+            backgroundSize: '80px 80px'
+          }}
+        />
+      </div>
+    )
+  }
   
   // Programming language symbols and code snippets
   const symbols = [
@@ -63,7 +92,10 @@ const ProgrammingSymbolsBackground = () => {
       duration: number
     }> = []
     
-    // Reduced positions for better performance - 8 instead of 12
+    // Use fewer positions for lower performance modes
+    let positionCount = Math.min(particleCount, 8)
+    
+    // Dynamic positions based on performance mode
     const positions = [
       { top: '15%', left: '20%' },
       { top: '25%', left: '80%' },
@@ -73,7 +105,7 @@ const ProgrammingSymbolsBackground = () => {
       { top: '70%', left: '25%' },
       { top: '55%', left: '60%' },
       { top: '85%', left: '75%' },
-    ]
+    ].slice(0, positionCount)
 
     positions.forEach((position, index) => {
       const symbol = symbols[index % symbols.length]
@@ -81,8 +113,9 @@ const ProgrammingSymbolsBackground = () => {
         ...symbol,
         ...position,
         id: index,
-        delay: index * 0.3, // Slightly increased delay for smoother loading
-        duration: 10 + (index % 3) * 3 // Simplified duration calculation
+        // Simplified animations for medium/low performance
+        delay: index * (performanceMode === 'high' ? 0.3 : 0.5),
+        duration: (10 + (index % 3) * 3) * durationMultiplier
       })
     })
 
@@ -90,6 +123,10 @@ const ProgrammingSymbolsBackground = () => {
   }
 
   const symbolInstances = generateSymbolInstances()
+  
+  // Limit the number of code snippets based on performance
+  const maxSnippets = performanceMode === 'high' ? 4 : 
+                      performanceMode === 'medium' ? 2 : 0
 
   return (
     <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
@@ -123,94 +160,104 @@ const ProgrammingSymbolsBackground = () => {
           animate={{ 
             opacity: theme === 'dark' ? 0.4 : 0.6,
             scale: 1,
-            x: [0, 15, -10, 0],
-            y: [0, -10, 8, 0],
+            // Simplified animations for lower performance modes
+            ...(enableMotionEffects 
+              ? { x: [0, 15, -10, 0], y: [0, -10, 8, 0] } 
+              : {})
           }}
           transition={{
             duration: item.duration,
             delay: item.delay,
             repeat: Infinity,
             ease: "easeInOut",
-            scale: { duration: 0.8, delay: item.delay },
-            opacity: { duration: 0.8, delay: item.delay }
+            scale: { duration: 0.8 * durationMultiplier, delay: item.delay },
+            opacity: { duration: 0.8 * durationMultiplier, delay: item.delay }
           }}
         >
           {item.symbol}
         </motion.div>
       ))}
 
-      {/* Additional floating code snippets */}
-      <motion.div
-        className={`absolute top-1/4 right-1/4 font-mono text-xs ${
-          theme === 'dark' ? 'text-blue-400' : 'text-blue-600'
-        } opacity-30 dark:opacity-20`}
-        animate={{
-          x: [0, 30, 0],
-          y: [0, -20, 0],
-          rotate: [0, 5, -5, 0]
-        }}
-        transition={{
-          duration: 12,
-          repeat: Infinity,
-          ease: "easeInOut"
-        }}
-      >
-        function()
-      </motion.div>
+      {/* Additional floating code snippets - only shown in higher performance modes */}
+      {maxSnippets > 0 && (
+        <motion.div
+          className={`absolute top-1/4 right-1/4 font-mono text-xs ${
+            theme === 'dark' ? 'text-blue-400' : 'text-blue-600'
+          } opacity-30 dark:opacity-20`}
+          animate={{
+            x: enableMotionEffects ? [0, 30, 0] : [0, 0, 0],
+            y: enableMotionEffects ? [0, -20, 0] : [0, 0, 0],
+            rotate: enableMotionEffects ? [0, 5, -5, 0] : [0, 0, 0]
+          }}
+          transition={{
+            duration: 12 * durationMultiplier,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        >
+          function()
+        </motion.div>
+      )}
 
-      <motion.div
-        className={`absolute bottom-1/3 left-1/5 font-mono text-sm ${
-          theme === 'dark' ? 'text-green-400' : 'text-green-600'
-        } opacity-30 dark:opacity-20`}
-        animate={{
-          x: [0, -25, 0],
-          y: [0, 15, 0],
-          rotate: [0, -3, 3, 0]
-        }}
-        transition={{
-          duration: 10,
-          repeat: Infinity,
-          ease: "easeInOut"
-        }}
-      >
-        useState()
-      </motion.div>
+      {maxSnippets > 1 && (
+        <motion.div
+          className={`absolute bottom-1/3 left-1/5 font-mono text-sm ${
+            theme === 'dark' ? 'text-green-400' : 'text-green-600'
+          } opacity-30 dark:opacity-20`}
+          animate={{
+            x: enableMotionEffects ? [0, -25, 0] : [0, 0, 0],
+            y: enableMotionEffects ? [0, 15, 0] : [0, 0, 0],
+            rotate: enableMotionEffects ? [0, -3, 3, 0] : [0, 0, 0]
+          }}
+          transition={{
+            duration: 10 * durationMultiplier,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        >
+          useState()
+        </motion.div>
+      )}
 
-      <motion.div
-        className={`absolute top-2/3 right-1/6 font-mono text-xs ${
-          theme === 'dark' ? 'text-purple-400' : 'text-purple-600'
-        } opacity-30 dark:opacity-20`}
-        animate={{
-          x: [0, 15, 0],
-          y: [0, -25, 0],
-          rotate: [0, 2, -2, 0]
-        }}
-        transition={{
-          duration: 14,
-          repeat: Infinity,
-          ease: "easeInOut"
-        }}
-      >
-        .map()
-      </motion.div>
+      {maxSnippets > 2 && (
+        <motion.div
+          className={`absolute top-2/3 right-1/6 font-mono text-xs ${
+            theme === 'dark' ? 'text-purple-400' : 'text-purple-600'
+          } opacity-30 dark:opacity-20`}
+          animate={{
+            x: enableMotionEffects ? [0, 15, 0] : [0, 0, 0],
+            y: enableMotionEffects ? [0, -25, 0] : [0, 0, 0],
+            rotate: enableMotionEffects ? [0, 2, -2, 0] : [0, 0, 0]
+          }}
+          transition={{
+            duration: 14 * durationMultiplier,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        >
+          .map()
+        </motion.div>
+      )}
 
-      <motion.div
-        className={`absolute top-1/6 left-2/3 font-mono text-sm ${
-          theme === 'dark' ? 'text-orange-400' : 'text-orange-600'
-        } opacity-30 dark:opacity-20`}
-        animate={{
-          x: [0, -20, 0],
-          y: [0, 20, 0],
-          rotate: [0, 4, -4, 0]
-        }}
-        transition={{
-          duration: 11,
-          repeat: Infinity,
-          ease: "easeInOut"
-        }}
-      >
-        &lt;div&gt;
-      </motion.div>
+      {maxSnippets > 3 && (
+        <motion.div
+          className={`absolute top-1/6 left-2/3 font-mono text-sm ${
+            theme === 'dark' ? 'text-orange-400' : 'text-orange-600'
+          } opacity-30 dark:opacity-20`}
+          animate={{
+            x: enableMotionEffects ? [0, -20, 0] : [0, 0, 0],
+            y: enableMotionEffects ? [0, 20, 0] : [0, 0, 0],
+            rotate: enableMotionEffects ? [0, 4, -4, 0] : [0, 0, 0]
+          }}
+          transition={{
+            duration: 11 * durationMultiplier,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        >
+          &lt;div&gt;
+        </motion.div>
+      )}
 
       {/* Gradient overlays for depth */}
       <div className={`absolute inset-0 bg-gradient-to-b ${
@@ -228,4 +275,5 @@ const ProgrammingSymbolsBackground = () => {
   )
 }
 
-export default ProgrammingSymbolsBackground
+// Memoize the component to prevent unnecessary re-renders
+export default memo(ProgrammingSymbolsBackground)

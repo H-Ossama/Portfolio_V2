@@ -44,8 +44,58 @@
     background-attachment: fixed;
   }
 
+  /* Performance optimizations for mobile and low-end devices */
+  @media (max-width: 768px) {
+    html, body {
+      /* Optimize paint performance on mobile */
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      perspective: 1000;
+      transform-style: preserve-3d;
+      will-change: scroll-position;
+    }
+    
+    /* Reduce transition durations for better performance */
+    * {
+      transition-duration: 200ms !important;
+    }
+    
+    /* Optimize animation performance */
+    .animate-slow {
+      animation-duration: 50% !important;
+    }
+    
+    /* Simplified backgrounds for better performance */
+    .dark body, .light body {
+      background-attachment: initial;
+    }
+  }
+  
+  /* Apply performance optimizations based on detected mode */
+  html[data-performance-mode="low"] {
+    /* Reduce transitions and animations */
+    * {
+      transition-duration: 150ms !important;
+      animation-duration: 0.5s !important;
+    }
+    
+    /* Remove expensive backdrop blur on low-end devices */
+    .backdrop-blur-sm, .backdrop-blur-md, .backdrop-blur-lg, .backdrop-blur-xl {
+      backdrop-filter: none !important;
+    }
+  }
+  
+  /* Disable backdrop blur for better performance when needed */
+  .no-backdrop-blur .backdrop-blur-sm,
+  .no-backdrop-blur .backdrop-blur-md, 
+  .no-backdrop-blur .backdrop-blur-lg,
+  .no-backdrop-blur .backdrop-blur-xl {
+    backdrop-filter: none !important;
+  }
+  
   /* Reduce motion for users who prefer it */
-  @media (prefers-reduced-motion: reduce) {
+  @media (prefers-reduced-motion: reduce), 
+         (hover: none) and (pointer: coarse) {
     *,
     *::before,
     *::after {
@@ -54,6 +104,29 @@
       transition-duration: 0.01ms !important;
       scroll-behavior: auto !important;
     }
+    
+    /* Disable expensive animations */
+    .animate-float, .animate-float-delayed,
+    .animate-glow-pulse, .animate-pulse {
+      animation: none !important;
+    }
+  }
+  
+  /* Additional optimizations for devices with reduced motion */
+  .reduced-motion *,
+  .reduced-motion *::before,
+  .reduced-motion *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  .reduced-motion .animate-float,
+  .reduced-motion .animate-float-delayed,
+  .reduced-motion .animate-glow-pulse,
+  .reduced-motion .animate-pulse {
+    animation: none !important;
   }
   
   * {

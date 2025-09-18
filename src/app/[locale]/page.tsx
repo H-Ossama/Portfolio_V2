@@ -5,6 +5,7 @@ import ClientWrapper from '@/components/ClientWrapper'
 import ScrollProgress from '@/components/ScrollProgress'
 import SmoothScrollEnhancer from '@/components/SmoothScrollEnhancer'
 import DevelopmentBanner from '@/components/DevelopmentBanner'
+import PerformanceOptimizer from '@/components/PerformanceOptimizer'
 import dynamic from 'next/dynamic'
 import { notFound } from 'next/navigation'
 
@@ -68,6 +69,9 @@ export default function LocalePage({ params }: LocalePageProps) {
 
   return (
     <ClientWrapper>
+      {/* Performance optimization for mobile and low-end devices */}
+      <PerformanceOptimizer />
+      
       {/* Development Banner - Shows first to new visitors */}
       <DevelopmentBanner />
       
@@ -86,22 +90,36 @@ export default function LocalePage({ params }: LocalePageProps) {
         {/* Hero section loads immediately */}
         <Hero />
         
-        {/* Other sections load progressively */}
-        <RevealAnimation direction="up" delay={0.1}>
-          <About />
-        </RevealAnimation>
-        <RevealAnimation direction="up" delay={0.1}>
-          <ModernSkills />
-        </RevealAnimation>
-        <RevealAnimation direction="up" delay={0.1}>
-          <Projects />
-        </RevealAnimation>
-        <RevealAnimation direction="up" delay={0.1}>
-          <Education />
-        </RevealAnimation>
-        <RevealAnimation direction="up" delay={0.1}>
-          <Contact />
-        </RevealAnimation>
+        {/* Other sections load progressively with class for content-visibility optimization */}
+        <div className="lazy-section">
+          <RevealAnimation direction="up" delay={0.1}>
+            <About />
+          </RevealAnimation>
+        </div>
+        
+        <div className="lazy-section">
+          <RevealAnimation direction="up" delay={0.1}>
+            <ModernSkills />
+          </RevealAnimation>
+        </div>
+        
+        <div className="lazy-section">
+          <RevealAnimation direction="up" delay={0.1}>
+            <Projects />
+          </RevealAnimation>
+        </div>
+        
+        <div className="lazy-section">
+          <RevealAnimation direction="up" delay={0.1}>
+            <Education />
+          </RevealAnimation>
+        </div>
+        
+        <div className="lazy-section">
+          <RevealAnimation direction="up" delay={0.1}>
+            <Contact />
+          </RevealAnimation>
+        </div>
         
         <Footer />
       </main>
