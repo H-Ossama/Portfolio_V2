@@ -76,11 +76,57 @@ const PerformanceOptimizer = () => {
     preconnect('https://fonts.googleapis.com')
     preconnect('https://fonts.gstatic.com')
 
-    // Service Worker registration for caching
+    // Service Worker registration with proper error handling and version tracking
     if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
-      navigator.serviceWorker.register('/sw.js').catch(() => {
-        // Silently fail if service worker registration fails
-      })
+      // Delay the service worker registration slightly to improve initial page load performance
+      const swRegistrationDelay = performanceMode === 'low' ? 2000 : 1000;
+      
+      setTimeout(() => {
+        navigator.serviceWorker.register('/sw.js')
+          .then((registration) => {
+            // Check for updates periodically
+            registration.update();
+            
+            // Handle updates properly
+            if (registration.waiting) {
+              // New version waiting
+              notifyUserOfUpdate(registration);
+            }
+            
+            // Listen for new installations
+            registration.addEventListener('updatefound', () => {
+              const newWorker = registration.installing;
+              if (newWorker) {
+                newWorker.addEventListener('statechange', () => {
+                  if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                    // New version installed but waiting to activate
+                    notifyUserOfUpdate(registration);
+                  }
+                });
+              }
+            });
+          })
+          .catch((error) => {
+            // Log error but don't affect user experience
+            console.warn('Service worker registration failed:', error);
+          });
+      }, swRegistrationDelay);
+      
+      // Function to notify about updates (optional implementation)
+      const notifyUserOfUpdate = (registration: ServiceWorkerRegistration) => {
+        if (registration.waiting) {
+          registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+        }
+      };
+      
+      // Listen for controller change to reload page after update
+      let refreshing = false;
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (!refreshing) {
+          refreshing = true;
+          window.location.reload();
+        }
+      });
     }
 
     // Optimize images loading with different thresholds based on performance
