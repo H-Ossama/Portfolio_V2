@@ -43,8 +43,9 @@ export default function FlippableProjectCard({ project, index }: {
       <div className="relative w-full h-full glass-card overflow-hidden hover:shadow-glow-lg">
         {isFlipped ? (
           // Back Side Content
-          <div className="p-8 overflow-auto h-full">
-            <div className="h-full flex flex-col">
+          <div className="h-full relative">
+            {/* Content area with overflow */}
+            <div className="p-8 overflow-auto h-full pb-24">
               {/* Header */}
               <div className="mb-6">
                 <h3 className={`text-2xl font-bold mb-2 ${
@@ -67,7 +68,7 @@ export default function FlippableProjectCard({ project, index }: {
               </div>
               
               {/* Project Details */}
-              <div className="flex-1 space-y-6 overflow-auto pr-2 mb-4">
+              <div className="space-y-6">
                 {/* Role */}
                 {project.role && (
                   <div className="space-y-2">
@@ -180,9 +181,11 @@ export default function FlippableProjectCard({ project, index }: {
                   </div>
                 )}
               </div>
-              
-              {/* Footer */}
-              <div className="mt-auto pt-3 flex items-center justify-between border-t border-gray-700/20 dark:border-gray-700/20 border-gray-300/20">
+            </div>
+            
+            {/* Footer - Fixed at bottom */}
+            <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-gray-800/10 to-transparent pt-10">
+              <div className="flex items-center justify-between border-t border-gray-700/20 dark:border-gray-700/20 border-gray-300/20 pt-3">
                 <div className="flex gap-4">
                   {project.githubUrl && (
                     <a
@@ -230,7 +233,7 @@ export default function FlippableProjectCard({ project, index }: {
           </div>
         ) : (
           // Front Side Content
-          <div>
+          <div className="h-full relative">
             {/* Project Image */}
             <div className="relative h-64 overflow-hidden">
               <Image
@@ -247,7 +250,7 @@ export default function FlippableProjectCard({ project, index }: {
             </div>
 
             {/* Project Content */}
-            <div className="p-8 flex flex-col h-[calc(100%-16rem)]">
+            <div className="p-8 overflow-auto h-[calc(100%-16rem)] pb-24">
               <h3 className={`text-2xl font-bold mb-4 ${
                 theme === 'dark' ? 'text-white' : 'text-gray-900'
               }`}>
@@ -261,7 +264,7 @@ export default function FlippableProjectCard({ project, index }: {
               </p>
 
               {/* Tech Stack */}
-              <div className="flex flex-wrap gap-3 mb-6 flex-1 overflow-y-auto">
+              <div className="flex flex-wrap gap-3 mb-6">
                 {project.techStack.slice(0, 4).map((tech: string) => (
                   <span
                     key={tech}
@@ -282,9 +285,11 @@ export default function FlippableProjectCard({ project, index }: {
                   </span>
                 )}
               </div>
+            </div>
 
-              {/* Project Links and Details Button */}
-              <div className="flex gap-6 items-center mt-auto">
+            {/* Footer - Fixed at bottom */}
+            <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-gray-800/10 to-transparent pt-10">
+              <div className="flex gap-6 items-center justify-between">
                 <div className="flex items-center gap-3">
                   {project.githubUrl && (
                     <a
@@ -310,19 +315,17 @@ export default function FlippableProjectCard({ project, index }: {
                   )}
                 </div>
                 
-                <div className="ml-auto">
-                  <button
-                    onClick={toggleFlip}
-                    className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-300 ${
-                      theme === 'dark'
-                        ? 'bg-dark-700/50 text-blue-400 hover:bg-dark-600/60'
-                        : 'bg-gray-100 text-blue-600 hover:bg-gray-200'
-                    }`}
-                  >
-                    <span className="text-sm font-medium">Details</span>
-                    <RotateCcw size={16} />
-                  </button>
-                </div>
+                <button
+                  onClick={toggleFlip}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-300 ${
+                    theme === 'dark'
+                      ? 'bg-dark-700/50 text-blue-400 hover:bg-dark-600/60'
+                      : 'bg-gray-100 text-blue-600 hover:bg-gray-200'
+                  }`}
+                >
+                  <span className="text-sm font-medium">Details</span>
+                  <RotateCcw size={16} />
+                </button>
               </div>
             </div>
           </div>
