@@ -47,8 +47,11 @@ export default function SimpleLanguageSwitcher({ variant = 'compact' }: SimpleLa
     
     // Add new locale prefix if not English
     if (newLocale !== 'en') {
-      newPath = `/${newLocale}${newPath}`;
+      newPath = `/${newLocale}${newPath === '/' ? '' : newPath}`;
     }
+    
+    // Ensure we don't end up with double slashes
+    newPath = newPath.replace(/\/+/g, '/');
     
     router.push(newPath);
   };

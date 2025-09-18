@@ -10,6 +10,16 @@ const nextConfig = {
     dangerouslyAllowSVG: true,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
+  // Redirect all requests to locale-specific paths
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/en',
+        permanent: true,
+      },
+    ]
+  },
   swcMinify: true,
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
