@@ -28,11 +28,17 @@ export default function CertificateViewer({
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 })
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 })
   const [isDragging, setIsDragging] = useState(false)
+  
+  // Touch-specific state
+  const [touchStartX, setTouchStartX] = useState(0)
+  const [lastTouchDistance, setLastTouchDistance] = useState(0)
+  
   const imageContainerRef = useRef<HTMLDivElement>(null)
 
   const minZoom = 0.3
   const maxZoom = 3.0
   const zoomStep = 0.1
+  const swipeThreshold = 50 // Minimum swipe distance to trigger navigation
 
   // Reset state when modal opens
   useEffect(() => {
@@ -41,6 +47,8 @@ export default function CertificateViewer({
       setZoomLevel(0.8)
       setDragOffset({ x: 0, y: 0 })
       setIsDragging(false)
+      setTouchStartX(0)
+      setLastTouchDistance(0)
     }
   }, [isOpen])
 
@@ -129,6 +137,7 @@ export default function CertificateViewer({
     }
   }
 
+  // Mouse handlers
   const handleMouseDown = (e: React.MouseEvent) => {
     setIsDragging(true)
     setDragStart({
@@ -148,6 +157,81 @@ export default function CertificateViewer({
 
   const handleMouseUp = () => {
     setIsDragging(false)
+  }
+
+  // Touch handlers
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (e.touches.length === 1) {
+      // Single touch - prepare for potential drag or swipe
+      setIsDragging(true)
+      setTouchStartX(e.touches[0].clientX)
+      setDragStart({
+        x: e.touches[0].clientX - dragOffset.x,
+        y: e.touches[0].clientY - dragOffset.y
+      })
+    } else if (e.touches.length === 2) {
+      // Pinch zoom gesture starting
+      const touchDistance = Math.hypot(
+        e.touches[0].clientX - e.touches[1].clientX,
+        e.touches[0].clientY - e.touches[1].clientY
+      )
+      setLastTouchDistance(touchDistance)
+    }
+  }
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    e.preventDefault() // Prevent screen scrolling
+    
+    if (e.touches.length === 1 && isDragging) {
+      // Single touch - dragging or swiping
+      const touchX = e.touches[0].clientX
+      const touchY = e.touches[0].clientY
+      
+      if (zoomLevel > 1.0) {
+        // When zoomed in, drag the image around
+        setDragOffset({
+          x: touchX - dragStart.x,
+          y: touchY - dragStart.y
+        })
+      }
+    } else if (e.touches.length === 2) {
+      // Pinch zoom gesture
+      const touchDistance = Math.hypot(
+        e.touches[0].clientX - e.touches[1].clientX,
+        e.touches[0].clientY - e.touches[1].clientY
+      )
+      
+      if (lastTouchDistance > 0) {
+        const delta = touchDistance - lastTouchDistance
+        const zoomDelta = delta * 0.01 // Adjust sensitivity as needed
+        
+        setZoomLevel(prev => {
+          const newZoom = Math.max(minZoom, Math.min(maxZoom, prev + zoomDelta))
+          return newZoom
+        })
+      }
+      
+      setLastTouchDistance(touchDistance)
+    }
+  }
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    // Check for swipe navigation when not zoomed in
+    if (zoomLevel <= 1.0 && certificates.length > 1) {
+      const touchEndX = e.changedTouches[0]?.clientX || 0
+      const swipeDistance = touchEndX - touchStartX
+      
+      if (Math.abs(swipeDistance) > swipeThreshold) {
+        if (swipeDistance > 0) {
+          prevCertificate() // Swipe right, go to previous
+        } else {
+          nextCertificate() // Swipe left, go to next
+        }
+      }
+    }
+    
+    setIsDragging(false)
+    setLastTouchDistance(0)
   }
 
   const handleTabChange = (index: number) => {
@@ -196,45 +280,47 @@ export default function CertificateViewer({
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
-            <div className="flex items-center justify-between p-6 border-b border-gray-700 flex-shrink-0">
-              <div>
-                <h3 className="text-2xl font-bold text-white">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-3 sm:p-4 md:p-6 border-b border-gray-700 flex-shrink-0">
+              <div className="mb-2 sm:mb-0">
+                <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-white line-clamp-2">
                   {institutionName} - {certificates[currentIndex].name}
                 </h3>
                 {certificates.length > 1 && (
-                  <p className="text-gray-400 mt-1">
+                  <p className="text-gray-400 text-sm mt-0.5 sm:mt-1">
                     {currentIndex + 1} of {certificates.length}
                   </p>
                 )}
               </div>
               
-              <div className="flex items-center gap-3">
+              <div className="flex flex-wrap items-center gap-2 sm:gap-3 w-full sm:w-auto justify-end">
                 {/* Zoom controls */}
                 <button
                   onClick={handleZoomOut}
-                  className="p-2 rounded-lg bg-gray-700 hover:bg-gray-600 text-white transition-colors"
+                  className="p-1.5 sm:p-2 rounded-lg bg-gray-700 hover:bg-gray-600 text-white transition-colors"
                   title="Zoom Out"
                   disabled={zoomLevel <= minZoom}
                 >
-                  <ZoomOut size={20} />
+                  <ZoomOut size={18} className="hidden sm:block" />
+                  <ZoomOut size={16} className="sm:hidden" />
                 </button>
                 
-                <span className="text-white text-sm font-medium min-w-[3rem] text-center">
+                <span className="text-white text-xs sm:text-sm font-medium min-w-[2.5rem] text-center">
                   {Math.round(zoomLevel * 100)}%
                 </span>
                 
                 <button
                   onClick={handleZoomIn}
-                  className="p-2 rounded-lg bg-gray-700 hover:bg-gray-600 text-white transition-colors"
+                  className="p-1.5 sm:p-2 rounded-lg bg-gray-700 hover:bg-gray-600 text-white transition-colors"
                   title="Zoom In"
                   disabled={zoomLevel >= maxZoom}
                 >
-                  <ZoomIn size={20} />
+                  <ZoomIn size={18} className="hidden sm:block" />
+                  <ZoomIn size={16} className="sm:hidden" />
                 </button>
                 
                 <button
                   onClick={resetZoom}
-                  className="px-3 py-2 rounded-lg bg-gray-700 hover:bg-gray-600 text-white transition-colors text-sm"
+                  className="px-2 sm:px-3 py-1.5 sm:py-2 rounded-lg bg-gray-700 hover:bg-gray-600 text-white transition-colors text-xs sm:text-sm"
                   title="Reset Zoom"
                 >
                   Reset
@@ -243,31 +329,33 @@ export default function CertificateViewer({
                 {/* Download */}
                 <button
                   onClick={handleDownload}
-                  className="p-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white transition-colors"
+                  className="p-1.5 sm:p-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white transition-colors ml-1"
                   title="Download Certificate"
                 >
-                  <Download size={20} />
+                  <Download size={18} className="hidden sm:block" />
+                  <Download size={16} className="sm:hidden" />
                 </button>
                 
                 {/* Close */}
                 <button
                   onClick={onClose}
-                  className="p-2 rounded-lg bg-gray-700 hover:bg-gray-600 text-white transition-colors"
+                  className="p-1.5 sm:p-2 rounded-lg bg-gray-700 hover:bg-gray-600 text-white transition-colors"
                   title="Close"
                 >
-                  <X size={20} />
+                  <X size={18} className="hidden sm:block" />
+                  <X size={16} className="sm:hidden" />
                 </button>
               </div>
             </div>
 
             {/* Navigation for multiple certificates */}
             {certificates.length > 1 && (
-              <div className="flex justify-center gap-2 p-4 border-b border-gray-700 flex-shrink-0">
+              <div className="flex justify-start sm:justify-center gap-1.5 sm:gap-2 p-2 sm:p-3 md:p-4 border-b border-gray-700 flex-shrink-0 overflow-x-auto">
                 {certificates.map((cert, index) => (
                   <button
                     key={index}
                     onClick={() => handleTabChange(index)}
-                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                    className={`px-2 sm:px-3 py-1 sm:py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-colors whitespace-nowrap flex-shrink-0 ${
                       index === currentIndex
                         ? 'bg-blue-600 text-white'
                         : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
@@ -287,6 +375,9 @@ export default function CertificateViewer({
               onMouseMove={handleMouseMove}
               onMouseUp={handleMouseUp}
               onMouseLeave={handleMouseUp}
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
               style={{ cursor: isDragging ? 'grabbing' : 'grab' }}
             >
               <div className="absolute inset-0 flex items-center justify-center p-4">
@@ -323,19 +414,19 @@ export default function CertificateViewer({
                 </motion.div>
               </div>
 
-              {/* Navigation arrows for multiple certificates */}
+              {/* Navigation arrows for multiple certificates - desktop only */}
               {certificates.length > 1 && zoomLevel <= 1.0 && (
                 <>
                   <button
                     onClick={prevCertificate}
-                    className="absolute left-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/60 text-white hover:bg-black/80 transition-colors z-10"
+                    className="absolute left-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/60 text-white hover:bg-black/80 transition-colors z-10 hidden sm:block"
                     title="Previous Certificate"
                   >
                     ←
                   </button>
                   <button
                     onClick={nextCertificate}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/60 text-white hover:bg-black/80 transition-colors z-10"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 p-3 rounded-full bg-black/60 text-white hover:bg-black/80 transition-colors z-10 hidden sm:block"
                     title="Next Certificate"
                   >
                     →
@@ -345,9 +436,15 @@ export default function CertificateViewer({
             </div>
 
             {/* Instructions */}
-            <div className="px-6 py-3 text-center text-gray-400 text-sm border-t border-gray-700 flex-shrink-0">
-              {certificates.length > 1 && "Use arrows to navigate between certificates • "}
-              Mouse wheel to zoom • Drag to pan • Double-click for quick zoom • Press ESC to close
+            <div className="px-3 sm:px-4 md:px-6 py-2 sm:py-3 text-center text-gray-400 text-xs sm:text-sm border-t border-gray-700 flex-shrink-0">
+              <div className="hidden sm:block">
+                {certificates.length > 1 && "Use arrows to navigate between certificates • "}
+                Mouse wheel to zoom • Drag to pan • Double-click for quick zoom • Press ESC to close
+              </div>
+              <div className="sm:hidden">
+                {certificates.length > 1 && "Swipe to navigate • "}
+                Pinch to zoom • Drag to move • Tap controls to adjust
+              </div>
             </div>
           </motion.div>
         </motion.div>
