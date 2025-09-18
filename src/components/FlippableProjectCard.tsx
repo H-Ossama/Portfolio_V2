@@ -14,7 +14,6 @@ const cardStyles = `
   }
   
   .card-flipped .disable-hover-when-flipped {
-    pointer-events: none !important;
     transform: none !important;
     transition: none !important;
   }
@@ -68,15 +67,14 @@ export default function FlippableProjectCard({ project, index }: {
         }`}
         style={{ 
           transformStyle: "preserve-3d", 
-          willChange: "transform",
-          pointerEvents: isFlipped ? 'none' : 'auto' 
+          willChange: "transform"
         }}
       >
         {/* Front Side */}
         <div 
           className={`absolute inset-0 glass-card overflow-hidden ${
             isFlipped ? 'pointer-events-none' : 'pointer-events-auto hover:shadow-glow-lg group'
-          } transition-all duration-500 backface-hidden disable-hover-when-flipped`}
+          } transition-all duration-500 backface-hidden`}
         >
           {/* Project Image */}
           <div className="relative h-64 overflow-hidden card-content">
@@ -190,7 +188,7 @@ export default function FlippableProjectCard({ project, index }: {
         <div 
           className={`absolute inset-0 glass-card p-8 overflow-auto backface-hidden rotate-y-180 ${
             isFlipped ? 'pointer-events-auto hover:shadow-glow-lg' : 'pointer-events-none'
-          } transition-all duration-500 disable-hover-when-flipped`}
+          } transition-all duration-500`}
         >
           <div className="h-full flex flex-col">
             {/* Header */}
