@@ -166,9 +166,3 @@ export default function AdvancedPerformanceOptimizer() {
 
   return null // This is a utility component with no UI
 }
-    })
-    })
-  }
-
-  return null // This is a utility component with no UI
-}

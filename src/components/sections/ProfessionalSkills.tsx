@@ -455,4 +455,3 @@ export default function ProfessionalSkills() {
     </section>
   )
 }
-`
