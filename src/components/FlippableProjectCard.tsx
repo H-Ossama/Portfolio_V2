@@ -12,6 +12,17 @@ const cardStyles = `
     transform: none !important;
     transition: none !important;
   }
+  
+  .card-flipped .disable-hover-when-flipped {
+    pointer-events: none !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  
+  .card-flipped .card-content * {
+    transform: none !important;
+    transition: none !important;
+  }
 `
 
 interface ProjectDetailProps {
@@ -55,16 +66,20 @@ export default function FlippableProjectCard({ project, index }: {
         className={`relative w-full h-full transition-all duration-700 transform-gpu ${
           isFlipped ? 'rotate-y-180' : ''
         }`}
-        style={{ transformStyle: "preserve-3d", willChange: "transform" }}
+        style={{ 
+          transformStyle: "preserve-3d", 
+          willChange: "transform",
+          pointerEvents: isFlipped ? 'none' : 'auto' 
+        }}
       >
         {/* Front Side */}
         <div 
           className={`absolute inset-0 glass-card overflow-hidden ${
             isFlipped ? 'pointer-events-none' : 'pointer-events-auto hover:shadow-glow-lg group'
-          } transition-all duration-500 backface-hidden`}
+          } transition-all duration-500 backface-hidden disable-hover-when-flipped`}
         >
           {/* Project Image */}
-          <div className="relative h-64 overflow-hidden">
+          <div className="relative h-64 overflow-hidden card-content">
             <Image
               src={project.image}
               alt={project.title}
@@ -95,11 +110,13 @@ export default function FlippableProjectCard({ project, index }: {
             </p>
 
             {/* Tech Stack */}
-            <div className="flex flex-wrap gap-3 mb-6 flex-1 overflow-y-auto">
+            <div className="flex flex-wrap gap-3 mb-6 flex-1 overflow-y-auto card-content">
               {project.techStack.slice(0, 4).map((tech: string) => (
                 <span
                   key={tech}
-                  className={`px-4 py-2 glass-pill text-sm hover-effects-disabled ${isFlipped ? '' : 'hover:shadow-glow'} transition-all duration-300 ${
+                  className={`px-4 py-2 glass-pill text-sm hover-effects-disabled ${
+                    isFlipped ? '' : 'hover:shadow-glow'
+                  } transition-all duration-300 ${
                     theme === 'dark' 
                       ? 'text-gray-300 hover:text-white' 
                       : 'text-gray-600 hover:text-gray-900'
@@ -118,16 +135,20 @@ export default function FlippableProjectCard({ project, index }: {
             </div>
 
             {/* Project Links and Details Button */}
-            <div className="flex gap-6 items-center mt-auto">
+            <div className="flex gap-6 items-center mt-auto card-content">
               <div className="flex items-center gap-3">
                 {project.githubUrl && (
                   <a
                     href={project.githubUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={`flex items-center gap-2 text-theme-muted hover-effects-disabled ${isFlipped ? '' : 'hover:text-theme-primary'} transition-all duration-300 group/link`}
+                    className={`flex items-center gap-2 text-theme-muted hover-effects-disabled ${
+                      isFlipped ? '' : 'hover:text-theme-primary'
+                    } transition-all duration-300 group/link`}
                   >
-                    <Github size={18} className="icon-theme-muted group-hover/link:text-blue-400 group-hover/link:rotate-12 transition-all duration-300" />
+                    <Github size={18} className={`icon-theme-muted ${
+                      isFlipped ? '' : 'group-hover/link:text-blue-400 group-hover/link:rotate-12'
+                    } transition-all duration-300`} />
                     <span className="text-sm font-medium">Code</span>
                   </a>
                 )}
@@ -136,9 +157,13 @@ export default function FlippableProjectCard({ project, index }: {
                     href={project.liveUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={`flex items-center gap-2 text-theme-muted hover-effects-disabled ${isFlipped ? '' : 'hover:text-theme-primary'} transition-all duration-300 group/link`}
+                    className={`flex items-center gap-2 text-theme-muted hover-effects-disabled ${
+                      isFlipped ? '' : 'hover:text-theme-primary'
+                    } transition-all duration-300 group/link`}
                   >
-                    <ExternalLink size={18} className="icon-theme-muted group-hover/link:text-blue-400 group-hover/link:translate-x-1 transition-all duration-300" />
+                    <ExternalLink size={18} className={`icon-theme-muted ${
+                      isFlipped ? '' : 'group-hover/link:text-blue-400 group-hover/link:translate-x-1'
+                    } transition-all duration-300`} />
                     <span className="text-sm font-medium">Live Demo</span>
                   </a>
                 )}
@@ -165,7 +190,7 @@ export default function FlippableProjectCard({ project, index }: {
         <div 
           className={`absolute inset-0 glass-card p-8 overflow-auto backface-hidden rotate-y-180 ${
             isFlipped ? 'pointer-events-auto hover:shadow-glow-lg' : 'pointer-events-none'
-          } transition-all duration-500`}
+          } transition-all duration-500 disable-hover-when-flipped`}
         >
           <div className="h-full flex flex-col">
             {/* Header */}
