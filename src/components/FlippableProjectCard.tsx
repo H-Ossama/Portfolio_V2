@@ -6,6 +6,14 @@ import { ExternalLink, Github, Calendar, ArrowRight, Eye, RotateCcw, Layers, Cod
 import Image from 'next/image'
 import { useTheme } from '@/contexts/ThemeContext'
 
+// Custom CSS for card flipping behavior
+const cardStyles = `
+  .card-flipped .hover-effects-disabled {
+    transform: none !important;
+    transition: none !important;
+  }
+`
+
 interface ProjectDetailProps {
   title: string
   description: string
@@ -37,21 +45,23 @@ export default function FlippableProjectCard({ project, index }: {
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, ease: "easeOut", delay: index * 0.2 }}
       viewport={{ once: true, margin: "-50px" }}
-      className="relative h-[600px] w-full"
+      className={`relative h-[600px] w-full ${isFlipped ? 'card-flipped' : ''}`}
       style={{ perspective: "1000px" }}
     >
+      {/* Add styles for card flipping */}
+      <style jsx>{cardStyles}</style>
       {/* Card Container */}
       <div 
         className={`relative w-full h-full transition-all duration-700 transform-gpu ${
           isFlipped ? 'rotate-y-180' : ''
         }`}
-        style={{ transformStyle: "preserve-3d" }}
+        style={{ transformStyle: "preserve-3d", willChange: "transform" }}
       >
         {/* Front Side */}
         <div 
-          className={`absolute inset-0 glass-card overflow-hidden hover:shadow-glow-lg transition-all duration-500 backface-hidden ${
-            isFlipped ? 'pointer-events-none' : 'pointer-events-auto'
-          }`}
+          className={`absolute inset-0 glass-card overflow-hidden ${
+            isFlipped ? 'pointer-events-none' : 'pointer-events-auto hover:shadow-glow-lg group'
+          } transition-all duration-500 backface-hidden`}
         >
           {/* Project Image */}
           <div className="relative h-64 overflow-hidden">
@@ -59,7 +69,9 @@ export default function FlippableProjectCard({ project, index }: {
               src={project.image}
               alt={project.title}
               fill
-              className="object-cover transition-transform duration-700 group-hover:scale-110"
+              className={`object-cover transition-transform duration-700 ${
+                isFlipped ? '' : 'group-hover:scale-110'
+              }`}
             />
             <div className={`absolute inset-0 bg-gradient-to-t ${
               theme === 'dark' 
@@ -69,7 +81,7 @@ export default function FlippableProjectCard({ project, index }: {
           </div>
 
           {/* Project Content */}
-          <div className="p-8">
+          <div className="p-8 flex flex-col h-[calc(100%-16rem)]">
             <h3 className={`text-2xl font-bold mb-4 ${
               theme === 'dark' ? 'text-white' : 'text-gray-900'
             }`}>
@@ -83,11 +95,11 @@ export default function FlippableProjectCard({ project, index }: {
             </p>
 
             {/* Tech Stack */}
-            <div className="flex flex-wrap gap-3 mb-6">
+            <div className="flex flex-wrap gap-3 mb-6 flex-1 overflow-y-auto">
               {project.techStack.slice(0, 4).map((tech: string) => (
                 <span
                   key={tech}
-                  className={`px-4 py-2 glass-pill text-sm hover:shadow-glow transition-all duration-300 ${
+                  className={`px-4 py-2 glass-pill text-sm hover-effects-disabled ${isFlipped ? '' : 'hover:shadow-glow'} transition-all duration-300 ${
                     theme === 'dark' 
                       ? 'text-gray-300 hover:text-white' 
                       : 'text-gray-600 hover:text-gray-900'
@@ -105,30 +117,32 @@ export default function FlippableProjectCard({ project, index }: {
               )}
             </div>
 
-            {/* Project Links */}
-            <div className="flex gap-6 items-center">
-              {project.githubUrl && (
-                <a
-                  href={project.githubUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-theme-muted hover:text-theme-primary transition-all duration-300 group/link"
-                >
-                  <Github size={18} className="icon-theme-muted group-hover/link:text-blue-400 group-hover/link:rotate-12 transition-all duration-300" />
-                  <span className="text-sm font-medium">Code</span>
-                </a>
-              )}
-              {project.liveUrl && (
-                <a
-                  href={project.liveUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-theme-muted hover:text-theme-primary transition-all duration-300 group/link"
-                >
-                  <ExternalLink size={18} className="icon-theme-muted group-hover/link:text-blue-400 group-hover/link:translate-x-1 transition-all duration-300" />
-                  <span className="text-sm font-medium">Live Demo</span>
-                </a>
-              )}
+            {/* Project Links and Details Button */}
+            <div className="flex gap-6 items-center mt-auto">
+              <div className="flex items-center gap-3">
+                {project.githubUrl && (
+                  <a
+                    href={project.githubUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`flex items-center gap-2 text-theme-muted hover-effects-disabled ${isFlipped ? '' : 'hover:text-theme-primary'} transition-all duration-300 group/link`}
+                  >
+                    <Github size={18} className="icon-theme-muted group-hover/link:text-blue-400 group-hover/link:rotate-12 transition-all duration-300" />
+                    <span className="text-sm font-medium">Code</span>
+                  </a>
+                )}
+                {project.liveUrl && (
+                  <a
+                    href={project.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`flex items-center gap-2 text-theme-muted hover-effects-disabled ${isFlipped ? '' : 'hover:text-theme-primary'} transition-all duration-300 group/link`}
+                  >
+                    <ExternalLink size={18} className="icon-theme-muted group-hover/link:text-blue-400 group-hover/link:translate-x-1 transition-all duration-300" />
+                    <span className="text-sm font-medium">Live Demo</span>
+                  </a>
+                )}
+              </div>
               
               <div className="ml-auto">
                 <button
@@ -150,8 +164,8 @@ export default function FlippableProjectCard({ project, index }: {
         {/* Back Side */}
         <div 
           className={`absolute inset-0 glass-card p-8 overflow-auto backface-hidden rotate-y-180 ${
-            isFlipped ? 'pointer-events-auto' : 'pointer-events-none'
-          }`}
+            isFlipped ? 'pointer-events-auto hover:shadow-glow-lg' : 'pointer-events-none'
+          } transition-all duration-500`}
         >
           <div className="h-full flex flex-col">
             {/* Header */}
@@ -176,7 +190,7 @@ export default function FlippableProjectCard({ project, index }: {
             </div>
             
             {/* Project Details */}
-            <div className="flex-1 space-y-6 overflow-auto pr-2">
+            <div className="flex-1 space-y-6 overflow-auto pr-2 mb-4">
               {/* Role */}
               {project.role && (
                 <div className="space-y-2">
@@ -291,7 +305,7 @@ export default function FlippableProjectCard({ project, index }: {
             </div>
             
             {/* Footer */}
-            <div className="mt-auto pt-6 flex items-center justify-between">
+            <div className="mt-auto pt-3 flex items-center justify-between border-t border-gray-700/20 dark:border-gray-700/20 border-gray-300/20">
               <div className="flex gap-4">
                 {project.githubUrl && (
                   <a

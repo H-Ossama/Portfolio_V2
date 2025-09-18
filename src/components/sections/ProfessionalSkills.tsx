@@ -380,13 +380,13 @@ export default function ProfessionalSkills() {
           viewport={{ once: true }}
           className="mt-16 max-w-4xl mx-auto"
         >
-          <div className={`p-8 rounded-xl backdrop-blur-sm border ${
+          <div className={`p-5 sm:p-8 rounded-xl backdrop-blur-sm border ${
             theme === 'dark'
               ? 'bg-dark-800/50 border-gray-700/30'
               : 'bg-white/80 border-gray-200/60'
           }`}>
-            <div className="flex items-start gap-5">
-              <div className={`p-3 rounded-xl shrink-0 ${
+            <div className="flex flex-col sm:flex-row items-start gap-5">
+              <div className={`p-3 rounded-xl shrink-0 mb-3 sm:mb-0 ${
                 theme === 'dark' 
                   ? 'bg-purple-900/50 text-purple-400' 
                   : 'bg-purple-50 text-purple-600'
@@ -394,7 +394,7 @@ export default function ProfessionalSkills() {
                 <Brain size={24} />
               </div>
               
-              <div>
+              <div className="w-full">
                 <h3 className={`text-xl font-bold mb-3 ${
                   theme === 'dark' ? 'text-white' : 'text-gray-900'
                 }`}>
@@ -407,7 +407,7 @@ export default function ProfessionalSkills() {
                   Beyond technical skills, I maintain a disciplined approach to professional development:
                 </p>
                 
-                <ul className="grid gap-3 sm:grid-cols-2">
+                <ul className="grid gap-3 grid-cols-1 sm:grid-cols-2">
                   {[
                     {
                       title: "Problem-Solving Methodology",
@@ -426,7 +426,7 @@ export default function ProfessionalSkills() {
                       description: "Proactive approach to staying current with industry trends, best practices, and emerging technologies."
                     }
                   ].map((item, index) => (
-                    <li key={index} className="flex gap-3">
+                    <li key={index} className="flex gap-3 mb-3 sm:mb-0">
                       <div className={`mt-1 shrink-0 ${
                         theme === 'dark' ? 'text-blue-400' : 'text-blue-600'
                       }`}>

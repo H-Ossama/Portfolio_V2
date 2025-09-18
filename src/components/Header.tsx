@@ -55,6 +55,7 @@ export default function Header() {
           ? 'bg-dark-900/90 dark:bg-dark-900/90 bg-white/90 backdrop-blur-xl shadow-glow border-b border-gray-700/20 dark:border-gray-700/20 border-gray-300/20'
           : 'bg-transparent'
       }`}
+      style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 999 }}
     >
       <div className="container-custom">
         <div className="flex items-center justify-between h-18 px-6 sm:px-8">
@@ -187,6 +188,7 @@ export default function Header() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
+              style={{ zIndex: 998 }}
             >
               <motion.div
                 className="glass-card mx-4 mt-4 rounded-2xl overflow-hidden"
