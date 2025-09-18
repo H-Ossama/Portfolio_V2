@@ -9,16 +9,23 @@ import PerformanceOptimizer from '@/components/PerformanceOptimizer'
 import dynamic from 'next/dynamic'
 import { notFound } from 'next/navigation'
 
+// Import the AdvancedPerformanceOptimizer component
+const AdvancedPerformanceOptimizer = dynamic(() => import('@/components/AdvancedPerformanceOptimizer'), {
+  ssr: false
+})
+
 // Lazy load non-critical components for better initial performance
 const About = dynamic(() => import('@/components/sections/About').then(mod => ({ default: mod.default })), {
   loading: () => <div className="min-h-screen bg-transparent" />
 })
 
-const ModernSkills = dynamic(() => import('@/components/sections/ModernSkills'), {
+// Use the new professional skills component instead of the emoji-based one
+const ProfessionalSkills = dynamic(() => import('@/components/sections/ProfessionalSkills'), {
   loading: () => <div className="min-h-screen bg-transparent" />
 })
 
-const Projects = dynamic(() => import('@/components/sections/Projects'), {
+// Use the enhanced projects component with flippable cards
+const EnhancedProjects = dynamic(() => import('@/components/sections/EnhancedProjects'), {
   loading: () => <div className="min-h-screen bg-transparent" />
 })
 
@@ -72,6 +79,9 @@ export default function LocalePage({ params }: LocalePageProps) {
       {/* Performance optimization for mobile and low-end devices */}
       <PerformanceOptimizer />
       
+      {/* Advanced performance optimizer for better Lighthouse score */}
+      <AdvancedPerformanceOptimizer />
+      
       {/* Development Banner - Shows first to new visitors */}
       <DevelopmentBanner />
       
@@ -99,13 +109,13 @@ export default function LocalePage({ params }: LocalePageProps) {
         
         <div className="lazy-section">
           <RevealAnimation direction="up" delay={0.1}>
-            <ModernSkills />
+            <ProfessionalSkills />
           </RevealAnimation>
         </div>
         
         <div className="lazy-section">
           <RevealAnimation direction="up" delay={0.1}>
-            <Projects />
+            <EnhancedProjects />
           </RevealAnimation>
         </div>
         
