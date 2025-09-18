@@ -161,14 +161,14 @@ export default function Contact() {
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: "easeOut" }}
           viewport={{ once: true, margin: "-100px" }}
-          className="text-center mb-20"
+          className="text-center mb-12 sm:mb-16 md:mb-20 px-4 sm:px-0"
         >
-          <h2 className={`text-5xl lg:text-6xl font-bold mb-6 ${
+          <h2 className={`text-4xl sm:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 ${
             theme === 'dark' ? 'text-white' : 'text-gray-900'
           }`}>
             {navLabels.contact.split(' ')[0]} <span className="text-gradient">{navLabels.contact.split(' ').slice(1).join(' ') || 'Touch'}</span>
           </h2>
-          <p className={`text-xl max-w-3xl mx-auto leading-relaxed ${
+          <p className={`text-base sm:text-lg md:text-xl max-w-3xl mx-auto leading-relaxed ${
             theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
           }`}>
             {config.sections?.contact?.description || `Ready to discuss your next project or just want to say hello? 
@@ -176,7 +176,7 @@ export default function Contact() {
           </p>
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 lg:gap-16 px-4 sm:px-0">
           {/* Contact Information */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
@@ -185,15 +185,15 @@ export default function Contact() {
             viewport={{ once: true, margin: "-50px" }}
             className="space-y-8"
           >
-            <div className="glass-card p-8 hover:shadow-glow transition-all duration-500">
-              <h3 className={`text-3xl font-bold mb-8 ${
+            <div className="glass-card p-5 sm:p-6 md:p-8 hover:shadow-glow transition-all duration-500">
+              <h3 className={`text-2xl sm:text-2xl md:text-3xl font-bold mb-5 sm:mb-6 md:mb-8 ${
                 theme === 'dark' ? 'text-white' : 'text-gray-900'
               }`}>
                 {config.sections?.contact?.letsStartConversation || "Let's start a conversation"}
               </h3>
 
               {/* Contact Info Cards */}
-              <div className="space-y-6 mb-10">
+              <div className="space-y-4 sm:space-y-5 md:space-y-6 mb-6 sm:mb-8 md:mb-10">
                 {contactInfo.map((info, index) => (
                   <motion.div 
                     key={info.label} 
@@ -201,19 +201,19 @@ export default function Contact() {
                     whileInView={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.5, delay: index * 0.1 }}
                     viewport={{ once: true }}
-                    className="flex items-center gap-6 group"
+                    className="flex items-center gap-3 sm:gap-4 md:gap-6 group"
                   >
-                    <div className="flex-shrink-0 w-16 h-16 glass-card-theme rounded-lg flex items-center justify-center floating-element group-hover:shadow-glow transition-all duration-300">
-                      <info.icon className="icon-theme-primary group-hover:text-blue-400 group-hover:scale-110 transition-all duration-300" size={28} />
+                    <div className="flex-shrink-0 w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 glass-card-theme rounded-lg flex items-center justify-center floating-element group-hover:shadow-glow transition-all duration-300">
+                      <info.icon className="icon-theme-primary group-hover:text-blue-400 group-hover:scale-110 transition-all duration-300" size={24} />
                     </div>
                     <div>
-                      <h4 className={`font-bold text-lg mb-1 ${
+                      <h4 className={`font-bold text-base sm:text-lg mb-0.5 sm:mb-1 ${
                         theme === 'dark' ? 'text-white' : 'text-gray-900'
                       }`}>{info.label}</h4>
                       {info.href ? (
                         <a
                           href={info.href}
-                          className={`transition-all duration-300 text-lg ${
+                          className={`transition-all duration-300 text-sm sm:text-base md:text-lg break-all ${
                             theme === 'dark' 
                               ? 'text-gray-300 hover:text-white' 
                               : 'text-gray-600 hover:text-gray-900'
@@ -222,7 +222,7 @@ export default function Contact() {
                           {info.value}
                         </a>
                       ) : (
-                        <p className="text-gray-300 text-lg">{info.value}</p>
+                        <p className="text-gray-300 text-sm sm:text-base md:text-lg">{info.value}</p>
                       )}
                     </div>
                   </motion.div>
@@ -231,17 +231,17 @@ export default function Contact() {
 
               {/* Social Links */}
               <div>
-                <h4 className={`font-bold mb-6 text-xl ${
+                <h4 className={`font-bold mb-4 sm:mb-5 md:mb-6 text-lg sm:text-xl ${
                   theme === 'dark' ? 'text-white' : 'text-gray-900'
                 }`}>Follow me on</h4>
-                <div className="flex gap-4">
+                <div className="flex gap-3 sm:gap-4">
                   {socialLinks.map((social, index) => (
                     <motion.a
                       key={social.label}
                       href={social.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-14 h-14 glass-card-theme rounded-lg flex items-center justify-center hover:shadow-glow transition-all duration-300 floating-element group"
+                      className="w-12 h-12 sm:w-14 sm:h-14 glass-card-theme rounded-lg flex items-center justify-center hover:shadow-glow transition-all duration-300 floating-element group"
                       aria-label={social.label}
                       initial={{ opacity: 0, y: 20 }}
                       whileInView={{ opacity: 1, y: 0 }}
@@ -250,7 +250,7 @@ export default function Contact() {
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.95 }}
                     >
-                      <social.icon size={24} className="icon-theme-primary group-hover:text-blue-400 group-hover:scale-110 transition-all duration-300" />
+                      <social.icon size={22} className="icon-theme-primary group-hover:text-blue-400 group-hover:scale-110 transition-all duration-300" />
                     </motion.a>
                   ))}
                 </div>
@@ -264,18 +264,18 @@ export default function Contact() {
             whileInView={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
             viewport={{ once: true, margin: "-50px" }}
-            className="glass-card p-10 hover:shadow-glow-lg transition-all duration-500"
+            className="glass-card p-5 sm:p-6 md:p-8 lg:p-10 hover:shadow-glow-lg transition-all duration-500"
           >
-            <h3 className={`text-3xl font-bold mb-8 ${
+            <h3 className={`text-2xl sm:text-2xl md:text-3xl font-bold mb-5 sm:mb-6 md:mb-8 ${
               theme === 'dark' ? 'text-white' : 'text-gray-900'
             }`}>
               {navLabels.getInTouch}
             </h3>
 
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid md:grid-cols-2 gap-6">
+            <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5 md:space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5 md:gap-6">
                 <div>
-                  <label htmlFor="name" className="block text-sm font-bold text-gray-300 mb-3">
+                  <label htmlFor="name" className="block text-xs sm:text-sm font-bold text-gray-300 mb-2 sm:mb-3">
                     {formLabels.name} *
                   </label>
                   <input
@@ -285,12 +285,12 @@ export default function Contact() {
                     value={formData.name}
                     onChange={handleInputChange}
                     required
-                    className="w-full px-4 py-4 glass-input focus:shadow-glow transition-all duration-300"
+                    className="w-full px-3 sm:px-4 py-3 sm:py-4 glass-input focus:shadow-glow transition-all duration-300 text-sm sm:text-base"
                     placeholder={formLabels.name}
                   />
                 </div>
                 <div>
-                  <label htmlFor="email" className="block text-sm font-bold text-gray-300 mb-3">
+                  <label htmlFor="email" className="block text-xs sm:text-sm font-bold text-gray-300 mb-2 sm:mb-3">
                     {formLabels.email} *
                   </label>
                   <input
@@ -300,14 +300,14 @@ export default function Contact() {
                     value={formData.email}
                     onChange={handleInputChange}
                     required
-                    className="w-full px-4 py-4 glass-input focus:shadow-glow transition-all duration-300"
+                    className="w-full px-3 sm:px-4 py-3 sm:py-4 glass-input focus:shadow-glow transition-all duration-300 text-sm sm:text-base"
                     placeholder={formLabels.email}
                   />
                 </div>
               </div>
 
               <div>
-                <label htmlFor="subject" className="block text-sm font-bold text-gray-300 mb-3">
+                <label htmlFor="subject" className="block text-xs sm:text-sm font-bold text-gray-300 mb-2 sm:mb-3">
                   {formLabels.subject} *
                 </label>
                 <input
@@ -317,13 +317,13 @@ export default function Contact() {
                   value={formData.subject}
                   onChange={handleInputChange}
                   required
-                  className="w-full px-4 py-4 glass-input focus:shadow-glow transition-all duration-300"
+                  className="w-full px-3 sm:px-4 py-3 sm:py-4 glass-input focus:shadow-glow transition-all duration-300 text-sm sm:text-base"
                   placeholder={formLabels.subject}
                 />
               </div>
 
               <div>
-                <label htmlFor="message" className="block text-sm font-bold text-gray-300 mb-3">
+                <label htmlFor="message" className="block text-xs sm:text-sm font-bold text-gray-300 mb-2 sm:mb-3">
                   {formLabels.message} *
                 </label>
                 <textarea
@@ -332,8 +332,8 @@ export default function Contact() {
                   value={formData.message}
                   onChange={handleInputChange}
                   required
-                  rows={6}
-                  className="w-full px-4 py-4 glass-input focus:shadow-glow transition-all duration-300 resize-vertical"
+                  rows={5}
+                  className="w-full px-3 sm:px-4 py-3 sm:py-4 glass-input focus:shadow-glow transition-all duration-300 resize-vertical text-sm sm:text-base"
                   placeholder={formLabels.message}
                 />
               </div>
@@ -343,13 +343,13 @@ export default function Contact() {
                 <motion.div 
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="p-4 glass-card-theme border-l-4 border-red-400 bg-red-50/10 dark:bg-red-900/20"
+                  className="p-3 sm:p-4 glass-card-theme border-l-4 border-red-400 bg-red-50/10 dark:bg-red-900/20"
                 >
-                  <div className="flex items-center gap-3">
-                    <svg className="w-5 h-5 text-red-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <div className="flex items-center gap-2 sm:gap-3">
+                    <svg className="w-4 h-4 sm:w-5 sm:h-5 text-red-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                       <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
                     </svg>
-                    <p className="text-red-300 dark:text-red-300 text-red-700 font-medium">
+                    <p className="text-red-300 dark:text-red-300 text-red-700 font-medium text-sm sm:text-base">
                       {errorMessage}
                     </p>
                   </div>
@@ -359,19 +359,20 @@ export default function Contact() {
               <motion.button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full btn-primary flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed text-lg py-4"
+                className="w-full btn-primary flex items-center justify-center gap-2 sm:gap-3 disabled:opacity-50 disabled:cursor-not-allowed text-base sm:text-lg py-3 sm:py-4"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
               >
                 {isSubmitting ? (
                   <>
-                    <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                    {formLabels.sending}
+                    <div className="w-4 h-4 sm:w-5 sm:h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    <span className="text-sm sm:text-base">{formLabels.sending}</span>
                   </>
                 ) : (
                   <>
-                    <Send size={22} />
-                    {formLabels.send}
+                    <Send size={18} className="hidden sm:block" />
+                    <Send size={16} className="sm:hidden" />
+                    <span className="text-sm sm:text-base">{formLabels.send}</span>
                   </>
                 )}
               </motion.button>

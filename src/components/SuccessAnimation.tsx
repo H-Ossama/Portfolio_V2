@@ -81,9 +81,9 @@ export default function SuccessAnimation({ isVisible, onClose, senderName }: Suc
         </div>
       )}
       
-      {/* Success Modal */}
+        {/* Success Modal */}
       <div className={`
-        relative bg-white dark:bg-gray-900 rounded-3xl p-8 max-w-md mx-4 text-center
+        relative bg-white dark:bg-gray-900 rounded-3xl p-5 sm:p-6 md:p-8 max-w-sm sm:max-w-md mx-4 text-center
         transform transition-all duration-700 ease-out
         ${animationStep >= 1 ? 'scale-100 opacity-100' : 'scale-75 opacity-0'}
         shadow-2xl border border-gray-200 dark:border-gray-700
@@ -91,17 +91,17 @@ export default function SuccessAnimation({ isVisible, onClose, senderName }: Suc
         
         {/* Success Icon */}
         <div className={`
-          mx-auto mb-6 relative
+          mx-auto mb-4 sm:mb-6 relative
           transform transition-all duration-1000 ease-out delay-300
           ${animationStep >= 2 ? 'scale-100 rotate-0' : 'scale-0 rotate-180'}
         `}>
-          <div className="w-20 h-20 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center mx-auto relative overflow-hidden">
+          <div className="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center mx-auto relative overflow-hidden">
             {/* Animated Background */}
             <div className="absolute inset-0 bg-gradient-to-br from-green-300 to-green-500 rounded-full animate-pulse" />
             
             {/* Check Mark */}
             <svg 
-              className="w-10 h-10 text-white relative z-10" 
+              className="w-8 h-8 sm:w-10 sm:h-10 text-white relative z-10" 
               fill="none" 
               stroke="currentColor" 
               viewBox="0 0 24 24"
@@ -128,46 +128,44 @@ export default function SuccessAnimation({ isVisible, onClose, senderName }: Suc
           transform transition-all duration-700 ease-out delay-500
           ${animationStep >= 2 ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}
         `}>
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white mb-2 sm:mb-3">
             🎉 Message Sent Successfully!
           </h2>
           
-          <p className="text-gray-600 dark:text-gray-400 mb-4 leading-relaxed">
+          <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mb-3 sm:mb-4 leading-relaxed">
             Thank you {senderName ? `, ${senderName}` : ''}! Your message has been delivered successfully. 
             I'll get back to you as soon as possible.
           </p>
           
           {/* Stats */}
-          <div className="flex justify-center gap-6 mb-6">
+          <div className="flex justify-center gap-4 sm:gap-6 mb-4 sm:mb-6">
             <div className="text-center">
-              <div className="text-2xl font-bold text-green-600 dark:text-green-400">✓</div>
+              <div className="text-xl sm:text-2xl font-bold text-green-600 dark:text-green-400">✓</div>
               <div className="text-xs text-gray-500 dark:text-gray-400">Delivered</div>
             </div>
             <div className="text-center">
-              <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">📧</div>
+              <div className="text-xl sm:text-2xl font-bold text-blue-600 dark:text-blue-400">📧</div>
               <div className="text-xs text-gray-500 dark:text-gray-400">Notified</div>
             </div>
             <div className="text-center">
-              <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">⚡</div>
+              <div className="text-xl sm:text-2xl font-bold text-purple-600 dark:text-purple-400">⚡</div>
               <div className="text-xs text-gray-500 dark:text-gray-400">Priority</div>
             </div>
           </div>
-        </div>
-
-        {/* Action Buttons */}
+        </div>        {/* Action Buttons */}
         <div className={`
-          flex gap-3 justify-center
+          flex flex-col sm:flex-row gap-2 sm:gap-3 justify-center
           transform transition-all duration-700 ease-out delay-1000
           ${animationStep >= 3 ? 'translate-y-0 opacity-100' : 'translate-y-4 opacity-0'}
         `}>
           <button
             onClick={onClose}
-            className="px-8 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-full font-semibold hover:from-blue-600 hover:to-purple-700 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl"
+            className="px-5 sm:px-8 py-2 sm:py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-full text-sm sm:text-base font-semibold hover:from-blue-600 hover:to-purple-700 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl"
           >
             ✓ Continue Browsing
           </button>
-          <div className="text-center">
-            <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
+          <div className="text-center mt-1 sm:mt-2">
+            <p className="text-xs text-gray-500 dark:text-gray-400">
               Auto-closing in {countdown} seconds
             </p>
           </div>
@@ -176,18 +174,18 @@ export default function SuccessAnimation({ isVisible, onClose, senderName }: Suc
         {/* Close Button - More Prominent */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 w-10 h-10 flex items-center justify-center rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-110 z-10"
+          className="absolute top-2 sm:top-4 right-2 sm:right-4 w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center rounded-full bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-110 z-10"
           aria-label="Close"
         >
-          <svg className="w-5 h-5 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg className="w-4 h-4 sm:w-5 sm:h-5 text-gray-600 dark:text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
 
         {/* Auto-close Countdown */}
-        <div className="absolute top-4 left-4 flex items-center gap-2 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-full px-3 py-2 shadow-lg">
-          <div className="w-4 h-4 relative">
-            <svg className="w-4 h-4 transform -rotate-90" viewBox="0 0 24 24">
+        <div className="absolute top-2 sm:top-4 left-2 sm:left-4 flex items-center gap-1 sm:gap-2 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-full px-2 sm:px-3 py-1 sm:py-2 shadow-lg">
+          <div className="w-3 h-3 sm:w-4 sm:h-4 relative">
+            <svg className="w-3 h-3 sm:w-4 sm:h-4 transform -rotate-90" viewBox="0 0 24 24">
               <circle 
                 cx="12" 
                 cy="12" 
