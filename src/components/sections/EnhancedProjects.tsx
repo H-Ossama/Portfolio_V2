@@ -63,24 +63,6 @@ const enhancedProjectData = [
       "Developed a payment tracking system with installment planning and automatic reminder generation"
     ],
     purpose: "This system was developed to modernize school administrative processes, reduce paperwork, and provide teachers and administrators with powerful tools to track student progress, manage grades, and communicate effectively with parents."
-  },
-  {
-    id: 4,
-    title: "Portfolio Website",
-    description: "Site portfolio moderne et responsive construit avec Next.js et Tailwind CSS. Comprend des animations fluides, un formulaire de contact et des performances optimisées.",
-    techStack: ["Next.js", "Tailwind CSS", "Framer Motion", "TypeScript", "React", "Vercel"],
-    githubUrl: "https://github.com/hattanoussama/portfolio",
-    liveUrl: "", // Current site
-    image: "/images/project-4.svg",
-    featured: false,
-    role: "Designer and Developer responsible for the complete creation of this portfolio website, from concept and design to implementation and deployment.",
-    problemsSolved: [
-      "Implemented a responsive design that maintains visual appeal and functionality across all device sizes",
-      "Created performant animations that enhance user experience without impacting page load times",
-      "Developed a theme system with smooth dark/light mode transitions and proper color accessibility",
-      "Optimized performance with dynamic imports, image optimization, and code splitting"
-    ],
-    purpose: "This portfolio was created to showcase my development skills, projects, and professional experience in an interactive and visually appealing manner. It serves as both a demonstration of my technical abilities and a platform for potential employers to learn about my work."
   }
 ];
 
@@ -140,36 +122,10 @@ export default function EnhancedProjects() {
 
         {/* Featured Projects Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
-          {projects.filter(project => project.featured).map((project, index) => (
+          {projects.map((project, index) => (
             <FlippableProjectCard key={project.id} project={project} index={index} />
           ))}
         </div>
-
-        {/* All Projects Section */}
-        {projects.length > projects.filter(project => project.featured).length && (
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: "easeOut" }}
-            viewport={{ once: true, margin: "-100px" }}
-            className="mb-20"
-          >
-            <h3 className="text-4xl font-bold text-theme-primary mb-12 text-center">
-              {config.sections?.projects?.moreProjects?.split(' ')[0] || 'More'} <span className="text-gradient">{config.sections?.projects?.moreProjects?.split(' ').slice(1).join(' ') || 'Projects'}</span>
-            </h3>
-            <div className="grid md:grid-cols-2 gap-8">
-              {projects
-                .filter(project => !project.featured)
-                .map((project, index) => (
-                  <FlippableProjectCard 
-                    key={project.id} 
-                    project={project} 
-                    index={index + projects.filter(project => project.featured).length} 
-                  />
-                ))}
-            </div>
-          </motion.div>
-        )}
 
         {/* GitHub CTA */}
         <motion.div

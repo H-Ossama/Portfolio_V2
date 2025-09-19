@@ -88,6 +88,7 @@ export async function generateMetadata({ params }: { params: { locale: string } 
 
 import GoogleAnalytics from '@/components/OptimizedGoogleAnalytics';
 import SearchConsoleVerification from '@/components/SearchConsoleVerification';
+import GoUpButton from '@/components/GoUpButton';
 
 export default function LocaleLayout({ children, params }: LocaleLayoutProps) {
   const locale = params.locale as Locale
@@ -158,6 +159,7 @@ export default function LocaleLayout({ children, params }: LocaleLayoutProps) {
       <body className="font-sans overflow-x-hidden will-change-scroll backface-hidden">
         <ThemeProvider>
           {children}
+          <GoUpButton />
         </ThemeProvider>
       </body>
     </html>
