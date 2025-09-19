@@ -3,6 +3,9 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Import mobile header styles */
+@import './mobile-header.css';
+
 @layer base {
   html {
     scroll-behavior: smooth;

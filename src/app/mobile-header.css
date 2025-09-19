@@ -1,0 +1,20 @@
+/* Mobile header enhancements */
+.mobile-fixed-header {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Add extra space for scrolled content to account for fixed header */
+@media (max-width: 767px) {
+  body {
+    scroll-padding-top: 4.5rem;
+  }
+  
+  main {
+    padding-top: 4.5rem;
+  }
+}

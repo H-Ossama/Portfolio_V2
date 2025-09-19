@@ -48,15 +48,15 @@ export default function DynamicIslandHeader() {
 
   return (
     <>
-      {/* Mobile Header - Full Width */}
-      <header className="md:hidden fixed top-0 left-0 right-0 z-50 transition-all duration-500">
+      {/* Mobile Header - Full Width and Fixed */}
+      <header className="md:hidden fixed top-0 left-0 right-0 z-50 transition-all duration-500 mobile-fixed-header">
         <div className={`${
           isScrolled
             ? theme === 'dark'
-              ? 'bg-dark-900/90 backdrop-blur-xl shadow-glow border-b border-gray-700/20'
+              ? 'bg-dark-900/95 backdrop-blur-xl shadow-glow border-b border-gray-700/20'
               : 'bg-white/95 backdrop-blur-xl shadow-lg border-b border-gray-200/30'
-            : 'bg-transparent'
-        }`}>
+            : 'bg-dark-900/90 backdrop-blur-md'
+        } fixed top-0 left-0 right-0 z-50 mobile-fixed-header`}>
           <div className="container-custom">
             <div className="flex items-center justify-between h-18 px-6 sm:px-8">
               {/* Mobile Logo */}
@@ -141,7 +141,7 @@ export default function DynamicIslandHeader() {
           </div>
         </div>
         
-        {/* Mobile Menu Overlay - Restored original sophisticated design */}
+        {/* Mobile Menu Overlay - Fixed position to work with fixed header */}
         <AnimatePresence>
           {isMenuOpen && (
             <motion.div
@@ -152,6 +152,7 @@ export default function DynamicIslandHeader() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
+              style={{ top: "4.5rem" /* Adjust this value to match your header height */ }}
             >
               <motion.div
                 className="glass-card mx-4 mt-4 rounded-2xl overflow-hidden"
