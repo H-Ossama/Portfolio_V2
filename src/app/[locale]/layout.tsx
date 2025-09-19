@@ -1,16 +1,18 @@
-import { Inter } from 'next/font/google'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getPortfolioConfig, type Locale as PortfolioLocale } from '@/lib/localization-server'
 import { ThemeProvider } from '@/contexts/ThemeContext'
 import { absoluteUrl, getCanonicalUrl, getLocaleUrl } from '@/lib/seo-utils'
 import Script from 'next/script'
+import { Inter } from 'next/font/google'
 
-// Optimize font loading
+// Optimize font loading with proper display strategy
 const inter = Inter({ 
   subsets: ['latin'],
   display: 'swap',
-  preload: true
+  preload: true,
+  variable: '--font-inter', // Using CSS variable for font
+  fallback: ['system-ui', 'sans-serif']
 })
 
 // Define supported locales
@@ -84,7 +86,7 @@ export async function generateMetadata({ params }: { params: { locale: string } 
   }
 }
 
-import GoogleAnalytics from '@/components/GoogleAnalytics';
+import GoogleAnalytics from '@/components/OptimizedGoogleAnalytics';
 import SearchConsoleVerification from '@/components/SearchConsoleVerification';
 
 export default function LocaleLayout({ children, params }: LocaleLayoutProps) {
@@ -96,31 +98,22 @@ export default function LocaleLayout({ children, params }: LocaleLayoutProps) {
   }
 
   return (
-    <html lang={locale} className="scroll-smooth overflow-x-hidden nav-scroll">
+    <html lang={locale} className={`${inter.variable} scroll-smooth overflow-x-hidden nav-scroll`}>
       <head>
         <meta name="theme-color" content="#0a0a0a" />
         
-        {/* Preload critical resources */}
+        {/* Critical resources preloaded - reduced to only most important ones */}
         <link
           rel="preload"
           href="/images/hattan-profile.png"
           as="image"
           type="image/png"
-        />
-        <link
-          rel="preload"
-          href="/images/og-image.jpg"
-          as="image"
-          type="image/jpeg"
+          fetchPriority="high"
         />
         
-        {/* Preconnect to external domains */}
-        <link rel="dns-prefetch" href="//fonts.googleapis.com" />
-        <link rel="dns-prefetch" href="//fonts.gstatic.com" />
-        
-        {/* Optimize resource hints */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        {/* Preconnect to external domains - optimized */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         
         {/* SEO: Properly formatted language alternates with absolute URLs */}
         <link rel="alternate" hrefLang="en" href={absoluteUrl('/')} />
@@ -131,8 +124,8 @@ export default function LocaleLayout({ children, params }: LocaleLayoutProps) {
         {/* Canonical URL to prevent duplicate content issues */}
         <link rel="canonical" href={getLocaleUrl(locale)} />
         
-        {/* Structured data for better SEO */}
-        <Script id="schema-person" type="application/ld+json" dangerouslySetInnerHTML={{
+        {/* Structured data for better SEO - moved to afterInteractive for non-blocking */}
+        <Script id="schema-person" type="application/ld+json" strategy="afterInteractive" dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             '@context': 'https://schema.org',
             '@type': 'Person',
@@ -156,13 +149,13 @@ export default function LocaleLayout({ children, params }: LocaleLayoutProps) {
           })
         }} />
         
-        {/* Google Analytics */}
+        {/* Google Analytics - using strategy */}
         <GoogleAnalytics measurementId="G-MEASUREMENT_ID" />
         
         {/* Google Search Console Verification */}
         <SearchConsoleVerification verificationId="GOOGLE_VERIFICATION_ID" />
       </head>
-      <body className={`${inter.className} overflow-x-hidden will-change-scroll backface-hidden`}>
+      <body className="font-sans overflow-x-hidden will-change-scroll backface-hidden">
         <ThemeProvider>
           {children}
         </ThemeProvider>

@@ -20,6 +20,9 @@ interface OptimizedImageProps {
   onError?: () => void
 }
 
+// Small, optimized blur data URL that loads faster
+const DEFAULT_BLUR_DATA_URL = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+P+/HgAEtAJJXBXKRwAAAABJRU5ErkJggg=='
+
 export default function OptimizedImage({
   src,
   alt,
@@ -29,9 +32,9 @@ export default function OptimizedImage({
   priority = false,
   loading = 'lazy',
   className = '',
-  sizes = '(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw',
-  quality = 85, // Good balance between quality and file size
-  placeholder = 'empty',
+  sizes = '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw',
+  quality = 75, // Reduced quality for better performance
+  placeholder = 'blur',
   blurDataURL,
   onLoad,
   onError
@@ -39,9 +42,6 @@ export default function OptimizedImage({
   const [isLoaded, setIsLoaded] = useState(false)
   const [isIntersecting, setIsIntersecting] = useState(false)
   const imageRef = useRef<HTMLDivElement>(null)
-
-  // Use default blur data URL for images without one
-  const defaultBlurDataURL = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIGZpbGw9IiMxMTIyMzMiLz48cGF0aCBkPSJNMTIgMTZMMjAgMjRMMjggMTYiIHN0cm9rZT0iIzYzNzRhZCIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48L3N2Zz4='
 
   // Setup intersection observer to lazy load images only when they're about to be visible
   useEffect(() => {
@@ -86,17 +86,20 @@ export default function OptimizedImage({
   // Determine image loading strategy
   const imageLoading = priority ? 'eager' : loading
 
+  // Make sure we have dimensions to prevent layout shifts
+  const hasDimensions = (width && height) || fill
+
   return (
     <div 
       ref={imageRef}
       className={`relative overflow-hidden ${className}`}
-      style={fill ? { width: '100%', height: '100%' } : {}}
+      style={!hasDimensions ? { aspectRatio: '16/9' } : {}}
     >
-      {/* Loading placeholder */}
+      {/* Static placeholder to prevent layout shift */}
       {!isLoaded && (
         <div 
           className="absolute inset-0 bg-gray-200 dark:bg-gray-800 animate-pulse"
-          style={!fill && width && height ? { width, height } : {}}
+          aria-hidden="true"
         />
       )}
       
@@ -113,7 +116,7 @@ export default function OptimizedImage({
           quality={quality}
           sizes={sizes}
           placeholder={placeholder}
-          blurDataURL={blurDataURL || defaultBlurDataURL}
+          blurDataURL={blurDataURL || DEFAULT_BLUR_DATA_URL}
           className={`transition-opacity duration-300 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
           onLoad={handleImageLoad}
           onError={handleImageError}

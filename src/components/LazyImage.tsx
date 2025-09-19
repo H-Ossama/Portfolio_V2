@@ -10,22 +10,35 @@ interface LazyImageProps {
   placeholder?: string
   blurDataURL?: string
   priority?: boolean
+  width?: number
+  height?: number
 }
+
+// Simple tiny placeholder
+const TINY_PLACEHOLDER = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+P+/HgAEtAJJXBXKRwAAAABJRU5ErkJggg=='
 
 const LazyImage = ({ 
   src, 
   alt, 
   className = '', 
-  placeholder = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjQwIiBoZWlnaHQ9IjQwIiBmaWxsPSIjMTEyMjMzIi8+CjxwYXRoIGQ9Ik0xMiAxNkwyMCAyNEwyOCAxNiIgc3Ryb2tlPSIjNjM3NGFkIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPgo8L3N2Zz4K',
-  priority = false 
+  placeholder = TINY_PLACEHOLDER,
+  priority = false,
+  width,
+  height
 }: LazyImageProps) => {
   const [isLoaded, setIsLoaded] = useState(false)
   const [isError, setIsError] = useState(false)
   const [isInView, setIsInView] = useState(priority)
-  const imgRef = useRef<HTMLImageElement>(null)
+  const imgRef = useRef<HTMLDivElement>(null)
 
+  // Calculate aspect ratio to prevent layout shifts
+  const aspectRatio = width && height ? width / height : 16/9
+  
   useEffect(() => {
-    if (priority) return
+    if (priority) {
+      setIsInView(true)
+      return
+    }
 
     const observer = new IntersectionObserver(
       ([entry]) => {
@@ -35,8 +48,8 @@ const LazyImage = ({
         }
       },
       { 
-        threshold: 0.1,
-        rootMargin: '50px'
+        rootMargin: '100px',
+        threshold: 0.01
       }
     )
 
@@ -61,49 +74,41 @@ const LazyImage = ({
     <div 
       ref={imgRef}
       className={`relative overflow-hidden ${className}`}
+      style={{ aspectRatio }}
     >
-      {/* Placeholder */}
-      <motion.div
-        className="absolute inset-0 bg-gradient-to-br from-purple-900/20 to-blue-900/20 flex items-center justify-center"
-        animate={{ 
-          opacity: isLoaded ? 0 : 1 
-        }}
-        transition={{ duration: 0.3 }}
-      >
-        <div className="w-12 h-12 border-2 border-purple-400/30 border-t-purple-400 rounded-full animate-spin" />
-      </motion.div>
+      {/* Static placeholder */}
+      {!isLoaded && (
+        <div 
+          className="absolute inset-0 bg-gray-200 dark:bg-gray-800"
+          aria-hidden="true"
+        />
+      )}
 
       {/* Actual image */}
       {isInView && (
-        <motion.img
+        <img
           src={isError ? placeholder : src}
           alt={alt}
-          className={`w-full h-full object-cover transition-all duration-300 ${
-            isLoaded ? 'opacity-100 scale-100' : 'opacity-0 scale-105'
+          className={`w-full h-full object-cover transition-opacity duration-300 ${
+            isLoaded ? 'opacity-100' : 'opacity-0'
           }`}
           onLoad={handleLoad}
           onError={handleError}
           loading={priority ? 'eager' : 'lazy'}
           decoding="async"
-          initial={{ opacity: 0, scale: 1.05 }}
-          animate={{ 
-            opacity: isLoaded ? 1 : 0,
-            scale: isLoaded ? 1 : 1.05
-          }}
-          transition={{ duration: 0.4 }}
+          width={width}
+          height={height}
         />
       )}
 
       {/* Error state */}
       {isError && (
-        <motion.div
+        <div
           className="absolute inset-0 bg-red-900/20 flex items-center justify-center"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.2 }}
+          aria-hidden="true"
         >
           <div className="text-red-400 text-sm">Failed to load</div>
-        </motion.div>
+        </div>
       )}
     </div>
   )

@@ -33,6 +33,7 @@ export default function Header() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  // Optimized scroll handling without forced reflow
   const scrollToSection = (href: string) => {
     // For regular page links (not hash links)
     if (!href.startsWith('#')) {
@@ -46,20 +47,20 @@ export default function Header() {
       return;
     }
     
-    // For hash links (scrolling within page)
-    const element = document.querySelector(href)
+    // For hash links - use native scrollIntoView with CSS scroll margin
+    const elementId = href.substring(1);
+    const element = document.getElementById(elementId);
+    
     if (element) {
-      // Enhanced smooth scrolling with better behavior
-      const headerOffset = 80 // Account for fixed header
-      const elementPosition = element.getBoundingClientRect().top
-      const offsetPosition = elementPosition + window.pageYOffset - headerOffset
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      })
+      // Set scroll margin to account for header height
+      element.style.scrollMarginTop = '80px';
+      element.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      });
     }
-    setIsMenuOpen(false)
+    
+    setIsMenuOpen(false);
   }
 
   return (

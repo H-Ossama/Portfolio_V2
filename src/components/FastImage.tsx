@@ -15,6 +15,9 @@ interface FastImageProps {
   quality?: number
 }
 
+// Small, optimized blur data URL
+const TINY_BLUR_DATA_URL = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+P+/HgAEtAJJXBXKRwAAAABJRU5ErkJggg=='
+
 const FastImage = ({ 
   src, 
   alt, 
@@ -23,26 +26,35 @@ const FastImage = ({
   className = '', 
   priority = false,
   fill = false,
-  sizes = '100vw',
-  quality = 85
+  sizes = '(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw',
+  quality = 75 // Reduced quality for better performance
 }: FastImageProps) => {
   const [isLoaded, setIsLoaded] = useState(false)
 
+  // Make sure we have dimensions to prevent layout shifts
+  const hasDimensions = (width && height) || fill
+  const aspectRatio = !hasDimensions ? { aspectRatio: '16/9' } : {}
+
   return (
-    <div className={`relative ${className} ${!isLoaded ? 'animate-pulse bg-gray-200 dark:bg-gray-700' : ''}`}>
+    <div 
+      className={`relative ${className} ${!isLoaded ? 'bg-gray-200 dark:bg-gray-700' : ''}`}
+      style={aspectRatio}
+    >
       <Image
         src={src}
         alt={alt}
         width={!fill ? width : undefined}
         height={!fill ? height : undefined}
         fill={fill}
-        className={`transition-opacity duration-300 ${isLoaded ? 'opacity-100' : 'opacity-0'} ${className}`}
+        className={`transition-opacity duration-300 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
         priority={priority}
         sizes={sizes}
         quality={quality}
         onLoad={() => setIsLoaded(true)}
         placeholder="blur"
-        blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+Wv//Z"
+        blurDataURL={TINY_BLUR_DATA_URL}
+        fetchPriority={priority ? 'high' : 'auto'}
+        loading={priority ? 'eager' : 'lazy'}
       />
     </div>
   )

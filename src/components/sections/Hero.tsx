@@ -11,18 +11,16 @@ export default function Hero() {
   const { config } = usePortfolioConfig()
   const labels = useNavigationLabels()
   
+  // Optimized scroll to contact without forced reflow
   const scrollToContact = () => {
-    const contactSection = document.querySelector('#contact')
+    const contactSection = document.getElementById('contact');
     if (contactSection) {
-      // Enhanced smooth scrolling with better behavior
-      const headerOffset = 80 // Account for fixed header
-      const elementPosition = contactSection.getBoundingClientRect().top
-      const offsetPosition = elementPosition + window.pageYOffset - headerOffset
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      })
+      // Set scroll margin to account for header height
+      contactSection.style.scrollMarginTop = '80px';
+      contactSection.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+      });
     }
   }
 
@@ -69,16 +67,15 @@ export default function Hero() {
             <div className="relative w-40 h-40 mx-auto mb-8 glow-effect">
               <div className="absolute inset-0 bg-gradient-to-r from-primary-500 to-purple-500 rounded-full animate-spin-slow opacity-20"></div>
               <Image
-                src={`${config.personal.profileImage}&no-cache=${new Date().getTime()}`}
+                src={`${config.personal.profileImage}`}
                 alt={config.personal.name}
                 fill
                 className="rounded-full object-cover border-4 border-gray-600/30 shadow-glow relative z-10"
                 priority
-                sizes="(max-width: 768px) 160px, 160px"
-                quality={85}
-                unoptimized={true}
+                sizes="160px"
+                quality={75}
                 placeholder="blur"
-                blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R+Wv//Z"
+                blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+P+/HgAEtAJJXBXKRwAAAABJRU5ErkJggg=="
               />
             </div>
           </motion.div>
