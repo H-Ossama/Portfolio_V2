@@ -16,7 +16,7 @@ const configs = {
 };
 
 // Helper function to get locale from pathname
-function getLocaleFromPathname(pathname: string): Locale {
+export function getLocaleFromPathname(pathname: string): Locale {
   const segments = pathname.split('/');
   const firstSegment = segments[1];
   
@@ -74,6 +74,7 @@ export const navigationLabels = {
     resume: 'Resume',
     downloadCV: 'Download CV',
     viewCV: 'View CV',
+    blog: 'Blog',
     viewProject: 'View Project',
     sourceCode: 'Source Code',
     liveDemo: 'Live Demo',
@@ -94,6 +95,7 @@ export const navigationLabels = {
     resume: 'CV',
     downloadCV: 'Télécharger le CV',
     viewCV: 'Voir le CV',
+    blog: 'Blog',
     viewProject: 'Voir le Projet',
     sourceCode: 'Code Source',
     liveDemo: 'Démo en Direct',
@@ -114,6 +116,7 @@ export const navigationLabels = {
     resume: 'Lebenslauf',
     downloadCV: 'Lebenslauf herunterladen',
     viewCV: 'Lebenslauf ansehen',
+    blog: 'Blog',
     viewProject: 'Projekt ansehen',
     sourceCode: 'Quellcode',
     liveDemo: 'Live-Demo',

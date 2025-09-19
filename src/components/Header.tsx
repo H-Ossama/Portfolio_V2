@@ -20,6 +20,7 @@ export default function Header() {
     { name: labels.skills, href: '#skills' },
     { name: labels.projects, href: '#projects' },
     { name: labels.education, href: '#education' },
+    { name: labels.blog || 'Blog', href: '/blog' },
     { name: labels.contact, href: '#contact' },
   ]
 
@@ -33,6 +34,19 @@ export default function Header() {
   }, [])
 
   const scrollToSection = (href: string) => {
+    // For regular page links (not hash links)
+    if (!href.startsWith('#')) {
+      // Get current locale from pathname
+      const pathname = window.location.pathname;
+      const segments = pathname.split('/');
+      const currentLocale = (segments[1] === 'en' || segments[1] === 'fr' || segments[1] === 'de') ? segments[1] : 'en';
+      
+      // Navigate to the page with the current locale
+      window.location.href = `/${currentLocale}${href}`;
+      return;
+    }
+    
+    // For hash links (scrolling within page)
     const element = document.querySelector(href)
     if (element) {
       // Enhanced smooth scrolling with better behavior

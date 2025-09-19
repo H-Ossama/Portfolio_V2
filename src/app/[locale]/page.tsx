@@ -8,6 +8,10 @@ import DevelopmentBanner from '@/components/DevelopmentBanner'
 import PerformanceOptimizer from '@/components/PerformanceOptimizer'
 import dynamic from 'next/dynamic'
 import { notFound } from 'next/navigation'
+import Script from 'next/script'
+import { generateHomePageStructuredData } from '@/lib/structured-data'
+import { getPortfolioConfig } from '@/lib/localization-server'
+import { Metadata } from 'next'
 
 // Import the AdvancedPerformanceOptimizer component
 const AdvancedPerformanceOptimizer = dynamic(() => import('@/components/AdvancedPerformanceOptimizer'), {
@@ -62,6 +66,53 @@ interface LocalePageProps {
   }
 }
 
+// Generate metadata for the page with SEO optimizations
+export async function generateMetadata({ params }: LocalePageProps): Promise<Metadata> {
+  const locale = params.locale as Locale;
+  const config = getPortfolioConfig(locale);
+  
+  return {
+    title: `${config.personal.name} - ${config.personal.title} | Portfolio`,
+    description: config.personal.bio,
+    keywords: [
+      'Oussama Hattan', 
+      'Web Developer', 
+      'Full-Stack Developer', 
+      'React Developer', 
+      'Moroccan Developer',
+      'Frontend Engineer',
+      'Portfolio',
+      'Oussama',
+      'Hattan'
+    ],
+    creator: config.personal.name,
+    publisher: config.personal.name,
+    authors: [{ name: config.personal.name }],
+    openGraph: {
+      title: `${config.personal.name} - ${config.personal.title}`,
+      description: config.personal.bio,
+      url: '/',
+      siteName: `${config.personal.name} Portfolio`,
+      images: [
+        {
+          url: '/images/og-image.jpg',
+          width: 1200,
+          height: 630,
+          alt: config.personal.name,
+        },
+      ],
+      locale: locale,
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${config.personal.name} - ${config.personal.title}`,
+      description: config.personal.bio,
+      images: ['/images/og-image.jpg'],
+    },
+  };
+}
+
 export async function generateStaticParams() {
   return locales.map((locale) => ({
     locale: locale,
@@ -73,9 +124,24 @@ export default function LocalePage({ params }: LocalePageProps) {
   if (!locales.includes(params.locale as Locale)) {
     notFound()
   }
+  
+  const locale = params.locale as Locale;
+  const structuredData = generateHomePageStructuredData(locale);
 
   return (
     <ClientWrapper>
+      {/* Structured Data for Rich Results */}
+      {structuredData.map((data, index) => (
+        <Script
+          key={`structured-data-${index}`}
+          id={`structured-data-${index}`}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(data)
+          }}
+        />
+      ))}
+    
       {/* Performance optimization for mobile and low-end devices */}
       <PerformanceOptimizer />
       

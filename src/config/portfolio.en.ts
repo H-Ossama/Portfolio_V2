@@ -199,8 +199,8 @@ export const portfolioConfig = {
   // Website metadata
   meta: {
     title: "Oussama HATTAN - Full-Stack Web Developer | React & Node.js Specialist",
-    description: "Portfolio of Oussama HATTAN, Full-Stack Web Developer specialized in building responsive and scalable web applications. Experienced in React, Node.js, PHP, Python, and modern web technologies.",
-    keywords: "full-stack developer, web developer, React, Node.js, JavaScript, HTML, CSS, PHP, Laravel, Python, MongoDB, MySQL, portfolio, Morocco",
+    description: "Portfolio of Oussama HATTAN, Full-Stack Web Developer from Morocco specialized in React, Node.js and modern web technologies. Hire Oussama for your next web project.",
+    keywords: "Oussama HATTAN, Oussama, HATTAN, web developer Morocco, Moroccan developer, full-stack developer, React developer, Node.js developer, JavaScript developer, PHP developer, Python developer, portfolio, hire web developer, freelance developer",
     author: "Oussama HATTAN",
     url: "https://hattan-portfolio.vercel.app", // Replace with actual domain
   },

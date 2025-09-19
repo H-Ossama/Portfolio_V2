@@ -199,8 +199,8 @@ export const portfolioConfig = {
   // Website metadata - Métadonnées du site web
   meta: {
     title: "Oussama HATTAN - Développeur Web Full-Stack | Spécialiste React & Node.js",
-    description: "Portfolio d'Oussama HATTAN, Développeur Web Full-Stack spécialisé dans la création d'applications web responsives et évolutives. Expérimenté en React, Node.js, PHP, Python et technologies web modernes.",
-    keywords: "développeur full-stack, développeur web, React, Node.js, JavaScript, HTML, CSS, PHP, Laravel, Python, MongoDB, MySQL, portfolio, Maroc",
+    description: "Portfolio d'Oussama HATTAN, Développeur Web Full-Stack du Maroc spécialisé en React, Node.js et technologies web modernes. Engagez Oussama pour votre prochain projet web.",
+    keywords: "Oussama HATTAN, Oussama, HATTAN, développeur web Maroc, développeur marocain, développeur full-stack, développeur React, développeur Node.js, développeur JavaScript, développeur PHP, développeur Python, portfolio, embaucher développeur web, développeur freelance",
     author: "Oussama HATTAN",
     url: "https://hattan-portfolio.vercel.app", // Remplacer par le domaine actuel
   },

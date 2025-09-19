@@ -84,6 +84,9 @@ export async function generateMetadata({ params }: { params: { locale: string } 
   }
 }
 
+import GoogleAnalytics from '@/components/GoogleAnalytics';
+import SearchConsoleVerification from '@/components/SearchConsoleVerification';
+
 export default function LocaleLayout({ children, params }: LocaleLayoutProps) {
   const locale = params.locale as Locale
   
@@ -152,6 +155,12 @@ export default function LocaleLayout({ children, params }: LocaleLayoutProps) {
             },
           })
         }} />
+        
+        {/* Google Analytics */}
+        <GoogleAnalytics measurementId="G-MEASUREMENT_ID" />
+        
+        {/* Google Search Console Verification */}
+        <SearchConsoleVerification verificationId="GOOGLE_VERIFICATION_ID" />
       </head>
       <body className={`${inter.className} overflow-x-hidden will-change-scroll backface-hidden`}>
         <ThemeProvider>
