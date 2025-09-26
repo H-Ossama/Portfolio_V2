@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Loader2 } from 'lucide-react'
 
 interface EducationScreenshotsProps {
   screenshots: string[]
@@ -11,17 +11,31 @@ interface EducationScreenshotsProps {
 
 export default function EducationScreenshots({ screenshots }: EducationScreenshotsProps) {
   const [currentIndex, setCurrentIndex] = useState(0)
+  const [isImageError, setIsImageError] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
 
   const nextImage = () => {
     setCurrentIndex((prev) => (prev + 1) % screenshots.length)
+    setIsImageError(false)
+    setIsLoading(true)
   }
 
   const previousImage = () => {
     setCurrentIndex((prev) => (prev - 1 + screenshots.length) % screenshots.length)
+    setIsImageError(false)
+    setIsLoading(true)
   }
 
   if (!screenshots || screenshots.length === 0) {
     return null
+  }
+
+  if (isImageError) {
+    return (
+      <div className="relative mt-4 w-full h-[300px] md:h-[400px] rounded-lg bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
+        <p className="text-theme-secondary">Failed to load image</p>
+      </div>
+    )
   }
 
   return (
@@ -35,12 +49,21 @@ export default function EducationScreenshots({ screenshots }: EducationScreensho
           transition={{ duration: 0.3 }}
           className="relative w-full h-full"
         >
+          {isLoading && (
+            <div className="absolute inset-0 flex items-center justify-center bg-gray-100 dark:bg-gray-800">
+              <Loader2 className="w-8 h-8 animate-spin text-theme-primary" />
+            </div>
+          )}
           <Image
             src={screenshots[currentIndex]}
             alt={`Project screenshot ${currentIndex + 1}`}
             fill
-            className="object-cover object-center"
+            className={`object-contain object-center bg-gray-100 dark:bg-gray-800 transition-opacity duration-300 ${
+              isLoading ? 'opacity-0' : 'opacity-100'
+            }`}
             priority
+            onError={() => setIsImageError(true)}
+            onLoad={() => setIsLoading(false)}
           />
         </motion.div>
       </AnimatePresence>

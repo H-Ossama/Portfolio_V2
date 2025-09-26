@@ -9,6 +9,12 @@ const nextConfig = {
     minimumCacheTTL: 3600,
     dangerouslyAllowSVG: true,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'web-production-20d60.up.railway.app',
+      },
+    ],
   },
   // Redirect all requests to locale-specific paths
   async redirects() {

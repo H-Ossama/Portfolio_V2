@@ -102,7 +102,7 @@ export const portfolioConfig = {
       institution: "GROUPE EFET - ÉCOLE FRANÇAISE D'ENSEIGNEMENT TECHNIQUE",
       year: "2021 - 2023",
       grade: "",
-      description: "Netzwerkverwaltung, Konfiguration von Netzwerkgeräten, Computersicherheit, Virtualisierung und Cloud Computing.",
+      description: "Netzwerkverwaltung, Konfiguration von Netzwerkgeräten, Computersicherheit, Virtualisierung und Cloud Computing. Projekt: Schulverwaltungssystem",
       certificates: [
         {
           name: "Technisches Diplom",
