@@ -152,16 +152,6 @@ export const portfolioConfig = {
       image: "/images/project-3.svg",
       featured: true,
       period: "06/2023"
-    },
-    {
-      id: 4,
-      title: "Site Portfolio",
-      description: "Site portfolio moderne et responsive construit avec Next.js et Tailwind CSS. Comprend des animations fluides, un formulaire de contact et des performances optimisées.",
-      techStack: ["Next.js", "Tailwind CSS", "Framer Motion", "TypeScript"],
-      githubUrl: "https://github.com/hattanoussama/portfolio",
-      liveUrl: "", // Site actuel
-      image: "/images/project-4.svg",
-      featured: false
     }
   ],
 

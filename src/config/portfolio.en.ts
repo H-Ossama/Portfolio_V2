@@ -46,7 +46,7 @@ export const portfolioConfig = {
       "Network Security",
       "Computer Networks",
       "Database Architecture",
-      "Sécurité informatique"
+      "Computer Security"
     ],
     development: [
       "Test Driven Development (TDD)",
@@ -78,7 +78,7 @@ export const portfolioConfig = {
       institution: "MULTIHEXA, Meknes",
       year: "09/2024 - 08/2025",
       grade: "17.67/20",
-      description: "Comprehensive web development program covering Database Architecture, Network Security, Sécurité informatique, and Agile/Scrum methodologies.",
+      description: "Comprehensive web development program covering Database Architecture, Network Security, Computer Security, and Agile/Scrum methodologies.",
       certificates: [
         {
           name: "Diploma Certificate",
@@ -123,8 +123,8 @@ export const portfolioConfig = {
   projects: [
     {
       id: 1,
-      title: "PLATEFORME DE LOCATION DE VOITURES",
-      description: "Une application web complète de location de voitures avec interface responsive HTML5/CSS3, système de réservation sécurisé et base de données optimisée.",
+      title: "CAR RENTAL PLATFORM",
+      description: "A complete car rental web application with responsive HTML5/CSS3 interface, secure reservation system, and optimized database.",
       techStack: ["PHP", "Laravel", "JavaScript", "Git", "HTML5", "CSS3"],
       githubUrl: "https://github.com/H-Ossama/Cars_Rental_v2.0",
       liveUrl: "", // Add if available
@@ -134,8 +134,8 @@ export const portfolioConfig = {
     },
     {
       id: 2,
-      title: "CLONE AIRBNB",
-      description: "Application web complète clone d'Airbnb avec inscription et authentification sécurisée (OAuth, JWT), recherche avec filtres, gestion des propriétés (hôtes) et réservations, intégration de API RESTful.",
+      title: "AIRBNB CLONE",
+      description: "Complete Airbnb clone web application with secure registration and authentication (OAuth, JWT), search with filters, property management (hosts) and bookings, RESTful API integration.",
       techStack: ["React.js", "Node.js", "Express.js", "MongoDB", "OAuth", "JWT"],
       githubUrl: "https://github.com/hattanoussama/airbnb-clone",
       liveUrl: "", // Add if available
@@ -144,24 +144,14 @@ export const portfolioConfig = {
     },
     {
       id: 3,
-      title: "SYSTÈME DE GESTION SCOLAIRE",
-      description: "Application de gestion scolaire complète avec interface HTML5, gestion des notes et paiements, et base de données relationnelle optimisée pour les établissements scolaires.",
+      title: "SCHOOL MANAGEMENT SYSTEM",
+      description: "Complete school management application with HTML5 interface, grade and payment management, and optimized relational database for educational institutions.",
       techStack: ["Python", "MySQL", "HTML5"],
       githubUrl: "https://github.com/hattanoussama/school-management-system",
       liveUrl: "", // Add if available
       image: "/images/project-3.svg",
       featured: true,
       period: "06/2023"
-    },
-    {
-      id: 4,
-      title: "Portfolio Website",
-      description: "Site portfolio moderne et responsive construit avec Next.js et Tailwind CSS. Comprend des animations fluides, un formulaire de contact et des performances optimisées.",
-      techStack: ["Next.js", "Tailwind CSS", "Framer Motion", "TypeScript"],
-      githubUrl: "https://github.com/hattanoussama/portfolio",
-      liveUrl: "", // Current site
-      image: "/images/project-4.svg",
-      featured: false
     }
   ],
 
@@ -171,7 +161,7 @@ export const portfolioConfig = {
       name: "IBM Certificate in Computer Networks and Network Security",
       issuer: "IBM - Coursera",
       date: "12/2024",
-      description: "Certification en sécurité des réseaux, protocoles réseau et architecture réseau.",
+      description: "Certification in network security, network protocols, and network architecture.",
       image: "/certificates/ibm-networks-security.pdf", // or .jpg
       url: "https://www.coursera.org/account/accomplishments/verify/EQIGIS8IV9VK"
     },
