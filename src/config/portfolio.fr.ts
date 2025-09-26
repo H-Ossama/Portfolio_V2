@@ -108,6 +108,11 @@ export const portfolioConfig = {
           name: "Diplôme Technique",
           image: "/certificates/EFET.jpg"
         }
+      ],
+      projectUrl: "https://web-production-20d60.up.railway.app",
+      screenshots: [
+        "/images/efet-screenshots/efet-screenshot-1.png",
+        "/images/efet-screenshots/efet-screenshot-2.png"
       ]
     }
   ],

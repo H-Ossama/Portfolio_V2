@@ -2,9 +2,10 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { GraduationCap, Calendar, MapPin, Award } from 'lucide-react'
+import { GraduationCap, Calendar, MapPin, Award, ExternalLink } from 'lucide-react'
 import { usePortfolioConfig, useNavigationLabels } from '@/lib/localization'
 import CertificateViewer from '@/components/CertificateViewer'
+import EducationScreenshots from '@/components/EducationScreenshots'
 
 interface Certificate {
   name: string
@@ -18,6 +19,8 @@ interface EducationEntry {
   grade?: string
   description: string
   certificates?: Certificate[]
+  projectUrl?: string
+  screenshots?: string[]
 }
 
 export default function Education() {
@@ -104,6 +107,26 @@ export default function Education() {
                   <p className="text-theme-secondary leading-relaxed text-base sm:text-lg mb-5 sm:mb-6">
                     {edu.description}
                   </p>
+
+                  {/* Project URL if available */}
+                  {edu.projectUrl && (
+                    <a
+                      href={edu.projectUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl mb-6"
+                    >
+                      <ExternalLink size={16} className="flex-shrink-0" />
+                      <span>Visit Project</span>
+                    </a>
+                  )}
+
+                  {/* Screenshots Gallery */}
+                  {edu.screenshots && edu.screenshots.length > 0 && (
+                    <div className="mb-6">
+                      <EducationScreenshots screenshots={edu.screenshots} />
+                    </div>
+                  )}
 
                   {/* Certificate buttons with better mobile layout */}
                   <div className="flex flex-wrap justify-center sm:justify-start gap-3 sm:gap-4">
