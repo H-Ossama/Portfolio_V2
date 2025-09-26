@@ -102,7 +102,7 @@ export const portfolioConfig = {
       institution: "GROUPE EFET - ÉCOLE FRANÇAISE D'ENSEIGNEMENT TECHNIQUE",
       year: "2021 - 2023",
       grade: "",
-      description: "Administration des réseaux, Configuration des équipements réseau, Sécurité informatique, Virtualisation et cloud computing. Projet: Système de Gestion Scolaire",
+      description: "Système de gestion scolaire interactif avec inscription aux cours, suivi des notes, profils d'étudiants et tableau de bord administratif. Construit en utilisant des technologies web modernes et des principes de conception de base de données.",
       certificates: [
         {
           name: "Diplôme Technique",
@@ -112,7 +112,9 @@ export const portfolioConfig = {
       projectUrl: "https://web-production-20d60.up.railway.app",
       screenshots: [
         "/images/efet-screenshots/efet-screenshot-1.png",
-        "/images/efet-screenshots/efet-screenshot-2.png"
+        "/images/efet-screenshots/efet-screenshot-2.png",
+        "/images/efet-screenshots/efet-screenshot-3.png",
+        "/images/efet-screenshots/efet-screenshot-4.png"
       ]
     }
   ],

@@ -114,16 +114,23 @@ export default function Education() {
                       href={edu.projectUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl mb-6"
+                      className="inline-flex items-center gap-2 px-5 py-3 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-medium text-base rounded-lg transition-all duration-300 transform hover:scale-105 shadow-glow hover:shadow-glow-lg mb-6 animate-pulse-subtle"
                     >
-                      <ExternalLink size={16} className="flex-shrink-0" />
-                      <span>Visit Project</span>
+                      <ExternalLink size={18} className="flex-shrink-0" />
+                      <span>Visit EFET School Project</span>
                     </a>
                   )}
 
                   {/* Screenshots Gallery */}
                   {edu.screenshots && edu.screenshots.length > 0 && (
                     <div className="mb-6">
+                      <h4 className="text-lg sm:text-xl font-semibold text-theme-primary mb-2">
+                        <span className="text-gradient">École Française d'Enseignement Technique</span>
+                      </h4>
+                      <p className="text-theme-secondary mb-4">
+                        Interactive school management system with user authentication, course management, 
+                        and administrative features. Built as a graduation project showcasing database design and web development skills.
+                      </p>
                       <EducationScreenshots screenshots={edu.screenshots} />
                     </div>
                   )}

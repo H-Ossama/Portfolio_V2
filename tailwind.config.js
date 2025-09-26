@@ -74,6 +74,7 @@ module.exports = {
         'slide-in-left': 'slideInLeft 0.8s ease-out',
         'slide-in-right': 'slideInRight 0.8s ease-out',
         'glow-pulse': 'glowPulse 2s ease-in-out infinite',
+        'pulse-subtle': 'pulseSubtle 3s ease-in-out infinite',
         'float': 'float 6s ease-in-out infinite',
         'float-delayed': 'float 6s ease-in-out infinite 2s',
         'gradient-shift': 'gradientShift 8s ease-in-out infinite',
@@ -94,6 +95,10 @@ module.exports = {
         fadeInDown: {
           '0%': { opacity: '0', transform: 'translateY(-40px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        pulseSubtle: {
+          '0%, 100%': { opacity: '1', boxShadow: '0 0 20px rgba(139, 92, 246, 0.6)' },
+          '50%': { opacity: '0.9', boxShadow: '0 0 30px rgba(139, 92, 246, 0.8)' },
         },
         slideInLeft: {
           '0%': { opacity: '0', transform: 'translateX(-40px)' },
