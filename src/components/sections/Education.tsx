@@ -2,10 +2,9 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { GraduationCap, Calendar, MapPin, Award, ExternalLink } from 'lucide-react'
+import { GraduationCap, Calendar, MapPin, Award } from 'lucide-react'
 import { usePortfolioConfig, useNavigationLabels } from '@/lib/localization'
 import CertificateViewer from '@/components/CertificateViewer'
-import EducationScreenshots from '@/components/EducationScreenshots'
 
 interface Certificate {
   name: string
@@ -108,32 +107,7 @@ export default function Education() {
                     {edu.description}
                   </p>
 
-                  {/* Project URL if available */}
-                  {edu.projectUrl && (
-                    <a
-                      href={edu.projectUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-5 py-3 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-medium text-base rounded-lg transition-all duration-300 transform hover:scale-105 shadow-glow hover:shadow-glow-lg mb-6 animate-pulse-subtle"
-                    >
-                      <ExternalLink size={18} className="flex-shrink-0" />
-                      <span>Visit EFET School Project</span>
-                    </a>
-                  )}
-
-                  {/* Screenshots Gallery */}
-                  {edu.screenshots && edu.screenshots.length > 0 && (
-                    <div className="mb-6">
-                      <h4 className="text-lg sm:text-xl font-semibold text-theme-primary mb-2">
-                        <span className="text-gradient">École Française d'Enseignement Technique</span>
-                      </h4>
-                      <p className="text-theme-secondary mb-4">
-                        Interactive school management system with user authentication, course management, 
-                        and administrative features. Built as a graduation project showcasing database design and web development skills.
-                      </p>
-                      <EducationScreenshots screenshots={edu.screenshots} />
-                    </div>
-                  )}
+                  {/* Certificates are shown via the certificate viewer button below */}
 
                   {/* Certificate buttons with better mobile layout */}
                   <div className="flex flex-wrap justify-center sm:justify-start gap-3 sm:gap-4">

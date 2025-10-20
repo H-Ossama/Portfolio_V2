@@ -16,7 +16,7 @@ export const portfolioConfig = {
     email: "ossamahattan@gmail.com",
     phone: "+212 658559662",
     linkedin: "https://linkedin.com/in/h-oussama",
-    github: "https://github.com/hattanoussama",
+    github: "https://github.com/H-Ossama",
     whatsapp: "+212 658559662",
   },
 
@@ -102,19 +102,12 @@ export const portfolioConfig = {
       institution: "GROUPE EFET - ÉCOLE FRANÇAISE D'ENSEIGNEMENT TECHNIQUE",
       year: "2021 - 2023",
       grade: "",
-      description: "Système de gestion scolaire interactif avec inscription aux cours, suivi des notes, profils d'étudiants et tableau de bord administratif. Construit en utilisant des technologies web modernes et des principes de conception de base de données.",
+      description: "Système de gestion scolaire interactif avec inscription aux cours, suivi des notes, profils d'étudiants et tableau de bord administratif.",
       certificates: [
         {
           name: "Diplôme Technique",
           image: "/certificates/EFET.jpg"
         }
-      ],
-      projectUrl: "https://web-production-20d60.up.railway.app",
-      screenshots: [
-        "/images/efet-screenshots/efet-screenshot-1.png",
-        "/images/efet-screenshots/efet-screenshot-2.png",
-        "/images/efet-screenshots/efet-screenshot-3.png",
-        "/images/efet-screenshots/efet-screenshot-4.png"
       ]
     }
   ],
@@ -137,7 +130,7 @@ export const portfolioConfig = {
       title: "CLONE AIRBNB",
       description: "Application web complète clone d'Airbnb avec inscription et authentification sécurisée (OAuth, JWT), recherche avec filtres, gestion des propriétés (hôtes) et réservations, intégration de API RESTful.",
       techStack: ["React.js", "Node.js", "Express.js", "MongoDB", "OAuth", "JWT"],
-      githubUrl: "https://github.com/hattanoussama/airbnb-clone",
+      githubUrl: "https://github.com/H-Ossama/airbnb-clone",
       liveUrl: "", // Ajouter si disponible
       image: "/images/project-2.svg",
       featured: true
@@ -147,8 +140,15 @@ export const portfolioConfig = {
       title: "SYSTÈME DE GESTION SCOLAIRE",
       description: "Application de gestion scolaire complète avec interface HTML5, gestion des notes et paiements, et base de données relationnelle optimisée pour les établissements scolaires.",
       techStack: ["Python", "MySQL", "HTML5"],
-      githubUrl: "https://github.com/hattanoussama/school-management-system",
-      liveUrl: "", // Ajouter si disponible
+      githubUrl: "https://github.com/H-Ossama/school-management-system",
+      liveUrl: "https://web-production-20d60.up.railway.app",
+      projectUrl: "https://web-production-20d60.up.railway.app",
+      screenshots: [
+        "/images/efet-screenshots/efet-screenshot-1.png",
+        "/images/efet-screenshots/efet-screenshot-2.png",
+        "/images/efet-screenshots/efet-screenshot-3.png",
+        "/images/efet-screenshots/efet-screenshot-4.png"
+      ],
       image: "/images/project-3.svg",
       featured: true,
       period: "06/2023"

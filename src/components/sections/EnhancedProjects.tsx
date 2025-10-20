@@ -32,7 +32,7 @@ const enhancedProjectData = [
     title: "CLONE AIRBNB",
     description: "Application web complète clone d'Airbnb avec inscription et authentification sécurisée (OAuth, JWT), recherche avec filtres, gestion des propriétés (hôtes) et réservations, intégration de API RESTful.",
     techStack: ["React.js", "Node.js", "Express.js", "MongoDB", "OAuth", "JWT", "Tailwind CSS", "RESTful API"],
-    githubUrl: "https://github.com/hattanoussama/airbnb-clone",
+    githubUrl: "https://github.com/H-Ossama/airbnb-clone",
     liveUrl: "", // Add if available
     image: "/images/project-2.svg",
     featured: true,
@@ -50,7 +50,7 @@ const enhancedProjectData = [
     title: "SYSTÈME DE GESTION SCOLAIRE",
     description: "Application de gestion scolaire complète avec interface HTML5, gestion des notes et paiements, et base de données relationnelle optimisée pour les établissements scolaires.",
     techStack: ["Python", "MySQL", "HTML5", "CSS", "Flask", "SQLAlchemy"],
-    githubUrl: "https://github.com/hattanoussama/school-management-system",
+    githubUrl: "https://github.com/H-Ossama/school-management-system",
     liveUrl: "", // Add if available
     image: "/images/project-3.svg",
     featured: true,

@@ -16,7 +16,7 @@ export const portfolioConfig = {
     email: "ossamahattan@gmail.com",
     phone: "+212 658559662",
     linkedin: "https://linkedin.com/in/h-oussama",
-    github: "https://github.com/hattanoussama",
+    github: "https://github.com/H-Ossama",
     whatsapp: "+212 658559662",
   },
 
@@ -102,19 +102,12 @@ export const portfolioConfig = {
       institution: "GROUPE EFET - ECOLE FRANÇAISE D'ENSEIGNEMENT TECHNIQUE",
       year: "2021 - 2023",
       grade: "",
-      description: "Interactive school management system with course registration, grade tracking, student profiles, and administrative dashboard. Built using modern web technologies and database design principles.",
+      description: "Administration des réseaux, Configuration des équipements réseau, Sécurité informatique, Virtualisation et cloud computing.",
       certificates: [
         {
           name: "Technical Diploma",
           image: "/certificates/EFET.jpg"
         }
-      ],
-      projectUrl: "https://web-production-20d60.up.railway.app",
-      screenshots: [
-        "/images/efet-screenshots/efet-screenshot-1.png",
-        "/images/efet-screenshots/efet-screenshot-2.png",
-        "/images/efet-screenshots/efet-screenshot-3.png",
-        "/images/efet-screenshots/efet-screenshot-4.png"
       ]
     }
   ],
@@ -137,7 +130,7 @@ export const portfolioConfig = {
       title: "AIRBNB CLONE",
       description: "Complete Airbnb clone web application with secure registration and authentication (OAuth, JWT), search with filters, property management (hosts) and bookings, RESTful API integration.",
       techStack: ["React.js", "Node.js", "Express.js", "MongoDB", "OAuth", "JWT"],
-      githubUrl: "https://github.com/hattanoussama/airbnb-clone",
+      githubUrl: "https://github.com/H-Ossama/airbnb-clone",
       liveUrl: "", // Add if available
       image: "/images/project-2.svg",
       featured: true
@@ -147,8 +140,15 @@ export const portfolioConfig = {
       title: "SCHOOL MANAGEMENT SYSTEM",
       description: "Complete school management application with HTML5 interface, grade and payment management, and optimized relational database for educational institutions.",
       techStack: ["Python", "MySQL", "HTML5"],
-      githubUrl: "https://github.com/hattanoussama/school-management-system",
-      liveUrl: "", // Add if available
+      githubUrl: "https://github.com/H-Ossama/school-management-system",
+      liveUrl: "https://web-production-20d60.up.railway.app",
+      projectUrl: "https://web-production-20d60.up.railway.app",
+      screenshots: [
+        "/images/efet-screenshots/efet-screenshot-1.png",
+        "/images/efet-screenshots/efet-screenshot-2.png",
+        "/images/efet-screenshots/efet-screenshot-3.png",
+        "/images/efet-screenshots/efet-screenshot-4.png"
+      ],
       image: "/images/project-3.svg",
       featured: true,
       period: "06/2023"

@@ -73,7 +73,7 @@ Portfolio/
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/hattanoussama/portfolio.git
+   git clone https://github.com/H-Ossama/portfolio.git
    cd portfolio
    ```
 
@@ -272,7 +272,7 @@ If you have any questions or need help with setup:
 
 - **Email**: your-email@gmail.com
 - **LinkedIn**: [linkedin.com/in/hattan-oussama](https://linkedin.com/in/hattan-oussama)
-- **GitHub**: [github.com/hattanoussama](https://github.com/hattanoussama)
+- **GitHub**: [github.com/hattanoussama](https://github.com/H-Ossama)
 
 ## 🙏 Acknowledgments
 
