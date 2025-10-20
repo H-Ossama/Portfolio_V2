@@ -79,24 +79,43 @@ const trimCache = async (cacheName, maxItems) => {
 
 // Installation - Cache essential files
 self.addEventListener('install', event => {
-  event.waitUntil(
-    Promise.all([
-      // Cache essential files
-      caches.open(CACHE_NAME).then(cache => {
-        console.log('[Service Worker] Caching essential files')
-        return cache.addAll(ESSENTIAL_URLS)
-      }),
-      
-      // Cache static assets
-      caches.open(STATIC_CACHE).then(cache => {
-        console.log('[Service Worker] Caching static assets')
-        return cache.addAll(STATIC_ASSETS)
-      })
-    ]).then(() => {
-      return self.skipWaiting()
-    })
-  )
-})
+  // During install we try to cache items individually so that a single
+  // failing resource doesn't reject the entire install (which causes
+  // addAll to fail when a remote resource is 404 or blocked by CORS).
+  event.waitUntil((async () => {
+    try {
+      const cacheNamesAndLists = [
+        { name: CACHE_NAME, urls: ESSENTIAL_URLS },
+        { name: STATIC_CACHE, urls: STATIC_ASSETS }
+      ];
+
+      for (const entry of cacheNamesAndLists) {
+        const cache = await caches.open(entry.name);
+        for (const url of entry.urls) {
+          try {
+            // Use fetch to ensure we can control failures and skip if necessary
+            const request = new Request(url, { cache: 'reload' });
+            const response = await fetch(request);
+            if (!response || !response.ok) {
+              console.warn(`[Service Worker] Skipping ${url} - bad response:`, response && response.status);
+              continue;
+            }
+            await cache.put(request, response.clone());
+          } catch (err) {
+            // Don't fail the whole install for a single resource failure
+            console.warn(`[Service Worker] Failed to cache ${url}:`, err);
+            continue;
+          }
+        }
+      }
+
+      await self.skipWaiting();
+    } catch (err) {
+      // If something unexpected happens, still allow activation path to handle it
+      console.error('[Service Worker] Install encountered an error:', err);
+    }
+  })());
+});
 
 // Optimized fetch strategy with better handling of race conditions and network failures
 self.addEventListener('fetch', event => {
