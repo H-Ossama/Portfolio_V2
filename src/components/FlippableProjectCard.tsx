@@ -238,12 +238,24 @@ export default function FlippableProjectCard({ project, index }: {
           <div className="h-full relative">
             {/* Project Image */}
             <div className="relative h-64 overflow-hidden">
-              <Image
-                src={project.image}
-                alt={project.title}
-                fill
-                className="object-cover"
-              />
+              {/* Render SVGs with a normal <img> to avoid Next image optimizer 400 errors for SVGs. */}
+              {project.image?.toLowerCase().endsWith('.svg') ? (
+                // Use a plain img for SVGs (keeps vector fidelity and bypasses optimizer)
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={project.image}
+                  alt={project.title}
+                  className="object-cover w-full h-full"
+                />
+              ) : (
+                <Image
+                  src={project.image}
+                  alt={project.title}
+                  fill
+                  className="object-cover"
+                />
+              )}
+
               <div className={`absolute inset-0 bg-gradient-to-t ${
                 theme === 'dark' 
                   ? 'from-dark-900/80 via-dark-900/20 to-transparent' 
