@@ -32,18 +32,20 @@ const PerformanceOptimizer = () => {
     // Add CSS variables for animation speeds
     document.documentElement.style.setProperty('--duration-multiplier', durationMultiplier.toString())
     
-    // Preload critical fonts
-    const preloadFont = (fontUrl: string) => {
+    // Preload critical font CSS instead of direct woff2 files. Preloading the
+    // Google Fonts stylesheet is safer than preloading a specific woff2 URL
+    // which may change across builds/regions and cause 404s.
+    const preloadFontStylesheet = (href: string) => {
       const link = document.createElement('link')
       link.rel = 'preload'
-      link.as = 'font'
-      link.href = fontUrl
+      link.as = 'style'
+      link.href = href
       link.crossOrigin = 'anonymous'
       document.head.appendChild(link)
     }
 
-    // Preload Inter font variations
-    preloadFont('https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMa1ZL7.woff2')
+    // Preload the Google Fonts stylesheet (it will load appropriate variants)
+    preloadFontStylesheet('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap')
     
     // Optimize scroll performance with better debouncing for mobile
     let scrollTimer: NodeJS.Timeout | null = null

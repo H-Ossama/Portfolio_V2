@@ -16,9 +16,10 @@ const ESSENTIAL_URLS = [
 
 // Extended list of static assets to cache
 const STATIC_ASSETS = [
-  // Fonts
-  'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap',
-  'https://fonts.gstatic.com/s/inter/v12/UcCO3FwrK3iLTeHuS_fvQtMwCp50KnMa1ZL7.woff2',
+  // Fonts: avoid caching remote Google Fonts resources at SW install time.
+  // Preconnects and next/font (or <link rel="preload"> in the document) should
+  // be used instead to manage font loading. Caching cross-origin font files
+  // during install can cause failures (404/CORS) and should be avoided.
   
   // Icons and images
   '/images/profile-placeholder.svg',
