@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import { ExternalLink, Github, Calendar, RotateCcw, Layers, Code, CheckCircle, HelpCircle } from 'lucide-react'
 import Image from 'next/image'
 import { useTheme } from '@/contexts/ThemeContext'
+import EducationScreenshots from './EducationScreenshots'
 
 interface ProjectDetailProps {
   title: string
@@ -13,6 +14,7 @@ interface ProjectDetailProps {
   githubUrl?: string
   liveUrl?: string
   image: string
+  screenshots?: string[]
   featured: boolean
   period?: string
   role?: string
@@ -286,7 +288,12 @@ export default function FlippableProjectCard({ project, index }: {
                 )}
               </div>
             </div>
-
+            {/* If the project has screenshots, show the carousel above the footer */}
+            {project.screenshots && project.screenshots.length > 0 && (
+              <div className="p-4 border-t">
+                <EducationScreenshots screenshots={project.screenshots} />
+              </div>
+            )}
             {/* Footer - Fixed at bottom */}
             <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-gray-800/10 to-transparent pt-10">
               <div className="flex gap-6 items-center justify-between">
