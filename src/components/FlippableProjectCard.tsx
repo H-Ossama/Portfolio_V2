@@ -5,7 +5,7 @@ import { motion } from 'framer-motion'
 import { ExternalLink, Github, Calendar, RotateCcw, Layers, Code, CheckCircle, HelpCircle } from 'lucide-react'
 import Image from 'next/image'
 import { useTheme } from '@/contexts/ThemeContext'
-import EducationScreenshots from './EducationScreenshots'
+import ProjectScreenshotsCarousel from './ProjectScreenshotsCarousel'
 
 interface ProjectDetailProps {
   title: string
@@ -238,29 +238,37 @@ export default function FlippableProjectCard({ project, index }: {
           <div className="h-full relative">
             {/* Project Image */}
             <div className="relative h-64 overflow-hidden">
-              {/* Render SVGs with a normal <img> to avoid Next image optimizer 400 errors for SVGs. */}
-              {project.image?.toLowerCase().endsWith('.svg') ? (
-                // Use a plain img for SVGs (keeps vector fidelity and bypasses optimizer)
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  className="object-cover w-full h-full"
+              {project.screenshots && project.screenshots.length > 0 ? (
+                <ProjectScreenshotsCarousel
+                  screenshots={project.screenshots}
+                  altBase={`${project.title} screenshot`}
                 />
               ) : (
-                <Image
-                  src={project.image}
-                  alt={project.title}
-                  fill
-                  className="object-cover"
-                />
-              )}
+                <>
+                  {/* Render SVGs with a normal <img> to avoid Next image optimizer 400 errors for SVGs. */}
+                  {project.image?.toLowerCase().endsWith('.svg') ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={project.image}
+                      alt={project.title}
+                      className="object-cover w-full h-full"
+                    />
+                  ) : (
+                    <Image
+                      src={project.image}
+                      alt={project.title}
+                      fill
+                      className="object-cover"
+                    />
+                  )}
 
-              <div className={`absolute inset-0 bg-gradient-to-t ${
-                theme === 'dark' 
-                  ? 'from-dark-900/80 via-dark-900/20 to-transparent' 
-                  : 'from-gray-900/80 via-gray-900/20 to-transparent'
-              }`}></div>
+                  <div className={`absolute inset-0 bg-gradient-to-t ${
+                    theme === 'dark'
+                      ? 'from-dark-900/80 via-dark-900/20 to-transparent'
+                      : 'from-gray-900/80 via-gray-900/20 to-transparent'
+                  }`}></div>
+                </>
+              )}
             </div>
 
             {/* Project Content */}
@@ -300,12 +308,6 @@ export default function FlippableProjectCard({ project, index }: {
                 )}
               </div>
             </div>
-            {/* If the project has screenshots, show the carousel above the footer */}
-            {project.screenshots && project.screenshots.length > 0 && (
-              <div className="p-4 border-t">
-                <EducationScreenshots screenshots={project.screenshots} />
-              </div>
-            )}
             {/* Footer - Fixed at bottom */}
             <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-gray-800/10 to-transparent pt-10">
               <div className="flex gap-6 items-center justify-between">

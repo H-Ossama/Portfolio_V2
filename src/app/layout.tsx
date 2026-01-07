@@ -1,6 +1,16 @@
 import './globals.css'
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { SITE_URL } from '@/lib/seo-utils'
+import { Inter } from 'next/font/google'
+
+// Optimize font loading with proper display strategy
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+  preload: true,
+  variable: '--font-inter',
+  fallback: ['system-ui', 'sans-serif'],
+})
 
 // Base metadata for the entire site
 export const metadata: Metadata = {
@@ -20,10 +30,6 @@ export const metadata: Metadata = {
       'max-snippet': -1,
       'max-video-preview': -1,
     },
-  },
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
   },
   icons: {
     icon: [
@@ -45,19 +51,24 @@ export const metadata: Metadata = {
   },
 }
 
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+}
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning className={`${inter.variable} scroll-smooth overflow-x-hidden nav-scroll`}>
       <head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link rel="apple-touch-icon" href="/favicons/apple-touch-icon.png" />
         <link rel="manifest" href="/favicons/site.webmanifest" />
       </head>
-      <body>
+      <body suppressHydrationWarning className="font-sans overflow-x-hidden will-change-scroll backface-hidden">
         {children}
       </body>
     </html>

@@ -82,11 +82,11 @@ export const portfolioConfig = {
       certificates: [
         {
           name: "Diplomzertifikat",
-          image: "/certificates/MultyHexa.jpg"
+          image: "/certificates/FEDE Bachelor Diplomat.jpg"
         },
         {
           name: "Akademisches Zeugnis",
-          image: "/certificates/MultyHexa-Releve-de-Notes.jpg"
+          image: "/certificates/FEDE Relever de note.jpg"
         }
       ]
     },
@@ -121,6 +121,15 @@ export const portfolioConfig = {
       techStack: ["PHP", "Laravel", "JavaScript", "Git", "HTML5", "CSS3"],
       githubUrl: "https://github.com/H-Ossama/Cars_Rental_v2.0",
       liveUrl: "", // Hinzufügen wenn verfügbar
+      screenshots: [
+        "/images/cars_rental_screenshots/Capture%20d%27%C3%A9cran.png",
+        "/images/cars_rental_screenshots/Capture_d%27%C3%A9cran1.png",
+        "/images/cars_rental_screenshots/Capture_d%27%C3%A9cran2.png",
+        "/images/cars_rental_screenshots/Capture_d%27%C3%A9cran3.png",
+        "/images/cars_rental_screenshots/Capture_d%27%C3%A9cran4.png",
+        "/images/cars_rental_screenshots/Capture_d%27%C3%A9cran5.png",
+        "/images/cars_rental_screenshots/Capture_d%27%C3%A9cran6.png"
+      ],
       image: "/images/project-1.svg",
       featured: true,
       period: "09/2024 - 04/2025"

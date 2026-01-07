@@ -45,8 +45,13 @@ export default function EducationScreenshots({ screenshots }: EducationScreensho
             src={screenshots[currentIndex]}
             alt={`EFET project screenshot ${currentIndex + 1}`}
             fill
+            sizes="(max-width: 768px) 100vw, 80vw"
             className="object-contain"
-            priority
+            quality={75}
+            priority={currentIndex === 0}
+            loading={currentIndex === 0 ? 'eager' : 'lazy'}
+            placeholder="blur"
+            blurDataURL="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw=="
             onLoad={() => setIsLoaded(true)}
           />
         </motion.div>

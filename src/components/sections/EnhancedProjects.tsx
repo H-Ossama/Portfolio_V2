@@ -75,13 +75,17 @@ export default function EnhancedProjects() {
   const projects = enhancedProjectData.map(enhancedProject => {
     // Find the matching project in the config
     const configProject = config.projects.find(p => p.id === enhancedProject.id);
+
+    const screenshots = configProject?.screenshots;
+    const image = screenshots?.[0] || configProject?.image || enhancedProject.image;
     
     // Return the enhanced project, but use any values from config if they exist
     return {
       ...enhancedProject,
       title: configProject?.title || enhancedProject.title,
       description: configProject?.description || enhancedProject.description,
-      image: configProject?.image || enhancedProject.image,
+      image,
+      screenshots,
       githubUrl: configProject?.githubUrl || enhancedProject.githubUrl,
       liveUrl: configProject?.liveUrl || enhancedProject.liveUrl,
       featured: configProject?.featured !== undefined ? configProject.featured : enhancedProject.featured,

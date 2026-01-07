@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" role="img" aria-label="Project placeholder 2">
+  <defs>
+    <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#0ea5e9;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#14b8a6;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="600" height="400" fill="url(#grad2)" rx="32" ry="32" />
+  <g fill="#f8fafc" font-family="'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">
+    <text x="50%" y="52%" font-size="42" text-anchor="middle" font-weight="600">Modern UI Concept</text>
+    <text x="50%" y="64%" font-size="24" text-anchor="middle" fill="#e2e8f0">Interactive preview</text>
+  </g>
+</svg>

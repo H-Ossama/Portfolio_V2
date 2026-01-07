@@ -86,9 +86,8 @@ export async function generateMetadata({ params }: { params: { locale: string } 
   }
 }
 
-import GoogleAnalytics from '@/components/OptimizedGoogleAnalytics';
-import SearchConsoleVerification from '@/components/SearchConsoleVerification';
-import GoUpButton from '@/components/GoUpButton';
+import GoogleAnalytics from '@/components/OptimizedGoogleAnalytics'
+import GoUpButton from '@/components/GoUpButton'
 
 export default function LocaleLayout({ children, params }: LocaleLayoutProps) {
   const locale = params.locale as Locale
@@ -99,69 +98,44 @@ export default function LocaleLayout({ children, params }: LocaleLayoutProps) {
   }
 
   return (
-    <html lang={locale} className={`${inter.variable} scroll-smooth overflow-x-hidden nav-scroll`}>
-      <head>
-        <meta name="theme-color" content="#0a0a0a" />
-        
-        {/* Critical resources preloaded - reduced to only most important ones */}
-        <link
-          rel="preload"
-          href="/images/hattan-profile.png"
-          as="image"
-          type="image/png"
-          fetchPriority="high"
+    <ThemeProvider>
+      <div className={`${inter.variable} scroll-smooth overflow-x-hidden nav-scroll`}>
+        {/* Structured data for better SEO - non-blocking */}
+        <Script
+          id="schema-person"
+          type="application/ld+json"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'Person',
+              name: getPortfolioConfig(locale).personal.name,
+              jobTitle: getPortfolioConfig(locale).personal.title,
+              description: getPortfolioConfig(locale).personal.bio,
+              url: absoluteUrl('/'),
+              sameAs: [
+                getPortfolioConfig(locale).contact.github,
+                getPortfolioConfig(locale).contact.linkedin,
+              ],
+              image: absoluteUrl('/images/hattan-profile.png'),
+              email: getPortfolioConfig(locale).contact.email,
+              telephone: getPortfolioConfig(locale).contact.phone,
+              nationality: 'Moroccan',
+              address: {
+                '@type': 'PostalAddress',
+                addressLocality: getPortfolioConfig(locale).personal.location,
+                addressCountry: 'Morocco',
+              },
+            }),
+          }}
         />
-        
-        {/* Preconnect to external domains - optimized */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="anonymous" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        
-        {/* SEO: Properly formatted language alternates with absolute URLs */}
-        <link rel="alternate" hrefLang="en" href={absoluteUrl('/')} />
-        <link rel="alternate" hrefLang="fr" href={absoluteUrl('/fr')} />
-        <link rel="alternate" hrefLang="de" href={absoluteUrl('/de')} />
-        <link rel="alternate" hrefLang="x-default" href={absoluteUrl('/')} />
-        
-        {/* Canonical URL to prevent duplicate content issues */}
-        <link rel="canonical" href={getLocaleUrl(locale)} />
-        
-        {/* Structured data for better SEO - moved to afterInteractive for non-blocking */}
-        <Script id="schema-person" type="application/ld+json" strategy="afterInteractive" dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            '@context': 'https://schema.org',
-            '@type': 'Person',
-            name: getPortfolioConfig(locale).personal.name,
-            jobTitle: getPortfolioConfig(locale).personal.title,
-            description: getPortfolioConfig(locale).personal.bio,
-            url: absoluteUrl('/'),
-            sameAs: [
-              getPortfolioConfig(locale).contact.github,
-              getPortfolioConfig(locale).contact.linkedin,
-            ],
-            image: absoluteUrl('/images/hattan-profile.png'),
-            email: getPortfolioConfig(locale).contact.email,
-            telephone: getPortfolioConfig(locale).contact.phone,
-            nationality: 'Moroccan',
-            address: {
-              '@type': 'PostalAddress',
-              addressLocality: getPortfolioConfig(locale).personal.location,
-              addressCountry: 'Morocco',
-            },
-          })
-        }} />
-        
-        {/* Google Analytics - using strategy */}
+
+        {/* Google Analytics */}
         <GoogleAnalytics measurementId="G-MEASUREMENT_ID" />
-        
-        {/* Google Search Console Verification */}
-        <SearchConsoleVerification verificationId="GOOGLE_VERIFICATION_ID" />
-      </head>
-      <body className="font-sans overflow-x-hidden will-change-scroll backface-hidden">
-        <ThemeProvider>
-          {children}
-          <GoUpButton />
-        </ThemeProvider>
-      </body>
-    </html>
+
+        {children}
+        <GoUpButton />
+      </div>
+    </ThemeProvider>
   )
 }

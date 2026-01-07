@@ -1,10 +1,10 @@
 'use client'
 
-import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { GraduationCap, Calendar, MapPin, Award } from 'lucide-react'
 import { usePortfolioConfig, useNavigationLabels } from '@/lib/localization'
-import CertificateViewer from '@/components/CertificateViewer'
+import Link from 'next/link'
+import { slugify } from '@/lib/utils'
 
 interface Certificate {
   name: string
@@ -23,18 +23,8 @@ interface EducationEntry {
 }
 
 export default function Education() {
-  const { config } = usePortfolioConfig()
+  const { config, locale } = usePortfolioConfig()
   const labels = useNavigationLabels()
-  
-  const [selectedCertificates, setSelectedCertificates] = useState<Certificate[]>([])
-  const [isViewerOpen, setIsViewerOpen] = useState(false)
-  const [selectedInstitution, setSelectedInstitution] = useState('')
-
-  const openCertificateViewer = (certificates: Certificate[], institution: string) => {
-    setSelectedCertificates(certificates)
-    setSelectedInstitution(institution)
-    setIsViewerOpen(true)
-  }
 
   return (
     <section id="education" className="section-padding relative">
@@ -113,8 +103,9 @@ export default function Education() {
                   <div className="flex flex-wrap justify-center sm:justify-start gap-3 sm:gap-4">
                     {/* Certificate buttons */}
                     {edu.certificates && edu.certificates.length > 0 && (
-                      <button
-                        onClick={() => openCertificateViewer(edu.certificates!, edu.institution.split(',')[0])}
+                      // Localized slug keeps per-locale routing aligned with translated content
+                      <Link
+                        href={`/${locale}/certificates/${slugify(`${edu.institution}-${edu.degree}`)}`}
                         className="inline-flex items-center gap-2 px-4 sm:px-5 md:px-6 py-2 sm:py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium text-sm sm:text-base rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
                       >
                         <Award size={16} className="flex-shrink-0" />
@@ -124,7 +115,7 @@ export default function Education() {
                             {edu.certificates.length}
                           </span>
                         )}
-                      </button>
+                      </Link>
                     )}
 
                     {/* ALX certificate link */}
@@ -244,14 +235,6 @@ export default function Education() {
           </div>
         </motion.div>
       </div>
-
-      {/* Certificate Viewer Modal */}
-      <CertificateViewer
-        certificates={selectedCertificates}
-        isOpen={isViewerOpen}
-        onClose={() => setIsViewerOpen(false)}
-        institutionName={selectedInstitution}
-      />
     </section>
   )
 }

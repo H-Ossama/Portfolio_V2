@@ -26,9 +26,24 @@ const STATIC_ASSETS = [
   
   // Document assets
   '/certificates/EFET.jpg',
-  '/certificates/MultyHexa.jpg',
-  '/certificates/MultyHexa-Releve-de-Notes.jpg',
+  '/certificates/FEDE Bachelor Diplomat.jpg',
+  '/certificates/FEDE Relever de note.jpg',
   '/certificates/Oussma_Hattan_Resume.pdf',
+  
+  // EFET School Management System screenshots
+  '/images/efet-screenshots/efet-screenshot-1.png',
+  '/images/efet-screenshots/efet-screenshot-2.png',
+  '/images/efet-screenshots/efet-screenshot-3.png',
+  '/images/efet-screenshots/efet-screenshot-4.png',
+
+  // Car Rental Platform screenshots
+  '/images/cars_rental_screenshots/Capture%20d%27%C3%A9cran.png',
+  '/images/cars_rental_screenshots/Capture_d%27%C3%A9cran1.png',
+  '/images/cars_rental_screenshots/Capture_d%27%C3%A9cran2.png',
+  '/images/cars_rental_screenshots/Capture_d%27%C3%A9cran3.png',
+  '/images/cars_rental_screenshots/Capture_d%27%C3%A9cran4.png',
+  '/images/cars_rental_screenshots/Capture_d%27%C3%A9cran5.png',
+  '/images/cars_rental_screenshots/Capture_d%27%C3%A9cran6.png',
 ]
 
 // Cache size limits
@@ -121,6 +136,13 @@ self.addEventListener('install', event => {
 // Optimized fetch strategy with better handling of race conditions and network failures
 self.addEventListener('fetch', event => {
   const requestUrl = new URL(event.request.url)
+
+  // In local development, don't intercept requests at all.
+  // A previously installed service worker can otherwise serve stale HTML that
+  // references old chunk URLs, causing "MIME type text/html" errors for JS/CSS.
+  if (self.location.hostname === 'localhost' || self.location.hostname === '127.0.0.1') {
+    return
+  }
   
   // Don't intercept non-GET requests
   if (event.request.method !== 'GET') {
@@ -129,6 +151,11 @@ self.addEventListener('fetch', event => {
   
   // Skip non-http/https requests (e.g., chrome-extension://)
   if (!requestUrl.protocol.startsWith('http')) {
+    return
+  }
+
+  // Never intercept Next.js internal assets.
+  if (requestUrl.pathname.startsWith('/_next/')) {
     return
   }
   
@@ -551,6 +578,10 @@ const createOfflineFallbackResponse = () => {
 
 // Add an extra handler to provide the offline fallback
 self.addEventListener('fetch', event => {
+  // Don't intercept anything in local dev.
+  if (self.location.hostname === 'localhost' || self.location.hostname === '127.0.0.1') {
+    return
+  }
   if (event.request.url.endsWith('/offline')) {
     event.respondWith(createOfflineFallbackResponse());
   }

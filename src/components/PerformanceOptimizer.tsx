@@ -32,21 +32,6 @@ const PerformanceOptimizer = () => {
     // Add CSS variables for animation speeds
     document.documentElement.style.setProperty('--duration-multiplier', durationMultiplier.toString())
     
-    // Preload critical font CSS instead of direct woff2 files. Preloading the
-    // Google Fonts stylesheet is safer than preloading a specific woff2 URL
-    // which may change across builds/regions and cause 404s.
-    const preloadFontStylesheet = (href: string) => {
-      const link = document.createElement('link')
-      link.rel = 'preload'
-      link.as = 'style'
-      link.href = href
-      link.crossOrigin = 'anonymous'
-      document.head.appendChild(link)
-    }
-
-    // Preload the Google Fonts stylesheet (it will load appropriate variants)
-    preloadFontStylesheet('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap')
-    
     // Optimize scroll performance with better debouncing for mobile
     let scrollTimer: NodeJS.Timeout | null = null
     const handleScroll = () => {
@@ -66,17 +51,6 @@ const PerformanceOptimizer = () => {
       document.documentElement.style.setProperty('--motion-reduce', '1')
       document.documentElement.classList.add('reduced-motion')
     }
-
-    // Preconnect to external domains
-    const preconnect = (url: string) => {
-      const link = document.createElement('link')
-      link.rel = 'preconnect'
-      link.href = url
-      document.head.appendChild(link)
-    }
-
-    preconnect('https://fonts.googleapis.com')
-    preconnect('https://fonts.gstatic.com')
 
     // Service Worker registration with proper error handling and version tracking
     if ('serviceWorker' in navigator && process.env.NODE_ENV === 'production') {
