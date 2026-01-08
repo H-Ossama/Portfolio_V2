@@ -19,6 +19,9 @@ Your portfolio already has a fully functional contact form! Here's how to set it
    
    # Replace with the 16-character app password from step 1
    EMAIL_PASS=abcd efgh ijkl mnop
+
+   # Optional: where to receive messages (defaults to EMAIL_USER)
+   EMAIL_TO=your-inbox@gmail.com
    ```
 
 3. **Restart the Development Server:**

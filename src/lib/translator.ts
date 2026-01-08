@@ -178,11 +178,6 @@ const extendedTranslations: TranslationMap = {
     de: "Eine vollständige Autovermietungs-Webanwendung mit responsiver HTML5/CSS3-Oberfläche, sicherem Buchungssystem und optimierter Datenbank."
   },
   
-  "Application web complète clone d'Airbnb avec inscription et authentification sécurisée (OAuth, JWT), recherche avec filtres, gestion des propriétés (hôtes) et réservations, intégration de API RESTful.": {
-    fr: "Application web complète clone d'Airbnb avec inscription et authentification sécurisée (OAuth, JWT), recherche avec filtres, gestion des propriétés (hôtes) et réservations, intégration de API RESTful.",
-    de: "Vollständige Airbnb-Klon-Webanwendung mit sicherer Registrierung und Authentifizierung (OAuth, JWT), Suche mit Filtern, Immobilienverwaltung (Gastgeber) und Buchungen, RESTful API-Integration."
-  },
-  
   "Application de gestion scolaire complète avec interface HTML5, gestion des notes et paiements, et base de données relationnelle optimisée pour les établissements scolaires.": {
     fr: "Application de gestion scolaire complète avec interface HTML5, gestion des notes et paiements, et base de données relationnelle optimisée pour les établissements scolaires.",
     de: "Vollständige Schulverwaltungsanwendung mit HTML5-Oberfläche, Noten- und Zahlungsmanagement und optimierter relationaler Datenbank für Bildungseinrichtungen."

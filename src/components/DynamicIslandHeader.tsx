@@ -22,34 +22,88 @@ export default function DynamicIslandHeader() {
   const { theme } = useTheme()
 
   useEffect(() => {
+    let ticking = false
+    let lastValue = false
+
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50)
+      if (ticking) return
+      ticking = true
+
+      window.requestAnimationFrame(() => {
+        ticking = false
+        const nextValue = window.scrollY > 50
+        if (nextValue !== lastValue) {
+          lastValue = nextValue
+          setIsScrolled(nextValue)
+        }
+      })
     }
 
-    window.addEventListener('scroll', handleScroll)
+    handleScroll()
+    window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  const scrollToSection = (href: string) => {
-    const element = document.querySelector(href)
-    if (element) {
-      // Enhanced smooth scrolling with better behavior
-      const headerOffset = 80 // Account for fixed header
-      const elementPosition = element.getBoundingClientRect().top
-      const offsetPosition = elementPosition + window.pageYOffset - headerOffset
+  const getActiveHeaderOffset = () => {
+    const isDesktop = window.matchMedia('(min-width: 768px)').matches
+    const header = document.querySelector<HTMLElement>(
+      isDesktop
+        ? '[data-site-header-variant="desktop"]'
+        : '[data-site-header-variant="mobile"]'
+    )
+    if (!header) return isDesktop ? 96 : 80
 
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      })
+    // Use bottom() so it automatically includes any top offset (e.g. top-6)
+    const rect = header.getBoundingClientRect()
+    return Math.ceil(rect.bottom + 12)
+  }
+
+  const scrollToSection = (href: string) => {
+    // For hash links, scroll with an accurate offset.
+    if (href.startsWith('#')) {
+      const elementId = href.slice(1)
+      setIsMenuOpen(false)
+      const tryScroll = (attemptsLeft: number) => {
+        const target = document.getElementById(elementId)
+        if (target) {
+          // Close menu first, then measure+scroll on next frame to avoid sync layout.
+          window.requestAnimationFrame(() => {
+            const headerOffset = getActiveHeaderOffset()
+            const targetTop = target.getBoundingClientRect().top + window.pageYOffset
+            window.scrollTo({
+              top: Math.max(0, targetTop - headerOffset),
+              behavior: 'smooth',
+            })
+          })
+          // Keep URL hash in sync (useful for reloads/share links)
+          if (window.location.hash !== `#${elementId}`) {
+            window.history.replaceState(null, '', `#${elementId}`)
+          }
+          return
+        }
+
+        // If the section is lazy-loaded, wait briefly and retry.
+        if (attemptsLeft > 0) {
+          window.setTimeout(() => tryScroll(attemptsLeft - 1), 50)
+          return
+        }
+      }
+
+      tryScroll(60) // ~3s
+      return
     }
-    setIsMenuOpen(false)
+
+    // For regular page links (e.g. /blog), keep user in their locale.
+    const pathname = window.location.pathname
+    const segments = pathname.split('/')
+    const currentLocale = (segments[1] === 'en' || segments[1] === 'fr' || segments[1] === 'de') ? segments[1] : 'en'
+    window.location.href = `/${currentLocale}${href}`
   }
 
   return (
     <>
       {/* Mobile Header - Full Width and Fixed */}
-      <header className="md:hidden fixed top-0 left-0 right-0 z-50 transition-all duration-500 mobile-fixed-header">
+      <header data-site-header="true" data-site-header-variant="mobile" className="md:hidden fixed top-0 left-0 right-0 z-50 transition-all duration-500 mobile-fixed-header">
         <div className={`${
           isScrolled
             ? theme === 'dark'
@@ -252,6 +306,8 @@ export default function DynamicIslandHeader() {
 
       {/* Desktop Header - Dynamic Island */}
       <motion.header 
+        data-site-header="true"
+        data-site-header-variant="desktop"
         className="hidden md:block fixed top-6 left-1/2 z-50"
         style={{ x: '-50%' }}
         initial={{ y: -100, opacity: 0 }}

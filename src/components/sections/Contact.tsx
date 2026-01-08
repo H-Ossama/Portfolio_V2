@@ -31,6 +31,7 @@ export default function Contact() {
   const [errorMessage, setErrorMessage] = useState('')
   const [successMessage, setSuccessMessage] = useState('')
   const [showSuccessAnimation, setShowSuccessAnimation] = useState(false)
+  const [lastSenderName, setLastSenderName] = useState('')
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
@@ -81,10 +82,15 @@ export default function Contact() {
       if (response.ok) {
         setSubmitStatus('success')
         setSuccessMessage(data.message || 'Message sent successfully! I\'ll get back to you soon.')
+        setLastSenderName(formData.name)
         setShowSuccessAnimation(true)
         setFormData({ name: '', email: '', subject: '', message: '' })
       } else {
         setSubmitStatus('error')
+        const hint = typeof data?.hint === 'string' ? data.hint : ''
+        if (process.env.NODE_ENV !== 'production' && hint) {
+          console.warn(hint)
+        }
         setErrorMessage(data.error || 'Failed to send message. Please try again.')
       }
     } catch (error) {
@@ -144,7 +150,7 @@ export default function Contact() {
           setSubmitStatus('idle')
           setSuccessMessage('')
         }}
-        senderName={formData.name}
+        senderName={lastSenderName}
       />
 
       <section id="contact" className="section-padding relative">

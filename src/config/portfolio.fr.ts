@@ -132,20 +132,78 @@ export const portfolioConfig = {
       ],
       image: "/images/project-1.svg",
       featured: true,
-      period: "09/2024 - 04/2025"
+      period: "09/2024 - 04/2025",
+      role: "Lead developer responsable de l'architecture, de la conception BDD et de l'implémentation du système de réservation.",
+      problemsSolved: [
+        "Authentification sécurisée avec contrôle d'accès par rôles (client/admin)",
+        "Schéma MySQL optimisé pour la recherche et la gestion des réservations",
+        "Flux de réservation responsive avec validation des dates et disponibilité",
+        "Historique et outils d'administration pour la gestion de flotte"
+      ],
+      purpose: "Fournir une plateforme complète de location de voitures avec une expérience utilisateur fluide et des outils administratifs fiables."
     },
     {
       id: 2,
-      title: "CLONE AIRBNB",
-      description: "Application web complète clone d'Airbnb avec inscription et authentification sécurisée (OAuth, JWT), recherche avec filtres, gestion des propriétés (hôtes) et réservations, intégration de API RESTful.",
-      techStack: ["React.js", "Node.js", "Express.js", "MongoDB", "OAuth", "JWT"],
-      githubUrl: "https://github.com/H-Ossama/airbnb-clone",
-      liveUrl: "", // Ajouter si disponible
-      image: "/images/project-2.svg",
-      featured: true
+      title: "CinemaHalal",
+      description: "Centre média personnel orienté famille avec filtrage avancé, intégration TMDB et architecture de streaming hybride.",
+      techStack: ["JavaScript", "Node.js", "Tailwind CSS", "WebTorrent", "TMDB API", "HTML", "CSS"],
+      githubUrl: "https://github.com/H-Ossama/CinimaHalal",
+      liveUrl: "",
+      screenshots: [
+        "/images/Cinima-Halal/Capture%20d%27%C3%A9cran%202026-01-08%20033426.png",
+        "/images/Cinima-Halal/Capture%20d%27%C3%A9cran%202026-01-08%20033435.png",
+        "/images/Cinima-Halal/Capture%20d%27%C3%A9cran%202026-01-08%20033448.png",
+        "/images/Cinima-Halal/Capture%20d%27%C3%A9cran%202026-01-08%20033454.png",
+        "/images/Cinima-Halal/Capture%20d%27%C3%A9cran%202026-01-08%20033501.png",
+        "/images/Cinima-Halal/Capture%20d%27%C3%A9cran%202026-01-08%20033512.png",
+        "/images/Cinima-Halal/Capture%20d%27%C3%A9cran%202026-01-08%20033526.png"
+      ],
+      image: "/images/Cinima-Halal/Capture%20d%27%C3%A9cran%202026-01-08%20033426.png",
+      featured: true,
+      problemsSolved: [
+        "Family Mode pour masquer contenus explicites/horreur/thriller",
+        "Sanitization des métadonnées et filtre de grossièretés",
+        "Navigation TMDB avec metadata riche et recommandations",
+        "Streaming hybride relay server + WebTorrent"
+      ],
+      purpose: "Démontrer une expérience 'streaming premium' avec découverte sécurisée et architecture média flexible."
     },
     {
       id: 3,
+      title: "Job Finder & CV AI Assistant",
+      description: "Plateforme pilotée par l'IA pour créer des CV compatibles ATS et organiser la recherche d'emploi (auth, suivi, automatisation).",
+      techStack: ["Next.js", "React", "Supabase", "PostgreSQL", "OAuth"],
+      githubUrl: "https://github.com/H-Ossama/Job-Finder",
+      liveUrl: "",
+      image: "/images/project-2.svg",
+      featured: true,
+      problemsSolved: [
+        "Authentification sécurisée (email + OAuth)",
+        "Générateur de CV assisté par IA (ATS-friendly)",
+        "Recherche et suivi des candidatures",
+        "Structure prête pour l'automatisation via n8n"
+      ],
+      purpose: "Aider les candidats à créer de bons CV et à gérer leurs candidatures dans une seule plateforme."
+    },
+    {
+      id: 4,
+      title: "Smart E-Commerce Platform",
+      description: "Plateforme e-commerce moderne en React/TypeScript, pensée pour la performance et des évolutions IA à venir.",
+      techStack: ["React", "TypeScript", "Tailwind CSS", "React Router"],
+      githubUrl: "https://github.com/H-Ossama/Smart_E-Commerce_Platform",
+      liveUrl: "",
+      image: "/images/project-2.svg",
+      featured: true,
+      problemsSolved: [
+        "Catalogue responsive et navigation produits",
+        "Gestion du panier et de l'état applicatif",
+        "Architecture front évolutive",
+        "Préparation pour recommandations, chat et admin"
+      ],
+      purpose: "Servir de base solide pour un produit e-commerce complet et moderne."
+    },
+    {
+      id: 5,
       title: "SYSTÈME DE GESTION SCOLAIRE",
       description: "Application de gestion scolaire complète avec interface HTML5, gestion des notes et paiements, et base de données relationnelle optimisée pour les établissements scolaires.",
       techStack: ["Python", "MySQL", "HTML5"],
@@ -160,7 +218,117 @@ export const portfolioConfig = {
       ],
       image: "/images/project-3.svg",
       featured: true,
-      period: "06/2023"
+      period: "06/2023",
+      role: "Développement backend : conception BDD, logique métier et reporting.",
+      problemsSolved: [
+        "Conception d'un schéma relationnel normalisé",
+        "Calcul de notes avec pondérations configurables",
+        "Module de reporting pour le suivi des performances",
+        "Suivi des paiements avec gestion des échéances"
+      ],
+      purpose: "Centraliser les notes, paiements et rapports pour moderniser l'administration scolaire."
+    },
+    {
+      id: 6,
+      title: "Universal Admin Panel",
+      description: "Dashboard admin moderne et extensible avec modules plug-and-play, CRUD générique et gestion des rôles.",
+      techStack: ["React", "Next.js", "Tailwind CSS", "JWT", "Fetch/Axios"],
+      liveUrl: "",
+      image: "/images/project-2.svg",
+      featured: true,
+      problemsSolved: [
+        "CRUD réutilisable (pagination, recherche, filtres)",
+        "Structure modulaire pour s'adapter à différents métiers",
+        "UI responsive prête pour dark/light mode",
+        "Base pour analytics et tableaux de bord"
+      ],
+      purpose: "Éviter de reconstruire un dashboard admin à chaque nouveau projet grâce à une base réutilisable."
+    }
+  ],
+
+  // Mobile Projects (AI-assisted) - Projets Mobiles (assistés par IA)
+  mobileProjects: [
+    {
+      id: 101,
+      title: "Parental Guard",
+      description: "Solution Android de contrôle parental avec une app Parent Controller et un Child Agent pour monitoring, blocage d'apps et rapports d'usage.",
+      techStack: ["Kotlin", "Jetpack Compose", "Ktor", "Room", "WorkManager"],
+      githubUrl: "https://github.com/H-Ossama/Family-Guard",
+      liveUrl: "",
+      screenshots: [
+        "/images/Mobile_apps_screenshots/Familly_Guard-screenshots/Screenshot_20260108_021123.jpg",
+        "/images/Mobile_apps_screenshots/Familly_Guard-screenshots/Screenshot_20260108_021143.jpg",
+        "/images/Mobile_apps_screenshots/Familly_Guard-screenshots/Screenshot_20260108_021157.jpg",
+        "/images/Mobile_apps_screenshots/Familly_Guard-screenshots/Screenshot_20260108_021226.jpg",
+        "/images/Mobile_apps_screenshots/Familly_Guard-screenshots/Screenshot_20260108_021231.jpg",
+        "/images/Mobile_apps_screenshots/Familly_Guard-screenshots/Screenshot_20260108_021241.jpg",
+        "/images/Mobile_apps_screenshots/Familly_Guard-screenshots/Screenshot_20260108_022151.jpg",
+        "/images/Mobile_apps_screenshots/Familly_Guard-screenshots/Screenshot_20260108_022247.jpg",
+        "/images/Mobile_apps_screenshots/Familly_Guard-screenshots/Screenshot_20260108_022252.jpg"
+      ],
+      image: "/images/Mobile_apps_screenshots/Familly_Guard-screenshots/Screenshot_20260108_021123.jpg",
+      featured: true,
+      problemsSolved: [
+        "Monitoring en temps réel et rapports d'utilisation",
+        "Verrouillage distant d'apps et limites par catégories",
+        "Appairage sécurisé via QR + protection biométrique",
+        "Protection 'child agent' avec écrans de blocage non contournables"
+      ],
+      purpose: "Donner aux parents des outils solides pour protéger les enfants et gérer l'usage du smartphone."
+    },
+    {
+      id: 102,
+      title: "FinTracker",
+      description: "Suivi de finances personnelles offline-first avec Expo/React Native et TypeScript (données stockées localement par défaut).",
+      techStack: ["Expo", "React Native", "TypeScript", "SQLite", "React Navigation"],
+      githubUrl: "https://github.com/H-Ossama/FINEX",
+      liveUrl: "",
+      screenshots: [
+        "/images/Mobile_apps_screenshots/FINEX-screenshots/screen-1.png",
+        "/images/Mobile_apps_screenshots/FINEX-screenshots/screen-2.png",
+        "/images/Mobile_apps_screenshots/FINEX-screenshots/screen-3.png",
+        "/images/Mobile_apps_screenshots/FINEX-screenshots/screen-4.png",
+        "/images/Mobile_apps_screenshots/FINEX-screenshots/screen-5.png",
+        "/images/Mobile_apps_screenshots/FINEX-screenshots/screen-6.png"
+      ],
+      image: "/images/Mobile_apps_screenshots/FINEX-screenshots/screen-1.png",
+      featured: true,
+      problemsSolved: [
+        "Portefeuilles multiples avec transferts et budgets",
+        "Stockage local pour la confidentialité et l'accès hors-ligne",
+        "Graphiques et insights pour analyser les dépenses",
+        "Architecture extensible avec backend optionnel"
+      ],
+      purpose: "Offrir un suivi financier simple, privé et utilisable sans connexion."
+    },
+    {
+      id: 103,
+      title: "Tijarati (تجارتي)",
+      description: "Application premium de comptabilité pour commerçants avec UI moderne, stock, partage des profits, localisation et insights IA (Gemini).",
+      techStack: ["Expo", "React Native", "SQLite", "Firebase", "Node.js", "Gemini API"],
+      githubUrl: "https://github.com/H-Ossama/TIJARATI",
+      liveUrl: "",
+      screenshots: [
+        "/images/Mobile_apps_screenshots/TIJARATI-screenshots/Screenshot_20260108_021801_TIJARATI.jpg",
+        "/images/Mobile_apps_screenshots/TIJARATI-screenshots/Screenshot_20260108_021812_TIJARATI.jpg",
+        "/images/Mobile_apps_screenshots/TIJARATI-screenshots/Screenshot_20260108_021820_TIJARATI.jpg",
+        "/images/Mobile_apps_screenshots/TIJARATI-screenshots/Screenshot_20260108_021827_TIJARATI.jpg",
+        "/images/Mobile_apps_screenshots/TIJARATI-screenshots/Screenshot_20260108_021835_TIJARATI.jpg",
+        "/images/Mobile_apps_screenshots/TIJARATI-screenshots/Screenshot_20260108_021848_TIJARATI.jpg",
+        "/images/Mobile_apps_screenshots/TIJARATI-screenshots/Screenshot_20260108_021857_TIJARATI.jpg",
+        "/images/Mobile_apps_screenshots/TIJARATI-screenshots/Screenshot_20260108_021905_TIJARATI.jpg",
+        "/images/Mobile_apps_screenshots/TIJARATI-screenshots/Screenshot_20260108_021922_TIJARATI.jpg",
+        "/images/Mobile_apps_screenshots/TIJARATI-screenshots/Screenshot_20260108_021936_TIJARATI.jpg"
+      ],
+      image: "/images/Mobile_apps_screenshots/TIJARATI-screenshots/Screenshot_20260108_021801_TIJARATI.jpg",
+      featured: true,
+      problemsSolved: [
+        "Suivi rapide des transactions et profits en temps réel",
+        "Gestion du stock et carnet de dettes",
+        "Multi-langues (Darija/Arabe/Français/Anglais)",
+        "Assistant IA pour analyser les données business"
+      ],
+      purpose: "Aider les petits commerçants à gérer comptabilité, stock et profits dans une expérience mobile premium."
     }
   ],
 
@@ -229,6 +397,11 @@ export const portfolioConfig = {
       wantToSeeMore: "Vous voulez en voir plus ?",
       githubDescription: "Consultez mon profil GitHub pour plus de projets, contributions et échantillons de code. Je construis et expérimente constamment avec de nouvelles technologies.",
       viewGithubProfile: "Voir le Profil GitHub"
+    },
+    mobileProjects: {
+      title: "Projets Mobiles",
+      subtitle: "(assistés par IA)",
+      description: "Applications mobiles développées avec l'aide de l'IA, orientées fiabilité, stockage offline-first et UX soignée."
     },
     education: {
       description: "Mes fondations académiques et mon parcours d'apprentissage continu en développement web",

@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 interface SuccessAnimationProps {
   isVisible: boolean
@@ -13,11 +13,19 @@ export default function SuccessAnimation({ isVisible, onClose, senderName }: Suc
   const [animationStep, setAnimationStep] = useState(0)
   const [countdown, setCountdown] = useState(10)
 
+  const onCloseRef = useRef(onClose)
+  const didAutoCloseRef = useRef(false)
+
+  useEffect(() => {
+    onCloseRef.current = onClose
+  }, [onClose])
+
   useEffect(() => {
     if (isVisible) {
       setShowConfetti(true)
       setAnimationStep(0)
       setCountdown(10)
+      didAutoCloseRef.current = false
       
       const timer1 = setTimeout(() => setAnimationStep(1), 200)
       const timer2 = setTimeout(() => setAnimationStep(2), 800)
@@ -28,7 +36,6 @@ export default function SuccessAnimation({ isVisible, onClose, senderName }: Suc
         setCountdown(prev => {
           if (prev <= 1) {
             clearInterval(countdownInterval)
-            onClose()
             return 0
           }
           return prev - 1
@@ -45,8 +52,17 @@ export default function SuccessAnimation({ isVisible, onClose, senderName }: Suc
       setShowConfetti(false)
       setAnimationStep(0)
       setCountdown(10)
+      didAutoCloseRef.current = false
     }
-  }, [isVisible, onClose])
+  }, [isVisible])
+
+  useEffect(() => {
+    if (!isVisible) return
+    if (countdown !== 0) return
+    if (didAutoCloseRef.current) return
+    didAutoCloseRef.current = true
+    onCloseRef.current()
+  }, [countdown, isVisible])
 
   if (!isVisible) return null
 

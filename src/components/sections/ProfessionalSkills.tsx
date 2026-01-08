@@ -215,14 +215,14 @@ export default function ProfessionalSkills() {
           name: "React.js",
           proficiency: 88,
           description: "Experienced in building complex interactive UIs with React, including state management, hooks, context API, and integration with RESTful APIs.",
-          projects: ["Portfolio Website", "CLONE AIRBNB"],
+          projects: ["Portfolio Website", "CinemaHalal", "Job Finder & CV AI Assistant"],
           experience: "2+ years, multiple projects"
         },
         {
           name: "JavaScript",
           proficiency: 92,
           description: "Strong foundation in modern JavaScript (ES6+), including asynchronous programming, promises, DOM manipulation, and functional programming patterns.",
-          projects: ["CLONE AIRBNB", "Portfolio Website"],
+          projects: ["CinemaHalal", "CAR RENTAL PLATFORM", "Portfolio Website"],
           experience: "3+ years, multiple professional projects"
         },
         {
@@ -250,14 +250,14 @@ export default function ProfessionalSkills() {
           name: "Node.js",
           proficiency: 85,
           description: "Experienced in server-side JavaScript development with Node.js, creating RESTful APIs, handling authentication, and server-side rendering.",
-          projects: ["CLONE AIRBNB"],
+          projects: ["CinemaHalal", "Job Finder & CV AI Assistant"],
           experience: "2+ years, multiple projects"
         },
         {
           name: "Express.js",
           proficiency: 82,
           description: "Skilled in building robust, scalable web applications and APIs using Express.js with middleware, routing, and MVC architecture.",
-          projects: ["CLONE AIRBNB"],
+          projects: ["CinemaHalal"],
           experience: "2+ years, multiple projects"
         },
         {
@@ -285,7 +285,7 @@ export default function ProfessionalSkills() {
           name: "MongoDB",
           proficiency: 82,
           description: "Skilled in NoSQL database design, CRUD operations, aggregation pipelines, and integration with Node.js applications using Mongoose ODM.",
-          projects: ["CLONE AIRBNB"],
+          projects: [],
           experience: "2+ years, multiple projects"
         },
         {

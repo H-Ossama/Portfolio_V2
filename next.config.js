@@ -38,14 +38,6 @@ const nextConfig = {
   },
   experimental: {
     optimizePackageImports: ['lucide-react', 'framer-motion'],
-    turbo: {
-      rules: {
-        '*.svg': {
-          loaders: ['@svgr/webpack'],
-          as: '*.js',
-        },
-      },
-    },
   },
   compress: true,
   poweredByHeader: false,
@@ -103,34 +95,9 @@ const nextConfig = {
         fs: false,
       }
     }
-    
-    // Optimize bundle size
-    config.optimization = {
-      ...config.optimization,
-      splitChunks: {
-        chunks: 'all',
-        cacheGroups: {
-          vendor: {
-            test: /[\\/]node_modules[\\/]/,
-            name: 'vendors',
-            chunks: 'all',
-          },
-          common: {
-            name: 'common',
-            minChunks: 2,
-            chunks: 'all',
-            enforce: true,
-          },
-        },
-      },
-    }
-    
-    // Production optimizations
-    if (!dev) {
-      config.optimization.usedExports = true
-      config.optimization.sideEffects = false
-    }
-    
+
+    // Note: avoid overriding Next.js' webpack optimization/splitChunks.
+    // Custom splitChunks can break internal chunk naming and cause 404s for /_next/static/*.
     return config
   },
 }

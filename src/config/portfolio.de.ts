@@ -132,20 +132,78 @@ export const portfolioConfig = {
       ],
       image: "/images/project-1.svg",
       featured: true,
-      period: "09/2024 - 04/2025"
+      period: "09/2024 - 04/2025",
+      role: "Lead Developer für Architektur, Datenbankdesign und Implementierung des Buchungssystems.",
+      problemsSolved: [
+        "Sichere Authentifizierung mit rollenbasierter Zugriffskontrolle (Kunde/Admin)",
+        "Optimiertes MySQL-Schema für Suche und Buchungsverwaltung",
+        "Responsiver Buchungsflow mit Datumsvalidierung und Verfügbarkeitschecks",
+        "Admin-Tools für Flotten- und Buchungsmanagement"
+      ],
+      purpose: "Eine vollständige Autovermietungsplattform mit zuverlässigem Buchungs- und Admin-Workflow bereitstellen."
     },
     {
       id: 2,
-      title: "AIRBNB-KLON",
-      description: "Vollständige Airbnb-Klon-Webanwendung mit sicherer Registrierung und Authentifizierung (OAuth, JWT), Suche mit Filtern, Immobilienverwaltung (Gastgeber) und Buchungen, RESTful API-Integration.",
-      techStack: ["React.js", "Node.js", "Express.js", "MongoDB", "OAuth", "JWT"],
-      githubUrl: "https://github.com/H-Ossama/airbnb-clone",
-      liveUrl: "", // Hinzufügen wenn verfügbar
-      image: "/images/project-2.svg",
-      featured: true
+      title: "CinemaHalal",
+      description: "Familienfreundliches persönliches Media-Center mit Content-Filtering, TMDB-Integration und hybrider Streaming-Architektur.",
+      techStack: ["JavaScript", "Node.js", "Tailwind CSS", "WebTorrent", "TMDB API", "HTML", "CSS"],
+      githubUrl: "https://github.com/H-Ossama/CinimaHalal",
+      liveUrl: "",
+      screenshots: [
+        "/images/Cinima-Halal/Capture%20d%27%C3%A9cran%202026-01-08%20033426.png",
+        "/images/Cinima-Halal/Capture%20d%27%C3%A9cran%202026-01-08%20033435.png",
+        "/images/Cinima-Halal/Capture%20d%27%C3%A9cran%202026-01-08%20033448.png",
+        "/images/Cinima-Halal/Capture%20d%27%C3%A9cran%202026-01-08%20033454.png",
+        "/images/Cinima-Halal/Capture%20d%27%C3%A9cran%202026-01-08%20033501.png",
+        "/images/Cinima-Halal/Capture%20d%27%C3%A9cran%202026-01-08%20033512.png",
+        "/images/Cinima-Halal/Capture%20d%27%C3%A9cran%202026-01-08%20033526.png"
+      ],
+      image: "/images/Cinima-Halal/Capture%20d%27%C3%A9cran%202026-01-08%20033426.png",
+      featured: true,
+      problemsSolved: [
+        "Family Mode zum Ausblenden expliziter/ Horror/ Thriller-Kategorien",
+        "Sanitizing von Metadaten und Profanity-Filtering",
+        "TMDB-Browsing mit reichhaltigen Infos und Empfehlungen",
+        "Hybrider Media-Flow: Relay-Server + WebTorrent"
+      ],
+      purpose: "Eine Premium-Streaming-ähnliche UX mit familiengerechter Discovery und flexibler Media-Delivery demonstrieren."
     },
     {
       id: 3,
+      title: "Job Finder & CV AI Assistant",
+      description: "KI-gestützte Plattform für ATS-kompatible CVs und effizientere Jobsuche mit Auth, Tracking und Automatisierung.",
+      techStack: ["Next.js", "React", "Supabase", "PostgreSQL", "OAuth"],
+      githubUrl: "https://github.com/H-Ossama/Job-Finder",
+      liveUrl: "",
+      image: "/images/project-2.svg",
+      featured: true,
+      problemsSolved: [
+        "Sichere Authentifizierung (E-Mail + OAuth)",
+        "KI-unterstützter CV Builder (ATS-friendly)",
+        "Jobsuche und Bewerbungs-Tracking",
+        "Automations-ready Struktur (n8n)"
+      ],
+      purpose: "Jobsuchenden helfen, bessere CVs zu erstellen und Bewerbungen zentral zu verwalten."
+    },
+    {
+      id: 4,
+      title: "Smart E-Commerce Platform",
+      description: "Moderne E-Commerce-Plattform mit React und TypeScript, ausgelegt auf Performance, Responsive UI und zukünftige AI-Features.",
+      techStack: ["React", "TypeScript", "Tailwind CSS", "React Router"],
+      githubUrl: "https://github.com/H-Ossama/Smart_E-Commerce_Platform",
+      liveUrl: "",
+      image: "/images/project-2.svg",
+      featured: true,
+      problemsSolved: [
+        "Responsive Produktnavigation und Katalog",
+        "Warenkorb- und State-Management",
+        "Skalierbare Frontend-Architektur",
+        "Grundlage für Empfehlungen, Chat und Admin"
+      ],
+      purpose: "Als Grundlage für ein vollständiges, modernes E-Commerce-Produkt dienen."
+    },
+    {
+      id: 5,
       title: "SCHULVERWALTUNGSSYSTEM",
       description: "Vollständige Schulverwaltungsanwendung mit HTML5-Oberfläche, Noten- und Zahlungsmanagement und optimierter relationaler Datenbank für Bildungseinrichtungen.",
       techStack: ["Python", "MySQL", "HTML5"],
@@ -160,7 +218,117 @@ export const portfolioConfig = {
       ],
       image: "/images/project-3.svg",
       featured: true,
-      period: "06/2023"
+      period: "06/2023",
+      role: "Backend-Fokus: Datenbankdesign, Business-Logik und Reporting.",
+      problemsSolved: [
+        "Normalisiertes relationales Datenmodell für Schuldaten",
+        "Notenberechnung mit konfigurierbaren Gewichtungen",
+        "Reporting für Leistungsanalysen",
+        "Zahlungs-Tracking inkl. Ratenplanung"
+      ],
+      purpose: "Schulverwaltung modernisieren, indem Noten, Zahlungen und Reports zentralisiert werden."
+    },
+    {
+      id: 6,
+      title: "Universal Admin Panel",
+      description: "Modernes, skalierbares Admin-Dashboard mit modularer Architektur, wiederverwendbarem CRUD-System und Rollenverwaltung.",
+      techStack: ["React", "Next.js", "Tailwind CSS", "JWT", "Fetch/Axios"],
+      liveUrl: "",
+      image: "/images/project-2.svg",
+      featured: true,
+      problemsSolved: [
+        "Wiederverwendbares CRUD (Pagination, Suche, Filter)",
+        "Modulare Struktur für unterschiedliche Business-Use-Cases",
+        "Responsive UI (Dark/Light ready)",
+        "Basis für Analytics und Dashboard-Widgets"
+      ],
+      purpose: "Admin-Dashboard-Logik nicht jedes Mal neu bauen, sondern als wiederverwendbare Basis nutzen."
+    }
+  ],
+
+  // Mobile Projects (AI-assisted)
+  mobileProjects: [
+    {
+      id: 101,
+      title: "Parental Guard",
+      description: "Android-Parental-Control-Lösung mit Parent Controller und Child Agent für Monitoring, App-Locks und Usage-Reports.",
+      techStack: ["Kotlin", "Jetpack Compose", "Ktor", "Room", "WorkManager"],
+      githubUrl: "https://github.com/H-Ossama/Family-Guard",
+      liveUrl: "",
+      screenshots: [
+        "/images/Mobile_apps_screenshots/Familly_Guard-screenshots/Screenshot_20260108_021123.jpg",
+        "/images/Mobile_apps_screenshots/Familly_Guard-screenshots/Screenshot_20260108_021143.jpg",
+        "/images/Mobile_apps_screenshots/Familly_Guard-screenshots/Screenshot_20260108_021157.jpg",
+        "/images/Mobile_apps_screenshots/Familly_Guard-screenshots/Screenshot_20260108_021226.jpg",
+        "/images/Mobile_apps_screenshots/Familly_Guard-screenshots/Screenshot_20260108_021231.jpg",
+        "/images/Mobile_apps_screenshots/Familly_Guard-screenshots/Screenshot_20260108_021241.jpg",
+        "/images/Mobile_apps_screenshots/Familly_Guard-screenshots/Screenshot_20260108_022151.jpg",
+        "/images/Mobile_apps_screenshots/Familly_Guard-screenshots/Screenshot_20260108_022247.jpg",
+        "/images/Mobile_apps_screenshots/Familly_Guard-screenshots/Screenshot_20260108_022252.jpg"
+      ],
+      image: "/images/Mobile_apps_screenshots/Familly_Guard-screenshots/Screenshot_20260108_021123.jpg",
+      featured: true,
+      problemsSolved: [
+        "Echtzeit-Monitoring und App-Nutzungsberichte",
+        "Remote App-Lock/Unlock und Kategorie-Limits",
+        "Sicheres Pairing via QR + Biometrie",
+        "Robuster Child-Agent mit nicht überspringbaren Lockscreens"
+      ],
+      purpose: "Eltern robuste Tools für digitale Sicherheit und Nutzungssteuerung geben."
+    },
+    {
+      id: 102,
+      title: "FinTracker",
+      description: "Offline-first Personal Finance Tracker mit Expo/React Native + TypeScript (lokale Speicherung als Default).",
+      techStack: ["Expo", "React Native", "TypeScript", "SQLite", "React Navigation"],
+      githubUrl: "https://github.com/H-Ossama/FINEX",
+      liveUrl: "",
+      screenshots: [
+        "/images/Mobile_apps_screenshots/FINEX-screenshots/screen-1.png",
+        "/images/Mobile_apps_screenshots/FINEX-screenshots/screen-2.png",
+        "/images/Mobile_apps_screenshots/FINEX-screenshots/screen-3.png",
+        "/images/Mobile_apps_screenshots/FINEX-screenshots/screen-4.png",
+        "/images/Mobile_apps_screenshots/FINEX-screenshots/screen-5.png",
+        "/images/Mobile_apps_screenshots/FINEX-screenshots/screen-6.png"
+      ],
+      image: "/images/Mobile_apps_screenshots/FINEX-screenshots/screen-1.png",
+      featured: true,
+      problemsSolved: [
+        "Mehrere Wallets, Transfers und Budgeting",
+        "Local-first Storage für Privacy und Offline-Nutzung",
+        "Charts und Insights",
+        "Erweiterbar für optionales Backend"
+      ],
+      purpose: "Finanztracking mit Fokus auf Privacy, Offline-Fähigkeit und guter UX."
+    },
+    {
+      id: 103,
+      title: "Tijarati (تجارتي)",
+      description: "Premium Buchhaltungs-App für Händler mit moderner UI, Lagerverwaltung, Partner-Splits, Lokalisierung und KI-Insights (Gemini).",
+      techStack: ["Expo", "React Native", "SQLite", "Firebase", "Node.js", "Gemini API"],
+      githubUrl: "https://github.com/H-Ossama/TIJARATI",
+      liveUrl: "",
+      screenshots: [
+        "/images/Mobile_apps_screenshots/TIJARATI-screenshots/Screenshot_20260108_021801_TIJARATI.jpg",
+        "/images/Mobile_apps_screenshots/TIJARATI-screenshots/Screenshot_20260108_021812_TIJARATI.jpg",
+        "/images/Mobile_apps_screenshots/TIJARATI-screenshots/Screenshot_20260108_021820_TIJARATI.jpg",
+        "/images/Mobile_apps_screenshots/TIJARATI-screenshots/Screenshot_20260108_021827_TIJARATI.jpg",
+        "/images/Mobile_apps_screenshots/TIJARATI-screenshots/Screenshot_20260108_021835_TIJARATI.jpg",
+        "/images/Mobile_apps_screenshots/TIJARATI-screenshots/Screenshot_20260108_021848_TIJARATI.jpg",
+        "/images/Mobile_apps_screenshots/TIJARATI-screenshots/Screenshot_20260108_021857_TIJARATI.jpg",
+        "/images/Mobile_apps_screenshots/TIJARATI-screenshots/Screenshot_20260108_021905_TIJARATI.jpg",
+        "/images/Mobile_apps_screenshots/TIJARATI-screenshots/Screenshot_20260108_021922_TIJARATI.jpg",
+        "/images/Mobile_apps_screenshots/TIJARATI-screenshots/Screenshot_20260108_021936_TIJARATI.jpg"
+      ],
+      image: "/images/Mobile_apps_screenshots/TIJARATI-screenshots/Screenshot_20260108_021801_TIJARATI.jpg",
+      featured: true,
+      problemsSolved: [
+        "Schnelles Transaction-Tracking und Profit-Insights",
+        "Stock-Management und Debt-Book",
+        "Mehrsprachigkeit (Darija/Arabisch/Französisch/Englisch)",
+        "KI-Assistent für Business-Analysen"
+      ],
+      purpose: "Kleinen Businesses eine premium mobile Buchhaltungslösung mit KI-unterstützten Insights bieten."
     }
   ],
 
@@ -229,6 +397,11 @@ export const portfolioConfig = {
       wantToSeeMore: "Möchten Sie mehr sehen?",
       githubDescription: "Schauen Sie sich mein GitHub-Profil für weitere Projekte, Beiträge und Code-Beispiele an. Ich entwickle und experimentiere ständig mit neuen Technologien.",
       viewGithubProfile: "GitHub-Profil ansehen"
+    },
+    mobileProjects: {
+      title: "Mobile Projekte",
+      subtitle: "(mit KI-Unterstützung)",
+      description: "Mobile Apps, die während der Entwicklung mit KI-Unterstützung gebaut wurden – Fokus auf Offline-First, Zuverlässigkeit und saubere UX."
     },
     education: {
       description: "Meine akademische Grundlage und kontinuierliche Lernreise in der Webentwicklung",

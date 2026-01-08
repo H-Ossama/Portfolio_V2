@@ -3,96 +3,14 @@
 import { motion } from 'framer-motion'
 import { ExternalLink, Github } from 'lucide-react'
 import { useTheme } from '@/contexts/ThemeContext'
-import { usePortfolioConfig, useNavigationLabels } from '@/lib/localization'
+import { usePortfolioConfig } from '@/lib/localization'
 import FlippableProjectCard from '../FlippableProjectCard'
-
-// Enhanced project data with additional story information
-const enhancedProjectData = [
-  {
-    id: 1,
-    title: "PLATEFORME DE LOCATION DE VOITURES",
-    description: "Une application web complète de location de voitures avec interface responsive HTML5/CSS3, système de réservation sécurisé et base de données optimisée.",
-    techStack: ["PHP", "Laravel", "JavaScript", "Git", "HTML5", "CSS3", "MySQL", "Bootstrap"],
-    githubUrl: "https://github.com/H-Ossama/Cars_Rental_v2.0",
-    liveUrl: "", // Add if available
-    image: "/images/project-1.svg",
-    featured: true,
-    period: "09/2024 - 04/2025",
-    role: "Lead Developer responsible for the complete application architecture, database design, and implementation of the booking system with secure payment integration.",
-    problemsSolved: [
-      "Implemented secure authentication system with role-based access control for customers and administrators",
-      "Developed an optimized MySQL database schema with proper indexes for efficient vehicle search and booking management",
-      "Created a responsive reservation interface with date validation and vehicle availability checking in real-time",
-      "Integrated a secure payment processing system with transaction history and receipt generation"
-    ],
-    purpose: "This project was developed to provide a comprehensive car rental platform that simplifies the vehicle reservation process, while offering administrators powerful tools to manage their fleet, track bookings, and analyze business performance."
-  },
-  {
-    id: 2,
-    title: "CLONE AIRBNB",
-    description: "Application web complète clone d'Airbnb avec inscription et authentification sécurisée (OAuth, JWT), recherche avec filtres, gestion des propriétés (hôtes) et réservations, intégration de API RESTful.",
-    techStack: ["React.js", "Node.js", "Express.js", "MongoDB", "OAuth", "JWT", "Tailwind CSS", "RESTful API"],
-    githubUrl: "https://github.com/H-Ossama/airbnb-clone",
-    liveUrl: "", // Add if available
-    image: "/images/project-2.svg",
-    featured: true,
-    role: "Full-Stack Developer responsible for both frontend and backend development, including the implementation of authentication system, property listing and searching functionality.",
-    problemsSolved: [
-      "Built a secure authentication system with JWT token management and social login integration",
-      "Developed a complex search algorithm with multiple filter options (location, price, amenities, dates) for property listings",
-      "Implemented a real-time booking system with conflict prevention and notification system",
-      "Created a responsive UI that closely mimics the Airbnb experience with optimization for all device sizes"
-    ],
-    purpose: "This project was created to demonstrate full-stack development skills by replicating a popular platform with complex features. It showcases the ability to build a complete application with user authentication, database interactions, and dynamic frontend interfaces."
-  },
-  {
-    id: 3,
-    title: "SYSTÈME DE GESTION SCOLAIRE",
-    description: "Application de gestion scolaire complète avec interface HTML5, gestion des notes et paiements, et base de données relationnelle optimisée pour les établissements scolaires.",
-    techStack: ["Python", "MySQL", "HTML5", "CSS", "Flask", "SQLAlchemy"],
-    githubUrl: "https://github.com/H-Ossama/school-management-system",
-    liveUrl: "", // Add if available
-    image: "/images/project-3.svg",
-    featured: true,
-    period: "06/2023",
-    role: "Backend Developer focusing on database design, business logic implementation, and reporting system development for academic performance tracking.",
-    problemsSolved: [
-      "Designed a normalized relational database schema to handle complex educational data relationships",
-      "Implemented a grade calculation system with customizable weighting factors for different assessment types",
-      "Created a comprehensive reporting module for generating student performance analytics and progress reports",
-      "Developed a payment tracking system with installment planning and automatic reminder generation"
-    ],
-    purpose: "This system was developed to modernize school administrative processes, reduce paperwork, and provide teachers and administrators with powerful tools to track student progress, manage grades, and communicate effectively with parents."
-  }
-];
 
 export default function EnhancedProjects() {
   const { config } = usePortfolioConfig()
-  const labels = useNavigationLabels()
   const { theme } = useTheme()
 
-  // Combine the enhanced project data with the config
-  const projects = enhancedProjectData.map(enhancedProject => {
-    // Find the matching project in the config
-    const configProject = config.projects.find(p => p.id === enhancedProject.id);
-
-    const screenshots = configProject?.screenshots;
-    const image = screenshots?.[0] || configProject?.image || enhancedProject.image;
-    
-    // Return the enhanced project, but use any values from config if they exist
-    return {
-      ...enhancedProject,
-      title: configProject?.title || enhancedProject.title,
-      description: configProject?.description || enhancedProject.description,
-      image,
-      screenshots,
-      githubUrl: configProject?.githubUrl || enhancedProject.githubUrl,
-      liveUrl: configProject?.liveUrl || enhancedProject.liveUrl,
-      featured: configProject?.featured !== undefined ? configProject.featured : enhancedProject.featured,
-      period: configProject?.period || enhancedProject.period,
-      techStack: configProject?.techStack || enhancedProject.techStack,
-    };
-  });
+  const projects = (config.projects || []).filter(p => p.featured)
 
   return (
     <section id="projects" className="section-padding relative">

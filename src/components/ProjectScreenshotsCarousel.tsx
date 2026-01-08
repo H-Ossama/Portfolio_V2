@@ -9,6 +9,8 @@ interface ProjectScreenshotsCarouselProps {
   screenshots: string[]
   altBase?: string
   className?: string
+  fit?: 'cover' | 'contain'
+  containPosition?: 'center' | 'top'
 }
 
 const SWIPE_THRESHOLD_PX = 60
@@ -17,6 +19,8 @@ export default function ProjectScreenshotsCarousel({
   screenshots,
   altBase = 'Project screenshot',
   className = '',
+  fit = 'cover',
+  containPosition = 'center',
 }: ProjectScreenshotsCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isLoaded, setIsLoaded] = useState(false)
@@ -67,14 +71,24 @@ export default function ProjectScreenshotsCarousel({
           dragElastic={0.12}
           onDragEnd={onDragEnd}
           whileTap={{ cursor: 'grabbing' }}
-          style={{ cursor: screenshots.length > 1 ? 'grab' : 'default' }}
+          style={{
+            cursor: screenshots.length > 1 ? 'grab' : 'default',
+            // Allow vertical scroll while still enabling horizontal swipe.
+            touchAction: screenshots.length > 1 ? 'pan-y' : 'auto',
+          }}
         >
           <Image
             src={screenshots[currentIndex]}
             alt={`${altBase} ${currentIndex + 1}`}
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            className="object-cover"
+            className={
+              fit === 'contain'
+                ? containPosition === 'top'
+                  ? 'object-contain object-top'
+                  : 'object-contain'
+                : 'object-cover'
+            }
             quality={75}
             priority={currentIndex === 0}
             loading={currentIndex === 0 ? 'eager' : 'lazy'}
@@ -88,13 +102,14 @@ export default function ProjectScreenshotsCarousel({
       {/* Controls */}
       {screenshots.length > 1 && (
         <>
-          <div className="absolute inset-y-0 left-0 right-0 z-30 flex items-center justify-between px-3">
+          {/* Let swipes pass through; only buttons should capture input */}
+          <div className="absolute inset-y-0 left-0 right-0 z-30 flex items-center justify-between px-3 pointer-events-none">
             <button
               type="button"
               onClick={prev}
               aria-label="Previous screenshot"
               onPointerDown={(e) => e.stopPropagation()}
-              className="rounded-full p-2 bg-blue-600/85 backdrop-blur-sm border border-white/25 text-white shadow-lg hover:bg-blue-600 transition"
+              className="pointer-events-auto rounded-full p-2 bg-blue-600/85 backdrop-blur-sm border border-white/25 text-white shadow-lg hover:bg-blue-600 transition"
             >
               <ChevronLeft size={20} />
             </button>
@@ -103,14 +118,14 @@ export default function ProjectScreenshotsCarousel({
               onClick={next}
               aria-label="Next screenshot"
               onPointerDown={(e) => e.stopPropagation()}
-              className="rounded-full p-2 bg-blue-600/85 backdrop-blur-sm border border-white/25 text-white shadow-lg hover:bg-blue-600 transition"
+              className="pointer-events-auto rounded-full p-2 bg-blue-600/85 backdrop-blur-sm border border-white/25 text-white shadow-lg hover:bg-blue-600 transition"
             >
               <ChevronRight size={20} />
             </button>
           </div>
 
           {/* Dots */}
-          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-20 flex gap-2 px-3 py-2 rounded-full bg-black/45 backdrop-blur-sm border border-white/15">
+          <div className="absolute bottom-3 left-1/2 -translate-x-1/2 z-20 flex gap-2 px-3 py-2 rounded-full bg-black/45 backdrop-blur-sm border border-white/15 pointer-events-auto">
             {screenshots.map((_, i) => (
               <button
                 key={i}
@@ -128,7 +143,7 @@ export default function ProjectScreenshotsCarousel({
           </div>
 
           {/* Counter */}
-          <div className="absolute top-3 left-3 z-20 text-xs px-2 py-1 rounded-full bg-black/55 backdrop-blur-sm border border-white/20 text-white">
+          <div className="absolute top-3 left-3 z-20 text-xs px-2 py-1 rounded-full bg-black/55 backdrop-blur-sm border border-white/20 text-white pointer-events-none">
             {currentIndex + 1} / {screenshots.length}
           </div>
         </>

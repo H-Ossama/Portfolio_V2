@@ -33,6 +33,10 @@ const EnhancedProjects = dynamic(() => import('@/components/sections/EnhancedPro
   loading: () => <div className="min-h-screen bg-transparent" />
 })
 
+const MobileProjects = dynamic(() => import('@/components/sections/MobileProjects'), {
+  loading: () => <div className="min-h-screen bg-transparent" />
+})
+
 const Education = dynamic(() => import('@/components/sections/Education'), {
   loading: () => <div className="min-h-screen bg-transparent" />
 })
@@ -182,6 +186,12 @@ export default function LocalePage({ params }: LocalePageProps) {
         <div className="lazy-section">
           <RevealAnimation direction="up" delay={0.1}>
             <EnhancedProjects />
+          </RevealAnimation>
+        </div>
+
+        <div className="lazy-section">
+          <RevealAnimation direction="up" delay={0.1}>
+            <MobileProjects />
           </RevealAnimation>
         </div>
         

@@ -25,11 +25,25 @@ export default function Header() {
   ]
 
   useEffect(() => {
+    let ticking = false
+    let lastValue = false
+
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50)
+      if (ticking) return
+      ticking = true
+
+      window.requestAnimationFrame(() => {
+        ticking = false
+        const nextValue = window.scrollY > 50
+        if (nextValue !== lastValue) {
+          lastValue = nextValue
+          setIsScrolled(nextValue)
+        }
+      })
     }
 
-    window.addEventListener('scroll', handleScroll)
+    handleScroll()
+    window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
@@ -47,17 +61,18 @@ export default function Header() {
       return;
     }
     
-    // For hash links - use native scrollIntoView with CSS scroll margin
+    // For hash links - defer scroll to next frame to avoid sync layout during state updates
     const elementId = href.substring(1);
     const element = document.getElementById(elementId);
     
     if (element) {
-      // Set scroll margin to account for header height
-      element.style.scrollMarginTop = '80px';
-      element.scrollIntoView({ 
-        behavior: 'smooth',
-        block: 'start'
-      });
+      window.requestAnimationFrame(() => {
+        const targetTop = element.getBoundingClientRect().top + window.pageYOffset
+        window.scrollTo({
+          top: Math.max(0, targetTop - 80),
+          behavior: 'smooth'
+        })
+      })
     }
     
     setIsMenuOpen(false);

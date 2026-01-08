@@ -8,19 +8,26 @@ export default function GoUpButton() {
 
   // Show button when page is scrolled down
   useEffect(() => {
+    let ticking = false;
+    let lastValue = false;
+
     const toggleVisibility = () => {
-      // Show the button when user scrolls down 300px
-      if (window.pageYOffset > 300) {
-        setIsVisible(true);
-      } else {
-        setIsVisible(false);
-      }
+      if (ticking) return;
+      ticking = true;
+
+      window.requestAnimationFrame(() => {
+        ticking = false;
+        const nextValue = window.pageYOffset > 300;
+        if (nextValue !== lastValue) {
+          lastValue = nextValue;
+          setIsVisible(nextValue);
+        }
+      });
     };
 
-    // Add the scroll event listener
-    window.addEventListener('scroll', toggleVisibility);
+    toggleVisibility();
+    window.addEventListener('scroll', toggleVisibility, { passive: true });
 
-    // Clean up the event listener when component unmounts
     return () => window.removeEventListener('scroll', toggleVisibility);
   }, []);
 

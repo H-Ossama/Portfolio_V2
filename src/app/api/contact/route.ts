@@ -8,10 +8,51 @@ interface ContactFormData {
   message: string
 }
 
+function escapeHtml(value: string) {
+  return value.replace(/[&<>"']/g, (char) => {
+    switch (char) {
+      case '&':
+        return '&amp;'
+      case '<':
+        return '&lt;'
+      case '>':
+        return '&gt;'
+      case '"':
+        return '&quot;'
+      case "'":
+        return '&#39;'
+      default:
+        return char
+    }
+  })
+}
+
 export async function POST(request: NextRequest) {
   try {
-    const body: ContactFormData = await request.json()
-    const { name, email, subject, message } = body
+    const emailUser = process.env.EMAIL_USER?.trim() ?? ''
+    // Gmail "app passwords" are often shown grouped with spaces; strip all whitespace.
+    const emailPass = (process.env.EMAIL_PASS ?? '').replace(/\s+/g, '')
+    const emailTo = process.env.EMAIL_TO?.trim() || emailUser
+
+    let body: ContactFormData
+    try {
+      body = await request.json()
+    } catch {
+      return NextResponse.json(
+        { error: 'Invalid JSON payload' },
+        { status: 400 }
+      )
+    }
+
+    const name = (body.name ?? '').trim()
+    const email = (body.email ?? '').trim()
+    const subject = (body.subject ?? '').trim()
+    const message = (body.message ?? '').trim()
+
+    const safeName = escapeHtml(name)
+    const safeEmail = escapeHtml(email)
+    const safeSubject = escapeHtml(subject)
+    const safeMessageHtml = escapeHtml(message).replace(/\r\n|\r|\n/g, '<br />')
 
     // Validate required fields
     if (!name || !email || !subject || !message) {
@@ -33,7 +74,7 @@ export async function POST(request: NextRequest) {
     // Validate message length
     if (message.length < 10) {
       return NextResponse.json(
-        { error: 'Message must be at least 10 characters long' },
+        { error: 'Please write a message with at least 10 characters.' },
         { status: 400 }
       )
     }
@@ -46,10 +87,22 @@ export async function POST(request: NextRequest) {
     }
 
     // Check if environment variables are set
-    if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
-      console.error('Email configuration missing: EMAIL_USER or EMAIL_PASS not set')
+    if (!emailUser || !emailPass) {
+      const missing = [
+        !emailUser ? 'EMAIL_USER' : null,
+        !emailPass ? 'EMAIL_PASS' : null,
+      ].filter(Boolean)
+
+      console.error(`Email configuration missing: ${missing.join(', ')}`)
+      if (process.env.NODE_ENV !== 'production') {
+        console.error(
+          `Hint: create a .env.local file and set ${missing.join(' and ')}. See CONTACT_SETUP.md.`
+        )
+      }
       return NextResponse.json(
-        { error: 'Email service configuration error. Please try again later.' },
+        {
+          error: 'Email service is not configured yet. Please try again later.',
+        },
         { status: 500 }
       )
     }
@@ -58,8 +111,8 @@ export async function POST(request: NextRequest) {
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
+        user: emailUser,
+        pass: emailPass,
       },
     })
 
@@ -76,8 +129,8 @@ export async function POST(request: NextRequest) {
 
     // Email content
     const mailOptions = {
-      from: `"${name} via Portfolio" <${process.env.EMAIL_USER}>`,
-      to: process.env.EMAIL_USER, // send to yourself
+      from: `"${name} via Portfolio" <${emailUser}>`,
+      to: emailTo,
       subject: `🔔 CONTACT FROM ${name.toUpperCase()}: ${subject}`,
       replyTo: `"${name}" <${email}>`, // Allow easy replies to the actual sender
       headers: {
@@ -88,162 +141,97 @@ export async function POST(request: NextRequest) {
         'Return-Path': email,
         'X-Original-Sender': email
       },
-      html: `
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-          <meta charset="UTF-8">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>New Contact Message</title>
-          <!--[if mso]>
-          <noscript>
-            <xml>
-              <o:OfficeDocumentSettings>
-                <o:AllowPNG/>
-                <o:PixelsPerInch>96</o:PixelsPerInch>
-              </o:OfficeDocumentSettings>
-            </xml>
-          </noscript>
-          <![endif]-->
-          <style>
-            * { box-sizing: border-box; margin: 0; padding: 0; }
-            
-            @media only screen and (max-width: 600px) {
-              .container { width: 100% !important; margin: 0 !important; }
-              .header { padding: 25px 20px !important; }
-              .content { padding: 25px 20px !important; }
-              .card { margin: 15px 0 !important; padding: 20px !important; }
-              .contact-grid { display: block !important; }
-              .contact-item { margin-bottom: 15px !important; border-bottom: 1px solid #eee !important; padding-bottom: 10px !important; }
-              .btn { display: block !important; margin: 10px 0 !important; padding: 15px !important; text-align: center !important; }
-              .message-content { padding: 20px !important; }
-              .stats { flex-direction: column !important; gap: 15px !important; }
-              .stat-item { text-align: center !important; }
-            }
-
-            @media only screen and (max-width: 480px) {
-              .header h1 { font-size: 22px !important; }
-              .priority-badge { font-size: 11px !important; padding: 6px 12px !important; }
-            }
-          </style>
-        </head>
-        <body style="margin: 0; padding: 0; background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6;">
-          
-          <!-- Email Container -->
-          <table class="container" cellpadding="0" cellspacing="0" border="0" style="max-width: 650px; margin: 20px auto; background: #ffffff; border-radius: 16px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); overflow: hidden;">
-            
-            <!-- Header Section -->
+      text: `New message from your portfolio\n\nName: ${name}\nEmail: ${email}\nSubject: ${subject}\n\nMessage:\n${message}\n`,
+      html: `<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="x-apple-disable-message-reformatting" />
+    <title>New message from your portfolio</title>
+  </head>
+  <body style="margin:0;padding:0;background:#f6f7fb;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#0f172a;">
+    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#f6f7fb;padding:24px 12px;">
+      <tr>
+        <td align="center">
+          <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="640" style="max-width:640px;width:100%;background:#ffffff;border:1px solid #e5e7eb;border-radius:16px;overflow:hidden;box-shadow:0 10px 30px rgba(2,6,23,0.08);">
             <tr>
-              <td class="header" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 40px 30px; text-align: center; position: relative;">
-                <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHZpZXdCb3g9IjAgMCA0MCA0MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMiIgZmlsbD0id2hpdGUiIGZpbGwtb3BhY2l0eT0iMC4xIi8+Cjwvc3ZnPgo=') repeat; opacity: 0.3;"></div>
-                <div style="position: relative; z-index: 1;">
-                  <h1 style="color: #ffffff; margin: 0 0 10px 0; font-size: 28px; font-weight: 700; letter-spacing: -0.5px;">📧 New Contact Message</h1>
-                  <div class="priority-badge" style="display: inline-block; background: rgba(255,255,255,0.2); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.3); color: #ffffff; padding: 8px 16px; border-radius: 20px; font-size: 12px; font-weight: 600; letter-spacing: 0.5px;">
-                    🔔 HIGH PRIORITY
-                  </div>
-                </div>
+              <td style="padding:20px 24px;background:linear-gradient(135deg,#2563eb,#7c3aed);color:#ffffff;">
+                <div style="font-size:14px;opacity:0.9;">Portfolio Contact</div>
+                <div style="font-size:22px;font-weight:700;margin-top:4px;">New message received</div>
+                <div style="font-size:13px;opacity:0.9;margin-top:6px;">${escapeHtml(new Date().toLocaleString())}</div>
               </td>
             </tr>
-            
-            <!-- Content Section -->
+
             <tr>
-              <td class="content" style="padding: 35px 30px;">
-                
-                <!-- Quick Stats -->
-                <div class="stats" style="display: flex; gap: 20px; margin-bottom: 30px; padding: 20px; background: linear-gradient(135deg, #f8f9ff 0%, #f0f2ff 100%); border-radius: 12px; border: 1px solid #e1e8ff;">
-                  <div class="stat-item" style="flex: 1; text-align: center;">
-                    <div style="font-size: 24px; font-weight: 700; color: #667eea; margin-bottom: 5px;">📤</div>
-                    <div style="font-size: 12px; color: #64748b; font-weight: 500;">NEW MESSAGE</div>
-                  </div>
-                  <div class="stat-item" style="flex: 1; text-align: center;">
-                    <div style="font-size: 24px; font-weight: 700; color: #f59e0b; margin-bottom: 5px;">⚡</div>
-                    <div style="font-size: 12px; color: #64748b; font-weight: 500;">IMMEDIATE</div>
-                  </div>
-                  <div class="stat-item" style="flex: 1; text-align: center;">
-                    <div style="font-size: 24px; font-weight: 700; color: #10b981; margin-bottom: 5px;">✓</div>
-                    <div style="font-size: 12px; color: #64748b; font-weight: 500;">DELIVERED</div>
-                  </div>
+              <td style="padding:24px;">
+                <div style="font-size:14px;color:#334155;margin-bottom:14px;">
+                  You received a new message from your portfolio contact form.
                 </div>
 
-                <!-- Contact Information Card -->
-                <div class="card" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 25px; margin: 20px 0; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
-                  <div style="display: flex; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 2px solid #f1f5f9;">
-                    <div style="width: 40px; height: 40px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
-                      <span style="color: white; font-size: 18px; font-weight: bold;">👤</span>
-                    </div>
-                    <div>
-                      <h2 style="color: #1e293b; margin: 0; font-size: 18px; font-weight: 600;">Contact Information</h2>
-                      <p style="color: #64748b; margin: 0; font-size: 14px;">Message received ${new Date().toLocaleDateString('en-US', { 
-                        month: 'long', 
-                        day: 'numeric', 
-                        year: 'numeric',
-                        hour: '2-digit',
-                        minute: '2-digit'
-                      })}</p>
-                    </div>
-                  </div>
-                  
-                  <div class="contact-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-                    <div class="contact-item">
-                      <div style="color: #64748b; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 5px;">Full Name</div>
-                      <div style="color: #1e293b; font-size: 16px; font-weight: 600;">${name}</div>
-                    </div>
-                    
-                    <div class="contact-item">
-                      <div style="color: #64748b; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 5px;">Email Address</div>
-                      <a href="mailto:${email}" style="color: #667eea; font-size: 16px; text-decoration: none; font-weight: 500; word-break: break-all;">${email}</a>
-                    </div>
-                    
-                    <div class="contact-item" style="grid-column: 1 / -1;">
-                      <div style="color: #64748b; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 5px;">Subject Line</div>
-                      <div style="color: #1e293b; font-size: 16px; font-weight: 600; background: #f8fafc; padding: 12px; border-radius: 8px; border-left: 4px solid #667eea;">${subject}</div>
-                    </div>
-                  </div>
-                </div>
+                <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="border:1px solid #e5e7eb;border-radius:12px;overflow:hidden;">
+                  <tr>
+                    <td style="padding:14px 16px;background:#f8fafc;border-bottom:1px solid #e5e7eb;font-size:12px;text-transform:uppercase;letter-spacing:0.08em;color:#64748b;">Details</td>
+                  </tr>
+                  <tr>
+                    <td style="padding:16px;">
+                      <div style="display:flex;flex-wrap:wrap;gap:10px 16px;">
+                        <div style="min-width:220px;flex:1;">
+                          <div style="font-size:12px;color:#64748b;">Name</div>
+                          <div style="font-size:15px;font-weight:600;color:#0f172a;">${safeName}</div>
+                        </div>
+                        <div style="min-width:220px;flex:1;">
+                          <div style="font-size:12px;color:#64748b;">Email</div>
+                          <div style="font-size:15px;font-weight:600;">
+                            <a href="mailto:${safeEmail}" style="color:#2563eb;text-decoration:none;">${safeEmail}</a>
+                          </div>
+                        </div>
+                        <div style="min-width:100%;">
+                          <div style="font-size:12px;color:#64748b;margin-top:6px;">Subject</div>
+                          <div style="font-size:15px;font-weight:600;color:#0f172a;">${safeSubject}</div>
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+                </table>
 
-                <!-- Message Content Card -->
-                <div class="card" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 0; margin: 20px 0; box-shadow: 0 4px 6px rgba(0,0,0,0.05); overflow: hidden;">
-                  <div style="background: linear-gradient(135deg, #1e293b 0%, #334155 100%); color: white; padding: 20px;">
-                    <div style="display: flex; align-items: center;">
-                      <span style="font-size: 20px; margin-right: 10px;">💬</span>
-                      <h3 style="margin: 0; font-size: 16px; font-weight: 600;">Message Content</h3>
-                    </div>
-                  </div>
-                  <div class="message-content" style="padding: 25px; background: #fafbfc;">
-                    <div style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; line-height: 1.8; color: #1e293b; font-size: 15px; white-space: pre-wrap; word-wrap: break-word; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);">${message}</div>
-                  </div>
-                </div>
+                <div style="height:16px;"></div>
 
-                <!-- Action Buttons -->
-                <div style="text-align: center; margin: 30px 0;">
-                  <a href="mailto:${email}?subject=Re: ${subject}" class="btn" style="display: inline-block; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 16px 32px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 15px; margin: 0 8px 12px 0; box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3); transition: all 0.3s ease;">
-                    📧 Reply to ${name}
-                  </a>
-                  <a href="mailto:${email}" class="btn" style="display: inline-block; background: linear-gradient(135deg, #64748b 0%, #475569 100%); color: white; padding: 16px 32px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 15px; margin: 0 8px 12px 0; box-shadow: 0 4px 12px rgba(100, 116, 139, 0.3);">
-                    ✉️ New Email
-                  </a>
-                </div>
+                <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="border:1px solid #e5e7eb;border-radius:12px;overflow:hidden;">
+                  <tr>
+                    <td style="padding:14px 16px;background:#f8fafc;border-bottom:1px solid #e5e7eb;font-size:12px;text-transform:uppercase;letter-spacing:0.08em;color:#64748b;">Message</td>
+                  </tr>
+                  <tr>
+                    <td style="padding:16px;font-size:15px;line-height:1.65;color:#0f172a;">
+                      ${safeMessageHtml}
+                    </td>
+                  </tr>
+                </table>
 
-                <!-- Footer -->
-                <div style="border-top: 1px solid #e2e8f0; padding-top: 25px; text-align: center; margin-top: 30px;">
-                  <div style="background: linear-gradient(135deg, #f8f9ff 0%, #f0f2ff 100%); padding: 20px; border-radius: 8px; border: 1px solid #e1e8ff;">
-                    <p style="color: #64748b; font-size: 13px; margin: 0 0 8px 0; font-weight: 500;">
-                      🚀 <strong>Portfolio Contact System</strong>
-                    </p>
-                    <p style="color: #94a3b8; font-size: 12px; margin: 0; line-height: 1.5;">
-                      Auto-generated from your portfolio website • Marked as high priority<br>
-                      Reply directly to this email to respond to ${name}
-                    </p>
-                  </div>
-                </div>
+                <div style="height:18px;"></div>
 
+                <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%">
+                  <tr>
+                    <td align="left">
+                      <a href="mailto:${safeEmail}?subject=${encodeURIComponent(`Re: ${subject}`)}" style="display:inline-block;background:#2563eb;color:#ffffff;text-decoration:none;font-weight:600;padding:12px 16px;border-radius:10px;">Reply</a>
+                      <span style="font-size:12px;color:#64748b;margin-left:10px;">or just hit “Reply” in your email client</span>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+
+            <tr>
+              <td style="padding:16px 24px;border-top:1px solid #e5e7eb;background:#ffffff;color:#64748b;font-size:12px;">
+                Sent from your portfolio contact form. Reply-to is set to the sender.
               </td>
             </tr>
           </table>
-          
-        </body>
-        </html>
-      `,
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>`,
     }
 
     // Send email

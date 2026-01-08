@@ -141,8 +141,13 @@ export function generateBlogPostSchema(
  */
 export function generateProjectsSchema(locale: Locale) {
   const config = getPortfolioConfig(locale);
-  
-  const projects = config.projects.map(project => ({
+
+  const allProjects = [
+    ...(config.projects || []),
+    ...(((config as any).mobileProjects as any[]) || [])
+  ];
+
+  const projects = allProjects.map(project => ({
     '@type': 'SoftwareSourceCode',
     name: project.title,
     description: project.description,
