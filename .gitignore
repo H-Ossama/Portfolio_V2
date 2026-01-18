@@ -92,3 +92,6 @@ coverage/
 
 # TernJS port file
 .tern-port
+
+# TS build info
+tsconfig.tsbuildinfo
