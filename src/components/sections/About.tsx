@@ -1,12 +1,13 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { usePortfolioConfig } from '@/lib/localization'
+import { ArrowUpRight, FileText, Download } from 'lucide-react'
+import { usePortfolioConfig, useNavigationLabels } from '@/lib/localization'
 import Image from 'next/image'
-import { ArrowUpRight } from 'lucide-react'
 
 export default function About() {
   const { config } = usePortfolioConfig()
+  const labels = useNavigationLabels()
 
   return (
     <section id="about" className="py-32 relative overflow-hidden bg-dark-950">
@@ -148,6 +149,7 @@ export default function About() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.6 }}
+              className="flex flex-wrap items-center gap-8"
             >
               <a href="#contact" className="inline-flex items-center gap-4 group">
                 <div className="w-12 h-12 rounded-full bg-white text-dark-950 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
@@ -155,6 +157,26 @@ export default function About() {
                 </div>
                 <span className="text-sm font-bold uppercase tracking-widest group-hover:text-accent-cyan transition-colors">Start a Project</span>
               </a>
+
+              <div className="flex items-center gap-6">
+                <a
+                  href={config.resume}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex items-center gap-2 text-xs font-mono text-gray-500 hover:text-accent-cyan transition-colors uppercase tracking-widest"
+                >
+                  <FileText size={16} />
+                  <span>{labels.viewCV}</span>
+                </a>
+                <a
+                  href={config.resume}
+                  download
+                  className="group flex items-center gap-2 text-xs font-mono text-gray-500 hover:text-accent-cyan transition-colors uppercase tracking-widest"
+                >
+                  <Download size={16} />
+                  <span>{labels.downloadCV}</span>
+                </a>
+              </div>
             </motion.div>
           </div>
         </div>

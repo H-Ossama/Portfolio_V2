@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion'
 import { useTheme } from '@/contexts/ThemeContext'
 import { usePortfolioConfig, useNavigationLabels } from '@/lib/localization'
-import { Code2, Database, Globe, Server, Layers, Cpu, Terminal, ArrowRight } from 'lucide-react'
+import { Code2, Database, Globe, Server, Layers, Cpu, Terminal, ArrowRight, FileText, Download } from 'lucide-react'
 
 // Simple Tech Stack Icon Component
 const TechIcon = ({ icon: Icon, label, delay }: { icon: any, label: string, delay: number }) => (
@@ -73,19 +73,45 @@ export default function Hero() {
           {config.personal.tagline || "Crafting digital experiences with precision and passion."}
         </motion.p>
 
-        {/* CTA Button */}
-        <motion.button
+        {/* CTA Buttons */}
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.5 }}
-          onClick={scrollToContact}
-          className="group relative px-8 py-4 bg-white/5 border border-white/10 hover:border-accent-purple/50 rounded-full transition-all duration-300"
+          className="flex flex-wrap items-center justify-center gap-4"
         >
-          <span className="flex items-center gap-2 text-white font-medium">
-            {labels.getInTouch} <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-          </span>
-          <div className="absolute inset-0 rounded-full bg-accent-purple/10 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-        </motion.button>
+          <button
+            onClick={scrollToContact}
+            className="group relative px-8 py-4 bg-white/5 border border-white/10 hover:border-accent-purple/50 rounded-full transition-all duration-300"
+          >
+            <span className="flex items-center gap-2 text-white font-medium">
+              {labels.getInTouch} <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+            </span>
+            <div className="absolute inset-0 rounded-full bg-accent-purple/10 blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          </button>
+
+          <div className="flex items-center gap-4">
+            <a
+              href={config.resume}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative px-6 py-4 bg-white/5 border border-white/10 hover:border-accent-cyan/50 rounded-full transition-all duration-300"
+            >
+              <span className="flex items-center gap-2 text-white font-medium">
+                <FileText size={18} className="text-accent-cyan" /> {labels.viewCV}
+              </span>
+            </a>
+
+            <a
+              href={config.resume}
+              download
+              className="group relative p-4 bg-white/5 border border-white/10 hover:border-accent-cyan/50 rounded-full transition-all duration-300"
+              title={labels.downloadCV}
+            >
+              <Download size={18} className="text-accent-cyan group-hover:scale-110 transition-transform" />
+            </a>
+          </div>
+        </motion.div>
 
       </div>
 
