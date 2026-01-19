@@ -10,7 +10,7 @@ const ESSENTIAL_URLS = [
   '/fr',
   '/de',
   '/manifest.json',
-  '/images/hattan-profile.png',
+  '/images/oussama-profile-pro.png',
   '/images/og-image.jpg'
 ]
 
@@ -20,16 +20,16 @@ const STATIC_ASSETS = [
   // Preconnects and next/font (or <link rel="preload"> in the document) should
   // be used instead to manage font loading. Caching cross-origin font files
   // during install can cause failures (404/CORS) and should be avoided.
-  
+
   // Icons and images
   '/images/profile-placeholder.svg',
-  
+
   // Document assets
   '/certificates/EFET.jpg',
   '/certificates/FEDE Bachelor Diplomat.jpg',
   '/certificates/FEDE Relever de note.jpg',
   '/certificates/Oussma_Hattan_Resume.pdf',
-  
+
   // EFET School Management System screenshots
   '/images/efet-screenshots/efet-screenshot-1.png',
   '/images/efet-screenshots/efet-screenshot-2.png',
@@ -37,13 +37,13 @@ const STATIC_ASSETS = [
   '/images/efet-screenshots/efet-screenshot-4.png',
 
   // Car Rental Platform screenshots
-  '/images/cars_rental_screenshots/Capture%20d%27%C3%A9cran.png',
-  '/images/cars_rental_screenshots/Capture_d%27%C3%A9cran1.png',
-  '/images/cars_rental_screenshots/Capture_d%27%C3%A9cran2.png',
-  '/images/cars_rental_screenshots/Capture_d%27%C3%A9cran3.png',
-  '/images/cars_rental_screenshots/Capture_d%27%C3%A9cran4.png',
-  '/images/cars_rental_screenshots/Capture_d%27%C3%A9cran5.png',
-  '/images/cars_rental_screenshots/Capture_d%27%C3%A9cran6.png',
+  '/images/cars_rental_screenshots/main.png',
+  '/images/cars_rental_screenshots/screen-1.png',
+  '/images/cars_rental_screenshots/screen-2.png',
+  '/images/cars_rental_screenshots/screen-3.png',
+  '/images/cars_rental_screenshots/screen-4.png',
+  '/images/cars_rental_screenshots/screen-5.png',
+  '/images/cars_rental_screenshots/screen-6.png',
 ]
 
 // Cache size limits
@@ -74,9 +74,9 @@ const getCacheLimits = () => {
   if (isMobile()) {
     return MOBILE_OPTIMIZATIONS.cacheLimits
   }
-  return { 
-    dynamic: DYNAMIC_CACHE_LIMIT, 
-    image: IMAGE_CACHE_LIMIT 
+  return {
+    dynamic: DYNAMIC_CACHE_LIMIT,
+    image: IMAGE_CACHE_LIMIT
   }
 }
 
@@ -84,7 +84,7 @@ const getCacheLimits = () => {
 const trimCache = async (cacheName, maxItems) => {
   const cache = await caches.open(cacheName)
   const keys = await cache.keys()
-  
+
   if (keys.length > maxItems) {
     // Delete oldest items first (beyond the limit)
     for (let i = 0; i < keys.length - maxItems; i++) {
@@ -143,12 +143,12 @@ self.addEventListener('fetch', event => {
   if (self.location.hostname === 'localhost' || self.location.hostname === '127.0.0.1') {
     return
   }
-  
+
   // Don't intercept non-GET requests
   if (event.request.method !== 'GET') {
     return
   }
-  
+
   // Skip non-http/https requests (e.g., chrome-extension://)
   if (!requestUrl.protocol.startsWith('http')) {
     return
@@ -158,16 +158,16 @@ self.addEventListener('fetch', event => {
   if (requestUrl.pathname.startsWith('/_next/')) {
     return
   }
-  
+
   // Track in-flight requests to prevent duplicates
   const requestKey = event.request.url
-  
+
   // Handle image requests specially (with image-specific cache)
   if (/\.(jpe?g|png|gif|svg|webp)$/i.test(requestUrl.pathname)) {
     event.respondWith(handleImageRequest(event.request))
     return
   }
-  
+
   // API requests - network only with more graceful fallback
   if (requestUrl.pathname.includes('/api/')) {
     event.respondWith(
@@ -184,11 +184,11 @@ self.addEventListener('fetch', event => {
     )
     return
   }
-  
+
   // Use network-first strategy for HTML pages
-  if (requestUrl.pathname === '/' || 
-      requestUrl.pathname.match(/\/(en|fr|de)$/) ||
-      event.request.headers.get('Accept')?.includes('text/html')) {
+  if (requestUrl.pathname === '/' ||
+    requestUrl.pathname.match(/\/(en|fr|de)$/) ||
+    event.request.headers.get('Accept')?.includes('text/html')) {
     event.respondWith(handleHTMLRequest(event.request))
     return
   }
@@ -201,7 +201,7 @@ self.addEventListener('fetch', event => {
         if (cachedResponse) {
           return cachedResponse
         }
-        
+
         // If not in cache, fetch from network
         return fetch(event.request)
           .then(response => {
@@ -209,10 +209,10 @@ self.addEventListener('fetch', event => {
             if (!response || response.status !== 200 || response.type === 'opaqueredirect') {
               return response
             }
-            
+
             // Clone the response to cache it
             const responseToCache = response.clone()
-            
+
             // Cache the successful response
             caches.open(DYNAMIC_CACHE)
               .then(cache => {
@@ -229,7 +229,7 @@ self.addEventListener('fetch', event => {
               .catch(err => {
                 console.warn('Failed to open cache:', err)
               })
-            
+
             return response
           })
           .catch(() => {
@@ -237,7 +237,7 @@ self.addEventListener('fetch', event => {
             if (event.request.headers.get('Accept')?.includes('text/html')) {
               return caches.match('/offline')
             }
-            
+
             // For other failed resources, return a more helpful error
             return new Response('Network error', {
               status: 408,
@@ -251,12 +251,12 @@ self.addEventListener('fetch', event => {
 // Special handler for HTML requests - network-first approach with improved error handling
 const handleHTMLRequest = (request) => {
   // For mobile devices, use a shorter network timeout
-  const networkTimeoutMs = isMobile() ? 
+  const networkTimeoutMs = isMobile() ?
     MOBILE_OPTIMIZATIONS.networkTimeoutMs : 3000
-  
+
   return new Promise(resolve => {
     let networkTimedOut = false
-    
+
     // Set a timeout for network request
     const timeoutId = setTimeout(() => {
       networkTimedOut = true
@@ -281,17 +281,17 @@ const handleHTMLRequest = (request) => {
         }
       })
     }, networkTimeoutMs)
-    
+
     // Try network first
     fetch(request)
       .then(response => {
         clearTimeout(timeoutId)
-        
+
         if (networkTimedOut) {
           // Network responded but we already sent the cached response
           return
         }
-        
+
         // Handle different response types appropriately
         if (response.ok) {
           // For successful responses, cache them
@@ -301,7 +301,7 @@ const handleHTMLRequest = (request) => {
             .catch(err => {
               console.warn('Failed to cache HTML response:', err)
             })
-          
+
           resolve(response)
         } else if (response.status === 404) {
           // For 404 responses, cache them with a short expiry to prevent repeated requests
@@ -321,13 +321,13 @@ const handleHTMLRequest = (request) => {
               }
             }
           )
-          
+
           caches.open(CACHE_NAME)
             .then(cache => cache.put(request, responseToCache))
             .catch(err => {
               console.warn('Failed to cache 404 response:', err)
             })
-          
+
           resolve(response)
         } else {
           // For other error responses, don't cache
@@ -337,7 +337,7 @@ const handleHTMLRequest = (request) => {
       .catch(err => {
         clearTimeout(timeoutId)
         console.warn('Network request failed:', err)
-        
+
         // Fallback to cache if network fails
         caches.match(request)
           .then(cachedResponse => {
@@ -360,26 +360,26 @@ const handleHTMLRequest = (request) => {
 const handleImageRequest = (request) => {
   // Use cache age to determine if we need to refresh
   const MAX_CACHE_AGE_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
-  
+
   // Track if we're handling this request already (prevent duplicates)
   const requestUrl = request.url;
-  
+
   return caches.match(request)
     .then(cachedResponse => {
       // Check if we have a valid cached response
       const hasCachedResponse = cachedResponse && cachedResponse.ok;
-      
+
       if (hasCachedResponse) {
         // Get the cached response date
         const cachedDate = cachedResponse.headers.get('date');
         const cachedTime = cachedDate ? new Date(cachedDate).getTime() : 0;
         const now = Date.now();
-        
+
         // If the cached image is recent enough, use it without network update
         if (now - cachedTime < MAX_CACHE_AGE_MS) {
           return cachedResponse;
         }
-        
+
         // If cache is old, return it but update in background (no await)
         try {
           // Use a separate async function for the background update
@@ -387,12 +387,12 @@ const handleImageRequest = (request) => {
           (async () => {
             try {
               const networkResponse = await fetch(request);
-              
+
               // Only update cache for successful responses
               if (networkResponse && networkResponse.ok) {
                 const cache = await caches.open(IMAGE_CACHE);
                 await cache.put(request, networkResponse.clone());
-                
+
                 // Trim cache after successful updates
                 const limits = getCacheLimits();
                 await trimCache(IMAGE_CACHE, limits.image);
@@ -404,11 +404,11 @@ const handleImageRequest = (request) => {
         } catch (err) {
           // Ensure any errors in the background update don't affect response
         }
-        
+
         // Always return cached response immediately
         return cachedResponse;
       }
-      
+
       // No cache hit, fetch from network
       return fetch(request)
         .then(response => {
@@ -429,15 +429,15 @@ const handleImageRequest = (request) => {
                 cache.put(request, notFoundResponse);
               });
             }
-            
+
             // Return placeholder for missing images
             return caches.match('/images/profile-placeholder.svg')
               .then(placeholderResponse => placeholderResponse || response);
           }
-          
+
           // For successful responses, cache them properly
           const responseToCache = response.clone();
-          
+
           caches.open(IMAGE_CACHE)
             .then(cache => {
               cache.put(request, responseToCache)
@@ -455,7 +455,7 @@ const handleImageRequest = (request) => {
               // Handle cache open failure
               console.warn('Failed to open image cache:', err);
             });
-          
+
           return response;
         })
         .catch(() => {
@@ -474,8 +474,8 @@ self.addEventListener('activate', event => {
           cacheNames.map(cacheName => {
             // Delete any old versions of our caches
             if (
-              cacheName !== CACHE_NAME && 
-              cacheName !== STATIC_CACHE && 
+              cacheName !== CACHE_NAME &&
+              cacheName !== STATIC_CACHE &&
               cacheName !== DYNAMIC_CACHE &&
               cacheName !== IMAGE_CACHE
             ) {

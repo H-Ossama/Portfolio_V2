@@ -1,6 +1,8 @@
 # OUSSAMA HATTAN
 ## Cyber-Minimalist Engineering Portfolio V2
 
+[Live Deployment: hattan-portfolio.vercel.app](https://hattan-portfolio.vercel.app)
+
 A high-fidelity digital presence engineered for the 2026 web. This portfolio focuses on architectural precision, motion-driven storytelling, and a premium dark-mode aesthetic. It serves as a comprehensive showcase of full-stack engineering capabilities, featuring advanced UI/UX patterns and multi-language support.
 
 ---

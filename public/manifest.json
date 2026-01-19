@@ -1,0 +1,22 @@
+{
+    "name": "Oussama Hattan Portfolio",
+    "short_name": "hattan-portfolio",
+    "description": "Full-Stack Web Developer Portfolio specializing in React, Node.js, and modern web architectures.",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#0a0a0a",
+    "theme_color": "#66d9ed",
+    "icons": [
+        {
+            "src": "/icon.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "/icon.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}

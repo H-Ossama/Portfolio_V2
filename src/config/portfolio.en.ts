@@ -164,6 +164,15 @@ export const portfolioConfig = {
       githubUrl: "https://github.com/H-Ossama/Cars_Rental_v2.0",
       image: "/images/cars_rental_screenshots/main.png",
       featured: false,
+      screenshots: [
+        "/images/cars_rental_screenshots/main.png",
+        "/images/cars_rental_screenshots/screen-1.png",
+        "/images/cars_rental_screenshots/screen-2.png",
+        "/images/cars_rental_screenshots/screen-3.png",
+        "/images/cars_rental_screenshots/screen-4.png",
+        "/images/cars_rental_screenshots/screen-5.png",
+        "/images/cars_rental_screenshots/screen-6.png"
+      ],
       strategy: "ACID-compliant database transactions",
       client: "AutoRental Agency",
       technology: "Laravel, MySQL"
