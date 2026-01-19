@@ -8,7 +8,7 @@ export const portfolioConfig = {
     location: "M'RIRT, MAROC",
     location_description: "Basé au Maroc, je suis toujours enthousiaste à l'idée de relever de nouveaux défis.",
     interests: "Quand je ne code pas, vous pouvez me trouver en train d'explorer les dernières tendances du développement web.",
-    profileImage: "/images/Ousaama.jpg?v=1",
+    profileImage: "/images/oussama-profile-pro.png",
   },
 
   contact: {
@@ -45,6 +45,15 @@ export const portfolioConfig = {
       institution: "ALX, Casablanca",
       year: "08/2023 - 10/2024",
       description: "Bootcamp intensif de 12 mois couvrant le développement full-stack."
+    },
+    {
+      degree: "Technicien Spécialisé en Systèmes et Réseaux Informatiques",
+      institution: "EFET, Meknès",
+      year: "09/2021 - 07/2023",
+      description: "Spécialisation en administration réseaux, sécurité des systèmes et gestion d'infrastructure informatique.",
+      certificates: [
+        { name: "Diplôme", image: "/certificates/EFET.jpg" }
+      ]
     }
   ],
 
@@ -69,16 +78,31 @@ export const portfolioConfig = {
     },
     {
       id: 5,
-      title: "Pannel d'Administration Universel",
+      title: "Immigration Pathways",
       category: "Web Development",
-      description: "Un tableau de bord d'administration hautement évolutif et modulaire conçu pour les plateformes SaaS. Comprend un contrôle d'accès dynamique et des analyses.",
-      techStack: ["React", "TypeScript", "Tailwind CSS", "Recharts", "Vite"],
-      githubUrl: "https://github.com/H-Ossama/universal-admin-panel",
-      image: "/images/project-1.svg",
+      description: "Plateforme d'immigration alimentée par l'IA qui génère des plans de migration personnalisés basés sur les profils des utilisateurs. Comprend un assistant multi-étapes, une analyse GPT-4o et une fonctionnalité d'exportation PDF.",
+      techStack: ["Next.js 15", "TypeScript", "OpenAI API", "Zustand", "Tailwind CSS"],
+      githubUrl: "https://github.com/H-Ossama/Immigration-Pathways",
+      liveUrl: "https://immigration-pathways.vercel.app/",
+      image: "/images/ImmigrationPathways_screenshots/main.png",
       featured: true,
-      strategy: "Développement orienté composants",
-      client: "Startups SaaS",
-      technology: "React, TypeScript"
+      screenshots: [
+        "/images/ImmigrationPathways_screenshots/main.png",
+        "/images/ImmigrationPathways_screenshots/main-dark.png",
+        "/images/ImmigrationPathways_screenshots/screen-1.png",
+        "/images/ImmigrationPathways_screenshots/screen-2.png",
+        "/images/ImmigrationPathways_screenshots/screen-3.png",
+        "/images/ImmigrationPathways_screenshots/screen-4.png",
+        "/images/ImmigrationPathways_screenshots/screen-5.png",
+        "/images/ImmigrationPathways_screenshots/screen-6.png",
+        "/images/ImmigrationPathways_screenshots/screen-7.png",
+        "/images/ImmigrationPathways_screenshots/screen-8.png",
+        "/images/ImmigrationPathways_screenshots/screen-9.png",
+        "/images/ImmigrationPathways_screenshots/screen-10.png"
+      ],
+      strategy: "Analyse de profil pilotée par l'IA avec persistance des données locales",
+      client: "Explorateurs Mondiaux",
+      technology: "Next.js, OpenAI"
     },
     {
       id: 6,

@@ -1,12 +1,14 @@
 'use client'
 
 import { useState, useEffect } from 'react';
-import { X, Construction, AlertTriangle, Clock } from 'lucide-react';
+import { X, Construction, AlertTriangle, Clock, Snowflake } from 'lucide-react';
 import { useLocalization } from '@/lib/localization';
 
 const DevelopmentBanner = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(15);
+  const [isPaused, setIsPaused] = useState(false);
   const { t } = useLocalization();
 
   useEffect(() => {
@@ -22,6 +24,19 @@ const DevelopmentBanner = () => {
       setTimeout(() => setIsVisible(true), 100);
     }
   }, []);
+
+  // Auto-dismiss logic with pause support
+  useEffect(() => {
+    if (isVisible && !isClosing && !isPaused && timeLeft > 0) {
+      const timer = setInterval(() => {
+        setTimeLeft(prev => prev - 1);
+      }, 1000);
+
+      return () => clearInterval(timer);
+    } else if (timeLeft === 0 && !isClosing) {
+      handleClose();
+    }
+  }, [isVisible, isClosing, isPaused, timeLeft]);
 
   const handleClose = () => {
     setIsClosing(true);
@@ -94,16 +109,48 @@ const DevelopmentBanner = () => {
                   </div>
                 </div>
 
-                {/* Close Button */}
-                <button
-                  onClick={handleClose}
-                  className="absolute top-4 right-4 p-2 rounded-lg text-gray-500 hover:text-white hover:bg-white/5 transition-all duration-300 border border-transparent hover:border-white/10"
-                  aria-label="Close"
-                >
-                  <X size={18} />
-                </button>
+                {/* Controls Area (Timer + Close) */}
+                <div className="flex items-center gap-3 absolute top-4 right-4">
+                  {/* Timer Display & Freeze Button */}
+                  <div className={`flex items-center gap-2 px-2.5 py-1 rounded-lg bg-white/5 border transition-all duration-300 group ${isPaused ? 'border-accent-cyan/30 bg-accent-cyan/5' : 'border-white/10 hover:border-white/20'}`}>
+                    <button
+                      onClick={() => setIsPaused(!isPaused)}
+                      className={`transition-all duration-300 ${isPaused ? 'text-accent-cyan' : 'text-gray-500 hover:text-white'}`}
+                      title={isPaused ? "Resume Timer" : "Freeze Timer"}
+                    >
+                      <Snowflake
+                        size={14}
+                        className={`transition-transform duration-500 ${isPaused ? 'rotate-180 scale-110 drop-shadow-[0_0_5px_rgba(102,217,237,0.5)]' : 'group-hover:rotate-12'}`}
+                      />
+                    </button>
+                    <div className="w-[1px] h-3 bg-white/10 mx-0.5" />
+                    <span className={`text-[10px] md:text-xs font-mono w-6 text-center tabular-nums transition-colors duration-300 ${isPaused ? 'text-accent-cyan font-bold' : 'text-gray-400'}`}>
+                      {timeLeft}s
+                    </span>
+                  </div>
+
+                  {/* Close Button */}
+                  <button
+                    onClick={handleClose}
+                    className="p-2 rounded-lg text-gray-500 hover:text-white hover:bg-white/5 transition-all duration-300 border border-transparent hover:border-white/10"
+                    aria-label="Close"
+                  >
+                    <X size={18} />
+                  </button>
+                </div>
               </div>
             </div>
+          </div>
+
+          {/* Progress Bar for Auto-dismiss */}
+          <div className="absolute bottom-0 left-0 w-full h-[2px] bg-white/5 overflow-hidden">
+            <div
+              className="h-full bg-accent-cyan shadow-[0_0_10px_rgba(102,217,237,0.5)] origin-left w-full"
+              style={{
+                transform: `scaleX(${timeLeft / 15})`,
+                transition: isPaused || timeLeft === 15 ? 'none' : 'transform 1000ms linear'
+              }}
+            />
           </div>
         </div>
       </div>

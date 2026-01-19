@@ -8,7 +8,7 @@ export const portfolioConfig = {
     location: "M'RIRT, MOROCCO",
     location_description: "Based in Morocco, I am always enthusiastic about taking on new challenges.",
     interests: "When I'm not coding, you can find me exploring the latest web development trends.",
-    profileImage: "/images/Ousaama.jpg?v=1",
+    profileImage: "/images/oussama-profile-pro.png",
   },
 
   contact: {
@@ -45,6 +45,15 @@ export const portfolioConfig = {
       institution: "ALX, Casablanca",
       year: "08/2023 - 10/2024",
       description: "Intensive 12-month bootcamp covering full-stack development."
+    },
+    {
+      degree: "Specialized Technician in Computer Systems & Networks",
+      institution: "EFET, Meknès",
+      year: "09/2021 - 07/2023",
+      description: "Specialized in network administration, system security, and IT infrastructure management.",
+      certificates: [
+        { name: "Diploma Certificate", image: "/certificates/EFET.jpg" }
+      ]
     }
   ],
 
@@ -69,16 +78,31 @@ export const portfolioConfig = {
     },
     {
       id: 5,
-      title: "Universal Admin Panel",
+      title: "Immigration Pathways",
       category: "Web Development",
-      description: "A highly scalable, module-based Admin Dashboard designed for SaaS platforms. Features dynamic role-based access control and analytics.",
-      techStack: ["React", "TypeScript", "Tailwind CSS", "Recharts", "Vite"],
-      githubUrl: "https://github.com/H-Ossama/universal-admin-panel",
-      image: "/images/project-1.svg",
+      description: "AI-powered immigration platform that generates personalized migration plans based on user profiles. Features a multi-step wizard, GPT-4o analysis, and PDF export functionality.",
+      techStack: ["Next.js 15", "TypeScript", "OpenAI API", "Zustand", "Tailwind CSS"],
+      githubUrl: "https://github.com/H-Ossama/Immigration-Pathways",
+      liveUrl: "https://immigration-pathways.vercel.app/",
+      image: "/images/ImmigrationPathways_screenshots/main.png",
       featured: true,
-      strategy: "Component-driven development",
-      client: "SaaS Startups",
-      technology: "React, TypeScript"
+      screenshots: [
+        "/images/ImmigrationPathways_screenshots/main.png",
+        "/images/ImmigrationPathways_screenshots/main-dark.png",
+        "/images/ImmigrationPathways_screenshots/screen-1.png",
+        "/images/ImmigrationPathways_screenshots/screen-2.png",
+        "/images/ImmigrationPathways_screenshots/screen-3.png",
+        "/images/ImmigrationPathways_screenshots/screen-4.png",
+        "/images/ImmigrationPathways_screenshots/screen-5.png",
+        "/images/ImmigrationPathways_screenshots/screen-6.png",
+        "/images/ImmigrationPathways_screenshots/screen-7.png",
+        "/images/ImmigrationPathways_screenshots/screen-8.png",
+        "/images/ImmigrationPathways_screenshots/screen-9.png",
+        "/images/ImmigrationPathways_screenshots/screen-10.png"
+      ],
+      strategy: "AI-driven profile analysis with local data persistence",
+      client: "Global Explorers",
+      technology: "Next.js, OpenAI"
     },
     {
       id: 6,

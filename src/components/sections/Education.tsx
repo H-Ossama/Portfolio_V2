@@ -34,7 +34,7 @@ const EducationCard = ({ edu, index, locale, theme }: { edu: EducationEntry, ind
     >
       <div className="flex items-start justify-between mb-6">
         <div className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-xl bg-accent-cyan/10 flex items-center justify-center text-accent-cyan group-hover:bg-accent-cyan group-hover:text-dark-950 transition-all duration-300">
+          <div className="w-12 h-12 shrink-0 rounded-xl bg-accent-cyan/10 flex items-center justify-center text-accent-cyan group-hover:bg-accent-cyan group-hover:text-dark-950 transition-all duration-300">
             <GraduationCap size={24} />
           </div>
           <div>
