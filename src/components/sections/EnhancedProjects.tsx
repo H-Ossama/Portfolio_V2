@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { ExternalLink, Github, ArrowUpRight, Folder, Star, Filter, ChevronRight } from 'lucide-react'
+import { ArrowUpRight, Github, Globe } from 'lucide-react'
 import { useTheme } from '@/contexts/ThemeContext'
 import { usePortfolioConfig } from '@/lib/localization'
 import Image from 'next/image'
@@ -26,14 +26,11 @@ const ProjectCard = ({ project, index, locale }: { project: Project, index: numb
   const { theme } = useTheme()
   const isMobile = project.category?.toLowerCase().includes('mobile') || project.category === 'Mobile Security'
 
-  // Grid Spanning Logic for "Artistic Mix"
-  // Mobile projects are tall (row-span-2)
-  // Specific large web projects for emphasis: CinemaHalal, Job Finder, Universal Admin Panel
-  // EFET is kept standard (small)
-  const isLargeWeb = !isMobile && ([2, 3, 5].includes(Number(project.id)) || (index === 0 && project.title !== 'EFET Website'))
-
-  // "Stilt" effect: visual tilt/lift for Smart E-Commerce
-  const isStilted = project.title === 'Smart E-Commerce'
+  // Featured large cards: CinemaHalal (2), Job Finder (3), Universal Admin Panel (5)
+  const isLargeWeb = !isMobile && (
+    [2, 3, 5].includes(Number(project.id)) ||
+    ['CinemaHalal', 'Job Finder', 'Universal Admin', 'Admin Panel'].some(t => project.title.includes(t))
+  )
 
   const spanClasses = isMobile
     ? 'row-span-2'
@@ -49,22 +46,21 @@ const ProjectCard = ({ project, index, locale }: { project: Project, index: numb
       viewport={{ once: true }}
       className={`group relative flex flex-col ${spanClasses} ${isMobile
         ? 'bg-transparent items-center justify-center p-0'
-        : 'bg-dark-900/50 rounded-3xl border border-white/5 hover:border-white/10'
-        } ${!isMobile ? 'hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.5)] transition-all duration-500 overflow-hidden' : ''} ${isStilted ? 'hover:rotate-1 hover:scale-[1.01] hover:shadow-accent-cyan/10' : ''}`}
+        : 'bg-white/5 rounded-2xl border border-white/10 hover:border-accent-purple/50'
+        } ${!isMobile ? 'hover:-translate-y-1 transition-all duration-300 overflow-hidden' : ''}`}
     >
       <Link href={`/${locale}/projects/${project.id}`} className={`block h-full flex flex-col w-full ${isMobile ? 'items-center' : ''}`}>
 
         {/* Image Container */}
         {isMobile ? (
-          // Samsung S24 Ultra Layout
-          // Characteristic: Sharp corners, small punch-hole camera, wider aspect ratio than iPhone
-          <div className="relative w-full max-w-[280px] aspect-[9/19] bg-black rounded-[0.5rem] border-[3px] border-gray-600 shadow-2xl overflow-hidden transition-transform duration-500 hover:scale-[1.02] group-hover:shadow-accent-cyan/20 ring-1 ring-gray-700">
+          // Mobile Phone Mockup
+          <div className="relative w-full max-w-[280px] aspect-[9/19] bg-dark-950 rounded-[1.5rem] border-[3px] border-gray-700 shadow-2xl overflow-hidden transition-transform duration-500 hover:scale-[1.02] ring-1 ring-gray-600">
 
-            {/* S24 Ultra Camera Hole - Small centered dot */}
+            {/* Camera Hole */}
             <div className="absolute top-3 left-1/2 -translate-x-1/2 w-3 h-3 bg-black rounded-full z-20 border border-gray-800" />
 
             {/* Screen Content */}
-            <div className="relative w-full h-full rounded-[0.3rem] overflow-hidden bg-dark-950">
+            <div className="relative w-full h-full rounded-[1.2rem] overflow-hidden bg-dark-950">
               <Image
                 src={project.image}
                 alt={project.title}
@@ -72,14 +68,14 @@ const ProjectCard = ({ project, index, locale }: { project: Project, index: numb
                 className="object-cover"
               />
 
-              {/* Overlay with details on hover */}
-              <div className="absolute inset-0 bg-dark-950/90 backdrop-blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-6 text-center z-30">
+              {/* Hover Overlay */}
+              <div className="absolute inset-0 bg-dark-950/95 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-6 text-center z-30">
                 <span className="text-[10px] font-mono text-accent-cyan mb-2 uppercase tracking-widest">Mobile App</span>
                 <h3 className="text-xl font-bold text-white mb-3">{project.title}</h3>
                 <p className="text-xs text-gray-400 mb-6 line-clamp-3 leading-relaxed">{project.description}</p>
                 <div className="flex flex-wrap justify-center gap-2 mb-6">
                   {(project.technologies || project.techStack || []).slice(0, 3).map((tech) => (
-                    <span key={tech} className="text-[9px] font-mono font-bold px-2 py-1 rounded bg-white/10 text-white border border-white/10">
+                    <span key={tech} className="text-[9px] font-mono px-2 py-1 rounded bg-white/10 text-white border border-white/10">
                       {tech}
                     </span>
                   ))}
@@ -91,9 +87,9 @@ const ProjectCard = ({ project, index, locale }: { project: Project, index: numb
             </div>
           </div>
         ) : (
-          // Web App Layout
+          // Web Project Card
           <>
-            <div className={`relative overflow-hidden w-full ${isLargeWeb ? 'h-[300px] md:h-full flex-grow' : 'h-48 md:h-64'} bg-dark-950`}>
+            <div className={`relative overflow-hidden w-full ${isLargeWeb ? 'h-[300px] md:h-full flex-grow' : 'h-48 md:h-64'} bg-dark-950 rounded-t-2xl`}>
               {project.image.endsWith('.svg') ? (
                 <img
                   src={project.image}
@@ -106,12 +102,14 @@ const ProjectCard = ({ project, index, locale }: { project: Project, index: numb
                   alt={project.title}
                   fill
                   sizes={isLargeWeb ? "(max-width: 768px) 100vw, 50vw" : "(max-width: 768px) 100vw, 33vw"}
-                  className="object-cover transition-transform duration-700 group-hover:scale-105 will-change-transform"
+                  className="object-cover transition-transform duration-700 group-hover:scale-105"
                 />
               )}
 
+              {/* Gradient Overlay */}
               <div className="absolute inset-0 bg-gradient-to-t from-dark-900 via-dark-900/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity duration-500" />
 
+              {/* Hover Icon */}
               <div className="absolute top-4 right-4 translate-x-10 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-300 delay-100">
                 <div className="w-10 h-10 rounded-full bg-white text-dark-950 flex items-center justify-center shadow-lg">
                   <ArrowUpRight size={20} />
@@ -120,28 +118,28 @@ const ProjectCard = ({ project, index, locale }: { project: Project, index: numb
             </div>
 
             {/* Content */}
-            <div className={`p-6 flex flex-col justify-between relative bg-gradient-to-b from-dark-900/0 to-dark-900/50 backdrop-blur-sm ${isLargeWeb ? 'md:absolute md:bottom-0 md:left-0 md:right-0 md:bg-gradient-to-t md:from-black/90 md:to-transparent' : 'flex-grow'}`}>
-              <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-transparent via-accent-cyan to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <div className={`p-6 flex flex-col justify-between relative ${isLargeWeb ? 'md:absolute md:bottom-0 md:left-0 md:right-0 md:bg-gradient-to-t md:from-black/90 md:via-black/50 md:to-transparent md:p-8' : 'flex-grow'}`}>
+              <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-transparent via-accent-purple to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
               <div>
                 <div className="flex items-center gap-2 mb-3">
-                  <span className="text-accent-cyan font-mono text-xs font-bold tracking-tighter">0{index + 1}</span>
+                  <span className="text-accent-cyan font-mono text-xs font-bold">0{index + 1}</span>
                   <span className="h-px w-4 bg-white/10" />
                   <span className="text-[10px] font-mono uppercase tracking-widest text-gray-400">{project.category || 'Development'}</span>
                 </div>
 
-                <h3 className={`font-bold mb-3 leading-tight group-hover:text-accent-cyan transition-colors duration-300 ${isLargeWeb ? 'text-3xl md:text-4xl' : 'text-xl'} ${theme === 'dark' || isLargeWeb ? 'text-white' : 'text-gray-900'}`}>
+                <h3 className={`font-bold mb-3 leading-tight group-hover:text-accent-purple transition-colors duration-300 ${isLargeWeb ? 'text-3xl md:text-4xl' : 'text-xl'} text-white`}>
                   {project.title}
                 </h3>
 
-                <p className={`text-sm mb-6 line-clamp-2 leading-relaxed opacity-70 ${theme === 'dark' || isLargeWeb ? 'text-gray-300' : 'text-gray-600'}`}>
+                <p className={`text-sm mb-6 line-clamp-2 leading-relaxed opacity-70 text-gray-300`}>
                   {project.description}
                 </p>
               </div>
 
               <div className="flex flex-wrap gap-2 mt-auto">
                 {(project.technologies || project.techStack || []).slice(0, 3).map((tech) => (
-                  <span key={tech} className={`text-[10px] font-mono font-bold px-3 py-1 rounded-full border uppercase tracking-wide transition-colors ${theme === 'dark' || isLargeWeb ? 'bg-white/5 text-gray-400 border-white/5 group-hover:border-white/10 group-hover:bg-white/10' : 'bg-black/5 text-gray-600 border-black/5 group-hover:border-black/10 group-hover:bg-black/10'}`}>
+                  <span key={tech} className="text-[10px] font-mono px-3 py-1 rounded-full bg-white/5 text-gray-400 border border-white/5 group-hover:border-accent-purple/30 group-hover:bg-accent-purple/10 transition-colors">
                     {tech}
                   </span>
                 ))}
@@ -161,14 +159,9 @@ export default function EnhancedProjects() {
   const locale = (params?.locale as string) || 'en'
   const [filter, setFilter] = useState('All')
 
-  // Projects are already merged in config, but we ensure fallback
   const allProjects = (config.projects || []) as Project[]
-
-  // Derive categories dynamically from properties
   const categories = ['All', 'Web Development', 'Mobile Development']
-
   const filteredProjects = allProjects.filter(p => filter === 'All' || p.category === filter)
-
   const featuredProject = allProjects.find(p => p.featured) || allProjects[0]
   const displayProjects = filteredProjects.filter(p => p.id !== (filter === 'All' ? featuredProject?.id : -1))
 
@@ -176,6 +169,7 @@ export default function EnhancedProjects() {
     <section id="work" className="py-24 relative overflow-hidden">
       <div className="container-custom px-6 relative z-10">
 
+        {/* Section Header */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-20">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
@@ -183,15 +177,18 @@ export default function EnhancedProjects() {
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <h2 className={`text-6xl md:text-8xl font-bold mb-8 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
-              My<br />Work
+            <span className="text-accent-cyan font-mono text-sm tracking-widest uppercase mb-4 block">
+              Portfolio
+            </span>
+            <h2 className={`text-5xl md:text-7xl font-bold mb-6 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
+              Featured<br />Work
             </h2>
             <p className={`text-lg leading-relaxed max-w-md opacity-80 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
-              Deployed scalable travel, event and telemedicine web and hybrid mobile apps using React SPA and PWA.
-              Collaborated in 140+ projects with 50+ clients all around the world.
+              A showcase of my recent projects spanning mobile apps, web development, and full-stack solutions. Each project represents a unique challenge solved with modern technologies.
             </p>
           </motion.div>
 
+          {/* Featured Project Showcase */}
           {featuredProject && (
             <motion.div
               initial={{ opacity: 0, scale: 0.9, rotateY: 20 }}
@@ -201,8 +198,8 @@ export default function EnhancedProjects() {
               className="relative perspective-1000 hidden lg:block"
             >
               <div className="relative z-10 transform-3d group">
-                <div className="relative w-72 h-[580px] mx-auto rounded-[1.5rem] border-[3px] border-l-gray-600 border-r-gray-600 border-t-gray-700 border-b-gray-700 bg-dark-950 shadow-2xl overflow-hidden shadow-accent-cyan/20 transition-transform duration-500 group-hover:rotate-y-12">
-                  {/* Samsung S24 Ultra Camera Hole */}
+                <div className="relative w-72 h-[580px] mx-auto rounded-[1.5rem] border-[3px] border-gray-700 bg-dark-950 shadow-2xl overflow-hidden shadow-accent-cyan/20 transition-transform duration-500 group-hover:scale-105">
+                  {/* Camera Hole */}
                   <div className="absolute top-4 left-1/2 -translate-x-1/2 w-3 h-3 bg-black rounded-full z-50 ring-1 ring-gray-800" />
 
                   {/* Reflection Layer */}
@@ -224,9 +221,9 @@ export default function EnhancedProjects() {
                   )}
                   <div className="absolute inset-0 bg-gradient-to-t from-dark-950/90 via-transparent to-transparent flex flex-col justify-end p-6 z-30">
                     <span className="text-accent-cyan font-mono text-[10px] mb-2 font-bold uppercase tracking-widest">Featured App</span>
-                    <h3 className="text-xl font-bold text-white mb-4 italic tracking-tight">{featuredProject.title}</h3>
-                    <Link href={`/${locale}/projects/${featuredProject.id}`} className="bg-white text-dark-950 font-bold py-3 px-6 rounded-lg text-xs flex items-center justify-center gap-2 hover:bg-accent-cyan transition-colors group/btn">
-                      <span>OPEN PROJECT</span>
+                    <h3 className="text-xl font-bold text-white mb-4">{featuredProject.title}</h3>
+                    <Link href={`/${locale}/projects/${featuredProject.id}`} className="bg-accent-purple hover:bg-accent-purple/80 text-white font-bold py-3 px-6 rounded-lg text-xs flex items-center justify-center gap-2 transition-colors group/btn">
+                      <span>VIEW PROJECT</span>
                       <ArrowUpRight size={16} className="transition-transform group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5" />
                     </Link>
                   </div>
@@ -239,6 +236,7 @@ export default function EnhancedProjects() {
           )}
         </div>
 
+        {/* Filter Buttons */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -251,7 +249,7 @@ export default function EnhancedProjects() {
               <button
                 key={cat}
                 onClick={() => setFilter(cat)}
-                className={`relative group font-mono text-xs uppercase tracking-widest transition-all duration-300 ${filter === cat ? 'text-accent-cyan' : 'text-gray-500 hover:text-white'
+                className={`relative group font-mono text-xs uppercase tracking-widest transition-all duration-300 ${filter === cat ? 'text-accent-purple' : 'text-gray-500 hover:text-white'
                   }`}
               >
                 <span className="flex items-center gap-1">
@@ -261,7 +259,7 @@ export default function EnhancedProjects() {
                 {filter === cat && (
                   <motion.div
                     layoutId="activeFilter"
-                    className="absolute -bottom-1 left-0 right-0 h-px bg-accent-cyan"
+                    className="absolute -bottom-1 left-0 right-0 h-px bg-accent-purple"
                   />
                 )}
               </button>
@@ -269,6 +267,7 @@ export default function EnhancedProjects() {
           </div>
         </motion.div>
 
+        {/* Projects Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 grid-flow-dense">
           {displayProjects.map((project, index) => (
             <ProjectCard key={project.id} project={project} index={index} locale={locale} />
@@ -283,9 +282,6 @@ export default function EnhancedProjects() {
         }
         .transform-3d {
           transform-style: preserve-3d;
-        }
-        .rotate-y-12 {
-          transform: rotateY(12deg);
         }
       `}</style>
     </section>
