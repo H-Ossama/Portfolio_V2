@@ -19,11 +19,11 @@ const configs = {
 export function getLocaleFromPathname(pathname: string): Locale {
   const segments = pathname.split('/');
   const firstSegment = segments[1];
-  
+
   if (firstSegment === 'en' || firstSegment === 'fr' || firstSegment === 'de') {
     return firstSegment as Locale;
   }
-  
+
   return 'en';
 }
 
@@ -31,7 +31,7 @@ export function getLocaleFromPathname(pathname: string): Locale {
 export function usePortfolioConfig() {
   const pathname = usePathname();
   const currentLocale = getLocaleFromPathname(pathname);
-  
+
   return {
     config: configs[currentLocale] || configs.en,
     locale: currentLocale,
@@ -52,7 +52,7 @@ export function getLocalizedText(
   if (typeof text === 'string') {
     return text;
   }
-  
+
   return text[locale] || text.en || '';
 }
 
@@ -133,7 +133,7 @@ export const navigationLabels = {
 export function useNavigationLabels() {
   const pathname = usePathname();
   const currentLocale = getLocaleFromPathname(pathname);
-  
+
   return navigationLabels[currentLocale] || navigationLabels.en;
 }
 
@@ -209,7 +209,7 @@ export const contactFormLabels = {
 export function useContactFormLabels() {
   const pathname = usePathname();
   const currentLocale = getLocaleFromPathname(pathname);
-  
+
   return contactFormLabels[currentLocale] || contactFormLabels.en;
 }
 
@@ -217,7 +217,7 @@ export function useContactFormLabels() {
 export function useDevelopmentBannerLabels() {
   const pathname = usePathname();
   const currentLocale = getLocaleFromPathname(pathname);
-  
+
   return developmentBannerLabels[currentLocale] || developmentBannerLabels.en;
 }
 
@@ -251,7 +251,7 @@ export function useLocalization() {
   const t = (key: string) => {
     const keys = key.split('.');
     let result: any = labels;
-    
+
     for (const k of keys) {
       if (result && typeof result === 'object' && k in result) {
         result = result[k];
@@ -259,7 +259,7 @@ export function useLocalization() {
         return key; // Return the key itself if translation not found
       }
     }
-    
+
     return typeof result === 'string' ? result : key;
   };
 
@@ -272,7 +272,7 @@ export function useLocalization() {
   };
 }
 
-export default {
+const localizationUtils = {
   usePortfolioConfig,
   getPortfolioConfig,
   getLocalizedText,
@@ -282,3 +282,5 @@ export default {
   useDevelopmentBannerLabels,
   useLocalization,
 };
+
+export default localizationUtils;

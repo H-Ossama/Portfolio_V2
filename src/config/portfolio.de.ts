@@ -104,8 +104,10 @@ export const portfolioConfig = {
   resume: "/certificates/Oussma_Hattan_Resume.pdf",
 
   meta: {
-    title: "Oussama HATTAN - Full-Stack-Webentwickler",
-    description: "Portfolio von Oussama HATTAN, Full-Stack-Webentwickler aus Marokko.",
+    title: "Oussama HATTAN - Backend-Webentwickler",
+    description: "Portfolio von Oussama HATTAN, Backend-Webentwickler spezialisiert auf Node.js und Python.",
+    keywords: "Oussama HATTAN, Backend-Entwickler, Node.js, Python, API-Architektur, Datenbankdesign",
+    author: "Oussama HATTAN",
     url: "https://hattan-portfolio.vercel.app",
   },
 

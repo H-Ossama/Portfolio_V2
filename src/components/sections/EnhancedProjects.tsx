@@ -28,8 +28,16 @@ const ProjectCard = ({ project, index, locale }: { project: Project, index: numb
 
   // Grid Spanning Logic for "Artistic Mix"
   // Mobile projects are tall (row-span-2)
-  // Every 4th non-mobile project is Large (col-span-2 row-span-2)
-  const isLargeWeb = !isMobile && (index % 4 === 0 || index === 0)
+  // Specific large web projects for emphasis: Smart E-Commerce & Universal Admin
+  // EFET is kept standard (small)
+  const isLargeWeb = !isMobile && (
+    project.title === 'Smart E-Commerce' ||
+    project.title === 'Universal Admin Panel' ||
+    (index === 0 && project.title !== 'EFET Website')
+  )
+
+  // "Stilt" effect: visual tilt/lift for Smart E-Commerce
+  const isStilted = project.title === 'Smart E-Commerce'
 
   const spanClasses = isMobile
     ? 'row-span-2'
@@ -46,7 +54,7 @@ const ProjectCard = ({ project, index, locale }: { project: Project, index: numb
       className={`group relative flex flex-col ${spanClasses} ${isMobile
         ? 'bg-transparent items-center justify-center py-2'
         : 'bg-dark-900/50 rounded-3xl border border-white/5 hover:border-white/10'
-        } ${!isMobile ? 'hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.5)] transition-all duration-500 overflow-hidden' : ''}`}
+        } ${!isMobile ? 'hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.5)] transition-all duration-500 overflow-hidden' : ''} ${isStilted ? 'hover:rotate-1 hover:scale-[1.01] hover:shadow-accent-cyan/10' : ''}`}
     >
       <Link href={`/${locale}/projects/${project.id}`} className={`block h-full flex flex-col w-full ${isMobile ? 'items-center' : ''}`}>
 

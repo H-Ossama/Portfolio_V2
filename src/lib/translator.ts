@@ -35,7 +35,7 @@ const commonTranslations: TranslationMap = {
     fr: "Certificat",
     de: "Zertifikat"
   },
-  
+
   // Skills and technical terms
   "Frontend": {
     fr: "Frontend",
@@ -69,7 +69,7 @@ const commonTranslations: TranslationMap = {
     fr: "APIs REST",
     de: "REST-APIs"
   },
-  
+
   // Project types
   "Car Rental Platform": {
     fr: "Plateforme de Location de Voitures",
@@ -83,7 +83,7 @@ const commonTranslations: TranslationMap = {
     fr: "Site Portfolio",
     de: "Portfolio-Website"
   },
-  
+
   // Common phrases
   "with strong full-stack skills": {
     fr: "avec de solides compétences full-stack",
@@ -117,7 +117,7 @@ const commonTranslations: TranslationMap = {
     fr: "à travers des projets académiques et réels",
     de: "durch akademische und reale Projekte"
   },
-  
+
   // Languages
   "English": {
     fr: "Anglais",
@@ -151,38 +151,38 @@ const extendedTranslations: TranslationMap = {
     fr: "Développeur Web avec de solides compétences full-stack, spécialisé dans la création d'applications web responsives et évolutives. Expérimenté en front-end (HTML, CSS, JS) et back-end (PHP, Python, SQL, MongoDB) avec des connaissances en TDD, APIs et sécurité réseau.",
     de: "Web-Entwickler mit starken Full-Stack-Fähigkeiten, spezialisiert auf die Entwicklung responsiver und skalierbarer Webanwendungen. Erfahren in Frontend (HTML, CSS, JS) und Backend (PHP, Python, SQL, MongoDB) mit Kenntnissen in TDD, APIs und Netzwerksicherheit."
   },
-  
+
   "Proven ability to deliver clean, maintainable code through academic and real-world projects.": {
     fr: "Capacité prouvée à livrer un code propre et maintenable à travers des projets académiques et réels.",
     de: "Bewiesene Fähigkeit, sauberen, wartbaren Code durch akademische und reale Projekte zu liefern."
   },
-  
+
   "Comprehensive web development program covering Database Architecture, Network Security, Sécurité informatique, and Agile/Scrum methodologies.": {
     fr: "Programme complet de développement web couvrant l'Architecture de Base de Données, la Sécurité Réseau, la Sécurité informatique et les méthodologies Agile/Scrum.",
     de: "Umfassendes Webentwicklungsprogramm, das Datenbankarchitektur, Netzwerksicherheit, Computersicherheit und Agile/Scrum-Methodologien abdeckt."
   },
-  
+
   "Intensive 12-month software engineering bootcamp covering full-stack development, algorithms, data structures, system design, and modern development practices.": {
     fr: "Bootcamp intensif de 12 mois en ingénierie logicielle couvrant le développement full-stack, les algorithmes, les structures de données, la conception de systèmes et les pratiques de développement modernes.",
     de: "Intensives 12-monatiges Software-Engineering-Bootcamp, das Full-Stack-Entwicklung, Algorithmen, Datenstrukturen, Systemdesign und moderne Entwicklungspraktiken abdeckt."
   },
-  
+
   "Administration des réseaux, Configuration des équipements réseau, Sécurité informatique, Virtualisation et cloud computing.": {
     fr: "Administration des réseaux, Configuration des équipements réseau, Sécurité informatique, Virtualisation et cloud computing.",
     de: "Netzwerkverwaltung, Konfiguration von Netzwerkgeräten, Computersicherheit, Virtualisierung und Cloud Computing."
   },
-  
+
   // Project descriptions
   "Une application web complète de location de voitures avec interface responsive HTML5/CSS3, système de réservation sécurisé et base de données optimisée.": {
     fr: "Une application web complète de location de voitures avec interface responsive HTML5/CSS3, système de réservation sécurisé et base de données optimisée.",
     de: "Eine vollständige Autovermietungs-Webanwendung mit responsiver HTML5/CSS3-Oberfläche, sicherem Buchungssystem und optimierter Datenbank."
   },
-  
+
   "Application de gestion scolaire complète avec interface HTML5, gestion des notes et paiements, et base de données relationnelle optimisée pour les établissements scolaires.": {
     fr: "Application de gestion scolaire complète avec interface HTML5, gestion des notes et paiements, et base de données relationnelle optimisée pour les établissements scolaires.",
     de: "Vollständige Schulverwaltungsanwendung mit HTML5-Oberfläche, Noten- und Zahlungsmanagement und optimierter relationaler Datenbank für Bildungseinrichtungen."
   },
-  
+
   "Site portfolio moderne et responsive construit avec Next.js et Tailwind CSS. Comprend des animations fluides, un formulaire de contact et des performances optimisées.": {
     fr: "Site portfolio moderne et responsive construit avec Next.js et Tailwind CSS. Comprend des animations fluides, un formulaire de contact et des performances optimisées.",
     de: "Moderne und responsive Portfolio-Website, erstellt mit Next.js und Tailwind CSS. Beinhaltet flüssige Animationen, ein Kontaktformular und optimierte Leistung."
@@ -223,39 +223,39 @@ export function translateText(text: string, targetLang: 'fr' | 'de'): string {
   if (extendedTranslations[text]) {
     return extendedTranslations[text][targetLang];
   }
-  
+
   // Then check common translations
   if (commonTranslations[text]) {
     return commonTranslations[text][targetLang];
   }
-  
+
   // Check soft skills
   if (softSkillsTranslations[text]) {
     return softSkillsTranslations[text][targetLang];
   }
-  
+
   // For words/phrases not in our dictionary, try basic replacement
   let translatedText = text;
-  
+
   // Apply all available translations to parts of the text
   Object.keys(commonTranslations).forEach(englishPhrase => {
     if (translatedText.includes(englishPhrase)) {
       translatedText = translatedText.replace(
-        new RegExp(englishPhrase, 'gi'), 
+        new RegExp(englishPhrase, 'gi'),
         commonTranslations[englishPhrase][targetLang]
       );
     }
   });
-  
+
   Object.keys(softSkillsTranslations).forEach(englishPhrase => {
     if (translatedText.includes(englishPhrase)) {
       translatedText = translatedText.replace(
-        new RegExp(englishPhrase, 'gi'), 
+        new RegExp(englishPhrase, 'gi'),
         softSkillsTranslations[englishPhrase][targetLang]
       );
     }
   });
-  
+
   return translatedText;
 }
 
@@ -269,11 +269,11 @@ export function translateObject(obj: any, targetLang: 'fr' | 'de'): any {
   if (typeof obj === 'string') {
     return translateText(obj, targetLang);
   }
-  
+
   if (Array.isArray(obj)) {
     return obj.map(item => translateObject(item, targetLang));
   }
-  
+
   if (typeof obj === 'object' && obj !== null) {
     const result: any = {};
     for (const [key, value] of Object.entries(obj)) {
@@ -281,12 +281,14 @@ export function translateObject(obj: any, targetLang: 'fr' | 'de'): any {
     }
     return result;
   }
-  
+
   return obj;
 }
 
-export default {
+const translatorUtils = {
   translateText,
   translateArray,
   translateObject
 };
+
+export default translatorUtils;
