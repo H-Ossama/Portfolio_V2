@@ -95,6 +95,17 @@ export const portfolioConfig = {
     }
   ],
 
+  certifications: [
+    {
+      name: "IBM Zertifikat für Computernetzwerke und Netzwerksicherheit",
+      issuer: "IBM - Coursera",
+      date: "12/2024",
+      description: "Zertifizierung in Netzwerksicherheit, Netzwerkprotokollen und Netzwerkarchitektur.",
+      image: "/certificates/ibm-networks-security.pdf",
+      url: "https://www.coursera.org/account/accomplishments/verify/EQIGIS8IV9VK"
+    }
+  ],
+
   social: {
     linkedin: "https://linkedin.com/in/h-oussama",
     github: "https://github.com/H-Ossama",

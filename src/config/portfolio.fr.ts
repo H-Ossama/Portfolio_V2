@@ -114,6 +114,17 @@ export const portfolioConfig = {
     }
   ],
 
+  certifications: [
+    {
+      name: "IBM Certificat en Réseaux Informatiques et Sécurité",
+      issuer: "IBM - Coursera",
+      date: "12/2024",
+      description: "Certification en sécurité réseau, protocoles et architecture réseau.",
+      image: "/certificates/ibm-networks-security.pdf",
+      url: "https://www.coursera.org/account/accomplishments/verify/EQIGIS8IV9VK"
+    }
+  ],
+
   social: {
     linkedin: "https://linkedin.com/in/h-oussama",
     github: "https://github.com/H-Ossama",

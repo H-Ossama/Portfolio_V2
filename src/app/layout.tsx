@@ -32,20 +32,9 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: [
-      { url: '/icon.svg', type: 'image/svg+xml' },
-      { url: '/favicon.ico', sizes: 'any' },
-      { url: '/favicons/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
-      { url: '/favicons/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
-    ],
-    apple: [
-      { url: '/favicons/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }
-    ],
-    other: [
-      { url: '/favicons/android-chrome-192x192.png', sizes: '192x192', type: 'image/png' },
-      { url: '/favicons/android-chrome-512x512.png', sizes: '512x512', type: 'image/png' },
-      { url: '/favicons/site.webmanifest', rel: 'manifest' }
-    ],
+    icon: '/icon.png',
+    shortcut: '/favicon.ico',
+    apple: '/icon.png',
   },
   verification: {
     google: 'google-site-verification-code', // Replace with your verification code if available
@@ -64,14 +53,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning className={`${inter.variable} scroll-smooth overflow-x-hidden nav-scroll`}>
-      <head>
-        <link rel="icon" href="/icon.svg" type="image/svg+xml" />
-        <link rel="icon" href="/favicons/favicon-32x32.png" type="image/png" sizes="32x32" />
-        <link rel="icon" href="/favicons/favicon-16x16.png" type="image/png" sizes="16x16" />
-        <link rel="shortcut icon" href="/favicon.ico" />
-        <link rel="apple-touch-icon" href="/favicons/apple-touch-icon.png" />
-        <link rel="manifest" href="/favicons/site.webmanifest" />
-      </head>
       <body suppressHydrationWarning className="font-sans overflow-x-hidden will-change-scroll backface-hidden">
         {children}
       </body>
