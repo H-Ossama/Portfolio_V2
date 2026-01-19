@@ -89,21 +89,40 @@ export default function Hero() {
 
       </div>
 
-      {/* Tech Stack Footer - Absolute Bottom */}
       <div className="absolute bottom-12 left-0 right-0 z-10">
-        <div className="container-custom px-6">
+        <div className="container-custom px-6 flex flex-col items-center justify-center">
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 1, delay: 0.8 }}
-            className="flex flex-wrap justify-center gap-8 lg:gap-16 opacity-50 hover:opacity-100 transition-opacity duration-500"
+            className="flex flex-col items-center gap-4 group cursor-pointer"
+            onClick={() => {
+              const nextSection = document.getElementById('expertise');
+              if (nextSection) nextSection.scrollIntoView({ behavior: 'smooth' });
+            }}
           >
-            <TechIcon icon={Code2} label="Frontend" delay={1.0} />
-            <TechIcon icon={Server} label="Backend" delay={1.1} />
-            <TechIcon icon={Database} label="Database" delay={1.2} />
-            <TechIcon icon={Layers} label="UI/UX" delay={1.3} />
-            <TechIcon icon={Globe} label="Web" delay={1.4} />
-            <TechIcon icon={Terminal} label="DevOps" delay={1.5} />
+            <span className="text-xs font-mono text-gray-500 uppercase tracking-widest group-hover:text-accent-cyan transition-colors duration-300">
+              Keep Scrolling
+            </span>
+            <div className="relative flex flex-col items-center">
+              {/* Mouse Icon */}
+              <div className="w-6 h-10 rounded-full border-2 border-gray-500 group-hover:border-accent-cyan p-1 transition-colors duration-300">
+                <motion.div
+                  className="w-1 h-2 bg-gray-500 group-hover:bg-accent-cyan rounded-full mx-auto"
+                  animate={{ y: [0, 12, 0] }}
+                  transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                />
+              </div>
+
+              {/* Wavy Arrow */}
+              <motion.div
+                className="mt-2 text-gray-500 group-hover:text-accent-cyan transition-colors duration-300"
+                animate={{ y: [0, 5, 0] }}
+                transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut", delay: 0.2 }}
+              >
+                <ArrowRight size={20} className="rotate-90" />
+              </motion.div>
+            </div>
           </motion.div>
         </div>
       </div>

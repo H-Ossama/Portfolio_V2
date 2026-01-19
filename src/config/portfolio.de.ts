@@ -39,16 +39,134 @@ export const portfolioConfig = {
         { name: "Diplomzertifikat", image: "/certificates/FEDE Bachelor Diplomat.jpg" },
         { name: "Akademisches Zeugnis", image: "/certificates/FEDE Relever de note.jpg" }
       ]
+    },
+    {
+      degree: "Software Engineering Zertifikat",
+      institution: "ALX, Casablanca",
+      year: "08/2023 - 10/2024",
+      description: "Intensives 12-monatiges Bootcamp für Full-Stack-Entwicklung."
     }
   ],
 
   projects: [
     {
+      id: 101,
+      title: "Parental Guard",
+      category: "Mobile Development",
+      description: "Fortschrittliches Android-Kindersicherungssystem mit Echtzeit-WebSocket-Überwachung, Hintergrunddienst-Agenten und sicherem App-Locking.",
+      techStack: ["Kotlin", "Jetpack Compose", "WebSockets", "Room DB", "Hintergrunddienste"],
+      githubUrl: "https://github.com/H-Ossama/Family-Guard",
+      screenshots: [
+        "/images/Mobile_apps_screenshots/Familly_Guard-screenshots/Screenshot_20260108_021123.jpg",
+        "/images/Mobile_apps_screenshots/Familly_Guard-screenshots/Screenshot_20260108_021143.jpg",
+        "/images/Mobile_apps_screenshots/Familly_Guard-screenshots/Screenshot_20260108_021157.jpg"
+      ],
+      image: "/images/Mobile_apps_screenshots/Familly_Guard-screenshots/Screenshot_20260108_021123.jpg",
+      featured: true,
+      strategy: "Agent-Controller-Architektur mit Echtzeit-Relay",
+      client: "Parental Guard",
+      technology: "Kotlin, WebSocket"
+    },
+    {
+      id: 5,
+      title: "Universelles Admin-Panel",
+      category: "Web Development",
+      description: "Ein hochskalierbares, modulares Admin-Dashboard für SaaS-Plattformen. Mit dynamischer rollenbasierter Zugriffskontrolle und Analysen.",
+      techStack: ["React", "TypeScript", "Tailwind CSS", "Recharts", "Vite"],
+      githubUrl: "https://github.com/H-Ossama/universal-admin-panel",
+      image: "/images/project-1.svg",
+      featured: true,
+      strategy: "Komponentengesteuerte Entwicklung",
+      client: "SaaS-Startups",
+      technology: "React, TypeScript"
+    },
+    {
+      id: 6,
+      title: "Smart E-Commerce",
+      category: "Web Development",
+      description: "Moderne E-Commerce-Plattform mit KI-Produktempfehlungen, Echtzeit-Chat-Support und skalierbarem Node.js-Backend.",
+      techStack: ["Node.js", "Express", "React", "MongoDB", "Socket.io"],
+      githubUrl: "https://github.com/H-Ossama/Smart_E-Commerce_Platform",
+      image: "/images/project-2.svg",
+      featured: false,
+      strategy: "Microservices-fähiges Backend",
+      client: "Open Source",
+      technology: "Node.js, React"
+    },
+    {
+      id: 7,
+      title: "EFET Website",
+      category: "Web Development",
+      description: "Komplette Neugestaltung und Entwicklung der offiziellen Website der EFET-Gruppe mit verbesserter Leistung und SEO.",
+      techStack: ["Next.js", "React", "CMS-Integration", "SEO"],
+      githubUrl: "https://github.com/H-Ossama/EFET-Website",
+      image: "/images/efet-screenshots/efet-screenshot-1.png",
+      screenshots: [
+        "/images/efet-screenshots/efet-screenshot-1.png",
+        "/images/efet-screenshots/efet-screenshot-2.png"
+      ],
+      featured: false,
+      strategy: "Performance-orientierte Modernisierung",
+      client: "Groupe EFET",
+      technology: "Next.js"
+    },
+    {
+      id: 3,
+      title: "Job Finder & KI-Lebenslauf-Assistent",
+      category: "Web Development",
+      description: "Eine leistungsstarke KI-gesteuerte Plattform, die Arbeitssuchenden hilft, ATS-konforme Lebensläufe zu erstellen.",
+      techStack: ["Next.js", "Supabase", "React", "KI", "Tailwind CSS"],
+      githubUrl: "https://github.com/H-Ossama/Job-Finder",
+      image: "/images/job-cv/hero.png",
+      featured: true,
+      screenshots: [
+        "/images/job-cv/hero.png",
+        "/images/job-cv/dashboard.png",
+        "/images/job-cv/builder-1.png",
+        "/images/job-cv/job-search.png",
+        "/images/job-cv/analytics.png",
+        "/images/job-cv/interview.png"
+      ],
+      strategy: "Integrierte KI-Dienste mit robustem Supabase-Backend",
+      client: "Persönliches Projekt",
+      technology: "Next.js, Supabase"
+    },
+    {
+      id: 1,
+      title: "Car Rental Platform",
+      category: "Web Development",
+      description: "Komplexes Buchungssystem mit robusten Datenbank-Sperrmechanismen zur Vermeidung von Doppelbuchungen.",
+      techStack: ["PHP", "Laravel", "MySQL", "Cron Jobs"],
+      githubUrl: "https://github.com/H-Ossama/Cars_Rental_v2.0",
+      image: "/images/cars_rental_screenshots/main.png",
+      featured: false,
+      strategy: "ACID-konforme Datenbanktransaktionen",
+      client: "AutoRental Agentur",
+      technology: "Laravel, MySQL"
+    },
+    {
+      id: 2,
+      title: "CinemaHalal",
+      category: "Web Development",
+      description: "Familiensicherer Streaming-Plattform-Aggregator. Komplexe Backend-Filterung zur Gewährleistung der Inhaltskonformität.",
+      techStack: ["Node.js", "Express", "WebTorrent", "TMDB API", "Filteralgorithmen"],
+      githubUrl: "https://github.com/H-Ossama/CinimaHalal",
+      screenshots: [
+        "/images/Cinima-Halal/screenshot-1.png",
+        "/images/Cinima-Halal/screenshot-2.png"
+      ],
+      image: "/images/Cinima-Halal/screenshot-1.png",
+      featured: false,
+      strategy: "Content-Filtering auf API-Ebene",
+      client: "Community-Projekt",
+      technology: "Node.js, WebTorrent"
+    },
+    {
       id: 102,
-      title: "FinTracker",
-      category: "Mobile Entwicklung",
-      description: "Offline-first persönlicher Finanz-Tracker, erstellt mit Expo + React Native und TypeScript.",
-      techStack: ["Expo", "React Native", "TypeScript", "SQLite"],
+      title: "FINEX",
+      category: "Mobile Development",
+      description: "Sichere Offline-first Finanz-Tracking-App. Verwendet lokale Verschlüsselung für sofortige Transaktionsaufzeichnung.",
+      techStack: ["Expo", "TypeScript", "SQLite", "Verschlüsselung", "React Native"],
       githubUrl: "https://github.com/H-Ossama/FINEX",
       screenshots: [
         "/images/Mobile_apps_screenshots/FINEX-screenshots/screen-1.png",
@@ -59,41 +177,27 @@ export const portfolioConfig = {
         "/images/Mobile_apps_screenshots/FINEX-screenshots/screen-6.png"
       ],
       image: "/images/Mobile_apps_screenshots/FINEX-screenshots/screen-1.png",
-      featured: true,
-      strategy: "Local-First-Speicherung und privates Datenhandling",
-      client: "FinTracker",
-      technology: "Expo, React Native"
+      featured: false,
+      strategy: "Local-first Architektur",
+      client: "FINEX",
+      technology: "TypeScript, SQLite"
     },
     {
-      id: 1,
-      title: "CAR RENTAL PLATFORM",
-      category: "Webentwicklung",
-      description: "Eine komplette Webanwendung für Autovermietungen mit responsiver HTML5/CSS3-Oberfläche.",
-      techStack: ["PHP", "Laravel", "JavaScript"],
-      githubUrl: "https://github.com/H-Ossama/Cars_Rental_v2.0",
-      image: "/images/cars_rental_screenshots/Capture%20d%27%C3%A9cran.png",
+      id: 103,
+      title: "Tijarati",
+      category: "Mobile Development",
+      description: "Management-Plattform für Händler mit Inventar, Schuldenverfolgung und KI-gestützten Einblicken.",
+      techStack: ["React Native", "Firebase", "Gemini AI", "Node.js Function"],
+      githubUrl: "https://github.com/H-Ossama/TIJARATI",
+      image: "/images/Mobile_apps_screenshots/TIJARATI-screenshots/Screenshot_20260108_021801_TIJARATI.jpg",
       featured: false,
-      strategy: "Komponentenbasierte Architektur mit robustem Zustandsmanagement",
-      client: "Vermietungsagentur",
-      technology: "Laravel, PHP, JavaScript"
+      strategy: "Cloud-synchronisiertes Inventar mit KI-Schicht",
+      client: "Händlergemeinschaft",
+      technology: "React Native, KI"
     }
   ],
 
-  mobileProjects: [
-    {
-      id: 101,
-      title: "Parental Guard",
-      category: "Mobile Sicherheit",
-      description: "Android-Kindersicherungslösung mit Echtzeit-Überwachung.",
-      techStack: ["Kotlin", "Jetpack Compose", "Ktor"],
-      githubUrl: "https://github.com/H-Ossama/Family-Guard",
-      image: "/images/Mobile_apps_screenshots/Familly_Guard-screenshots/Screenshot_20260108_021123.jpg",
-      featured: true,
-      strategy: "Privilegierte Agentenüberwachung mit sicherem Relay",
-      client: "Parental Guard",
-      technology: "Kotlin, Jetpack Compose"
-    }
-  ],
+  mobileProjects: [],
 
   certifications: [
     {
@@ -124,8 +228,8 @@ export const portfolioConfig = {
 
   sections: {
     about: { yearsExperience: "Jahre Erfahrung", projectsCompleted: "Abgeschlossene Projekte" },
-    skills: { coreSkills: "Kernkompetenzen", description: "Technologien, die ich beherrsche.", summary: "Erworbene Fähigkeiten durch Ausbildung." },
-    projects: { featuredProjects: "Top-Projekte", description: "Ein Einblick in meine neuesten Arbeiten.", moreProjects: "Weitere Projekte", wantToSeeMore: "Wollen Sie mehr sehen?", githubDescription: "Besuchen Sie mein GitHub-Profil.", viewGithubProfile: "GitHub-Profil ansehen" },
+    skills: { coreSkills: "Kernkompetenzen", description: "Technologien, die ich beherrsche.", summary: "Erworben durch Ausbildung und Praxisprojekte." },
+    projects: { featuredProjects: "Arbeit", description: "Ein Einblick in meine neuesten Arbeiten.", moreProjects: "Weitere Projekte", wantToSeeMore: "Wollen Sie mehr sehen?", githubDescription: "Besuchen Sie mein GitHub-Profil für weitere Projekte.", viewGithubProfile: "GitHub-Profil ansehen" },
     mobileProjects: { title: "Mobile Projekte", subtitle: "(KI-gestützt)", description: "Mobile Apps, die mit KI-Unterstützung erstellt wurden." },
     education: { description: "Meine akademische Grundlage.", continuousLearning: "Lebenslanges Lernen", learningDescription: "Lernen hört nie auf." },
     contact: { letsStartConversation: "Lassen Sie uns ein Gespräch beginnen", description: "Bereit, Ihr nächstes Projekt zu besprechen?" }

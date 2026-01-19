@@ -12,13 +12,14 @@ export default function Header() {
   const labels = useNavigationLabels()
 
   // Navigation items with localized labels
+  // Order matched to page sections: Hero -> Expertise -> Projects -> Experience -> Education -> About -> Contact
   const navigation = [
     { name: labels.home, href: '#home' },
-    { name: labels.about, href: '#about' },
-    { name: labels.skills, href: '#skills' },
+    { name: labels.skills, href: '#expertise' }, // Mapped to Expertise section
     { name: labels.projects, href: '#projects' },
+    // { name: 'Experience', href: '#experience' }, // Skipping pending localization update
     { name: labels.education, href: '#education' },
-    { name: labels.blog || 'Blog', href: '/blog' },
+    { name: labels.about, href: '#about' },
     { name: labels.contact, href: '#contact' },
   ]
 
@@ -79,7 +80,7 @@ export default function Header() {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled
-        ? 'bg-dark-900/90 dark:bg-dark-900/90 bg-white/90 backdrop-blur-xl shadow-glow border-b border-gray-700/20 dark:border-gray-700/20 border-gray-300/20'
+        ? 'bg-dark-900/80 dark:bg-dark-900/80 backdrop-blur-xl shadow-lg border-b border-white/5 supports-[backdrop-filter]:bg-dark-900/60'
         : 'bg-transparent'
         }`}
       style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 999 }}

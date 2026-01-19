@@ -43,70 +43,68 @@ const DevelopmentBanner = () => {
   return (
     <>
       {/* Backdrop overlay */}
-      <div 
-        className={`fixed inset-0 bg-black/60 backdrop-blur-sm z-[9998] transition-all duration-300 ${
-          isClosing ? 'opacity-0 backdrop-blur-none' : 'opacity-100'
-        }`}
+      <div
+        className={`fixed inset-0 bg-black/60 backdrop-blur-sm z-[9998] transition-all duration-300 ${isClosing ? 'opacity-0 backdrop-blur-none' : 'opacity-100'
+          }`}
         onClick={handleBackdropClick}
         aria-hidden="true"
       />
-      
+
       {/* Banner */}
-      <div className={`fixed top-0 left-0 right-0 z-[9999] transform transition-all duration-300 ease-out ${
-        isClosing ? '-translate-y-full opacity-0 scale-y-0' : 'translate-y-0 opacity-100 scale-y-100'
-      }`}>
-        <div className="bg-gradient-to-r from-amber-500 via-orange-500 to-red-500 text-white shadow-2xl border-b border-orange-400/30">
+      <div className={`fixed top-0 left-0 right-0 z-[9999] transform transition-all duration-500 ease-out ${isClosing ? '-translate-y-full opacity-0' : 'translate-y-0 opacity-100'
+        }`}>
+        <div className="bg-dark-900 border-b border-accent-cyan/20 shadow-[0_0_30px_rgba(102,217,237,0.15)] text-gray-300 backdrop-blur-xl">
+          {/* Cyber Decorative Line */}
+          <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-accent-cyan/50 to-transparent" />
+
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="py-4 md:py-6">
-              <div className="flex items-start gap-3 md:gap-4">
-                {/* Icon */}
-                <div className="flex-shrink-0 mt-0.5">
-                  <div className="relative animate-pulse">
-                    <Construction className="w-6 h-6 md:w-7 md:h-7 text-white" />
-                    <AlertTriangle className="w-3 h-3 absolute -top-1 -right-1 text-amber-200 animate-bounce" />
+            <div className="py-4 md:py-5">
+              <div className="flex items-start gap-4">
+                {/* Icon Box */}
+                <div className="flex-shrink-0 mt-1">
+                  <div className="relative w-10 h-10 rounded-lg bg-accent-cyan/10 border border-accent-cyan/20 flex items-center justify-center">
+                    <Construction className="w-5 h-5 text-accent-cyan animate-pulse" />
+                    <div className="absolute -top-1 -right-1 w-2 h-2 bg-accent-purple rounded-full animate-ping" />
                   </div>
                 </div>
-                
+
                 {/* Content */}
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="space-y-2">
-                      <div className="flex items-center gap-2">
-                        <h3 className="text-lg md:text-xl font-bold text-white">
+                <div className="flex-1 min-w-0 pt-0.5">
+                  <div className="flex items-start justify-between gap-6 mr-8">
+                    <div className="space-y-1.5">
+                      <div className="flex items-center gap-3">
+                        <h3 className="text-base md:text-lg font-bold text-white tracking-wider font-mono uppercase">
+                          <span className="text-accent-cyan mr-2">{'//'}</span>
                           {t('developmentBanner.title')}
                         </h3>
-                        <Clock className="w-4 h-4 text-amber-200" />
+                        <div className="px-2 py-0.5 rounded text-[10px] font-bold bg-yellow-500/20 text-yellow-400 border border-yellow-500/30">
+                          BETA
+                        </div>
                       </div>
-                      
-                      <p className="text-sm md:text-base leading-relaxed text-white/95 max-w-4xl">
+
+                      <p className="text-sm text-gray-400 leading-relaxed font-light">
                         {t('developmentBanner.message')}
                       </p>
-                      
+
                       <div className="flex items-center gap-2 pt-1">
-                        <div className="w-2 h-2 bg-green-300 rounded-full animate-pulse"></div>
-                        <p className="text-sm md:text-base font-medium text-white">
-                          {t('developmentBanner.thankYou')}
-                        </p>
+                        <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse" />
+                        <span className="text-xs font-mono text-green-400 opacity-80">System.Status: ACTIVE_DEVELOPMENT</span>
                       </div>
                     </div>
-                    
-                    {/* Close button */}
-                    <button
-                      onClick={handleClose}
-                      className="flex-shrink-0 p-2 rounded-full hover:bg-white/20 active:bg-white/30 transition-all duration-200 group"
-                      aria-label="Close banner"
-                      title="Close this message"
-                    >
-                      <X className="w-5 h-5 group-hover:scale-110 transition-transform duration-200" />
-                    </button>
                   </div>
                 </div>
+
+                {/* Close Button */}
+                <button
+                  onClick={handleClose}
+                  className="absolute top-4 right-4 p-2 rounded-lg text-gray-500 hover:text-white hover:bg-white/5 transition-all duration-300 border border-transparent hover:border-white/10"
+                  aria-label="Close"
+                >
+                  <X size={18} />
+                </button>
               </div>
             </div>
           </div>
-          
-          {/* Subtle bottom border animation */}
-          <div className="h-1 bg-gradient-to-r from-yellow-300 via-orange-300 to-red-300 opacity-60"></div>
         </div>
       </div>
     </>
