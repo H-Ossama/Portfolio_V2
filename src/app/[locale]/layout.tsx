@@ -4,14 +4,23 @@ import { getPortfolioConfig, type Locale as PortfolioLocale } from '@/lib/locali
 import { ThemeProvider } from '@/contexts/ThemeContext'
 import { absoluteUrl, getCanonicalUrl, getLocaleUrl } from '@/lib/seo-utils'
 import Script from 'next/script'
-import { Inter } from 'next/font/google'
+import { Inter, Space_Grotesk } from 'next/font/google'
 
 // Optimize font loading with proper display strategy
-const inter = Inter({ 
+const inter = Inter({
   subsets: ['latin'],
   display: 'swap',
   preload: true,
-  variable: '--font-inter', // Using CSS variable for font
+  variable: '--font-inter',
+  fallback: ['system-ui', 'sans-serif']
+})
+
+// 2026 Modern display font
+const spaceGrotesk = Space_Grotesk({
+  subsets: ['latin'],
+  display: 'swap',
+  preload: true,
+  variable: '--font-space-grotesk',
   fallback: ['system-ui', 'sans-serif']
 })
 
@@ -34,7 +43,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: { params: { locale: string } }): Promise<Metadata> {
   const locale = params.locale as PortfolioLocale
-  
+
   if (!locales.includes(locale as Locale)) {
     return {
       title: 'Page Not Found',
@@ -43,10 +52,10 @@ export async function generateMetadata({ params }: { params: { locale: string } 
   }
 
   const config = getPortfolioConfig(locale)
-  
+
   // Prepare absolute URLs for SEO
   const ogImageUrl = absoluteUrl('/images/og-image.jpg')
-  
+
   return {
     title: config.meta.title,
     description: config.meta.description,
@@ -88,10 +97,12 @@ export async function generateMetadata({ params }: { params: { locale: string } 
 
 import GoogleAnalytics from '@/components/OptimizedGoogleAnalytics'
 import GoUpButton from '@/components/GoUpButton'
+import FloatingControls from '@/components/FloatingControls'
+import DynamicIslandHeader from '@/components/DynamicIslandHeader'
 
 export default function LocaleLayout({ children, params }: LocaleLayoutProps) {
   const locale = params.locale as Locale
-  
+
   // Validate locale
   if (!locales.includes(locale)) {
     notFound()
@@ -99,7 +110,7 @@ export default function LocaleLayout({ children, params }: LocaleLayoutProps) {
 
   return (
     <ThemeProvider>
-      <div className={`${inter.variable} scroll-smooth overflow-x-hidden nav-scroll`}>
+      <div className={`${inter.variable} ${spaceGrotesk.variable} scroll-smooth overflow-x-hidden nav-scroll font-sans`}>
         {/* Structured data for better SEO - non-blocking */}
         <Script
           id="schema-person"
@@ -134,6 +145,8 @@ export default function LocaleLayout({ children, params }: LocaleLayoutProps) {
         <GoogleAnalytics measurementId="G-MEASUREMENT_ID" />
 
         {children}
+        <DynamicIslandHeader />
+        <FloatingControls />
         <GoUpButton />
       </div>
     </ThemeProvider>

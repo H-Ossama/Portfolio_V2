@@ -12,19 +12,21 @@ module.exports = {
         '18': '4.5rem',
       },
       colors: {
-        // Huly.io dark theme color palette
+        // 2026 Premium Cyber-Minimalist Dark Theme
         primary: {
-          50: '#eff6ff',
-          100: '#dbeafe',
-          200: '#bfdbfe',
-          300: '#93c5fd',
-          400: '#60a5fa',
-          500: '#3b82f6',
-          600: '#2563eb',
-          700: '#1d4ed8',
-          800: '#1e40af',
-          900: '#1e3a8a',
+          50: '#f5f3ff',
+          100: '#ede9fe',
+          200: '#ddd6fe',
+          300: '#c4b5fd',
+          400: '#a78bfa',
+          500: '#8b5cf6',
+          600: '#7c3aed',  // Electric violet - main accent
+          700: '#6d28d9',
+          800: '#5b21b6',
+          900: '#4c1d95',
+          950: '#2e1065',
         },
+        // Deep space backgrounds
         dark: {
           50: '#f8fafc',
           100: '#f1f5f9',
@@ -35,20 +37,29 @@ module.exports = {
           600: '#475569',
           700: '#334155',
           800: '#1e293b',
-          850: '#1a202c',
-          900: '#0f172a',
-          950: '#020617',
+          850: '#15151a',
+          900: '#1a191d',  // Deep Charcoal (Tamalsen Main BG)
+          950: '#121215',  // Darker shade
+        },
+        // Neon accent colors
+        accent: {
+          violet: '#9b51e0', // Tamalsen Purple
+          cyan: '#66d9ed',   // Tamalsen Cyan
+          rose: '#f43f5e',
+          amber: '#f59e0b',
         },
         glow: {
+          violet: '#9b51e0',
+          cyan: '#66d9ed',
+          rose: '#f43f5e',
           blue: '#3b82f6',
-          purple: '#8b5cf6',
-          cyan: '#06b6d4',
-          pink: '#ec4899',
+          purple: '#9b51e0',
         },
         glass: {
-          light: 'rgba(255, 255, 255, 0.1)',
-          medium: 'rgba(255, 255, 255, 0.2)',
-          dark: 'rgba(0, 0, 0, 0.2)',
+          light: 'rgba(255, 255, 255, 0.05)',
+          medium: 'rgba(255, 255, 255, 0.1)',
+          heavy: 'rgba(255, 255, 255, 0.15)',
+          dark: 'rgba(0, 0, 0, 0.3)',
         },
         light: {
           50: '#ffffff',
@@ -64,7 +75,8 @@ module.exports = {
         }
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        sans: ['Space Grotesk', 'Inter', 'system-ui', 'sans-serif'],
+        display: ['Space Grotesk', 'system-ui', 'sans-serif'],
         mono: ['JetBrains Mono', 'monospace'],
       },
       animation: {
@@ -137,24 +149,34 @@ module.exports = {
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
-        'gradient-huly': 'linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%)',
-        'gradient-huly-light': 'linear-gradient(135deg, #ffffff 0%, #f8fafc 50%, #f1f5f9 100%)',
-        'gradient-glow': 'radial-gradient(circle at center, rgba(59, 130, 246, 0.3) 0%, transparent 70%)',
-        'gradient-purple-glow': 'radial-gradient(circle at center, rgba(139, 92, 246, 0.3) 0%, transparent 70%)',
+        'gradient-dark': 'linear-gradient(135deg, #0a0a0f 0%, #12121a 50%, #1a1a25 100%)',
+        'gradient-dark-alt': 'linear-gradient(180deg, #0a0a0f 0%, #12121a 100%)',
+        'gradient-light': 'linear-gradient(135deg, #ffffff 0%, #f8fafc 50%, #f1f5f9 100%)',
+        'gradient-glow-violet': 'radial-gradient(circle at center, rgba(124, 58, 237, 0.3) 0%, transparent 70%)',
+        'gradient-glow-cyan': 'radial-gradient(circle at center, rgba(6, 182, 212, 0.25) 0%, transparent 70%)',
+        'gradient-mesh': 'radial-gradient(at 40% 20%, rgba(124, 58, 237, 0.15) 0px, transparent 50%), radial-gradient(at 80% 0%, rgba(6, 182, 212, 0.1) 0px, transparent 50%), radial-gradient(at 0% 50%, rgba(244, 63, 94, 0.08) 0px, transparent 50%)',
+        'gradient-accent': 'linear-gradient(135deg, #7c3aed 0%, #06b6d4 100%)',
+        'gradient-accent-reverse': 'linear-gradient(135deg, #06b6d4 0%, #7c3aed 100%)',
       },
       backdropBlur: {
         xs: '2px',
+        '2xl': '40px',
       },
       boxShadow: {
-        'glow': '0 0 20px rgba(59, 130, 246, 0.3)',
-        'glow-lg': '0 0 40px rgba(59, 130, 246, 0.4)',
-        'glow-purple': '0 0 20px rgba(139, 92, 246, 0.3)',
-        'glow-purple-lg': '0 0 40px rgba(139, 92, 246, 0.4)',
-        'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
-        'inner-glow': 'inset 0 2px 4px 0 rgba(59, 130, 246, 0.1)',
-        'soft-dark': '0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2)',
-        'medium-dark': '0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2)',
-        'large-dark': '0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.2)',
+        'glow': '0 0 20px rgba(124, 58, 237, 0.3)',
+        'glow-lg': '0 0 40px rgba(124, 58, 237, 0.4)',
+        'glow-violet': '0 0 30px rgba(124, 58, 237, 0.4)',
+        'glow-cyan': '0 0 30px rgba(6, 182, 212, 0.4)',
+        'glow-rose': '0 0 30px rgba(244, 63, 94, 0.4)',
+        'glass': '0 8px 32px 0 rgba(0, 0, 0, 0.37)',
+        'glass-hover': '0 12px 40px 0 rgba(0, 0, 0, 0.5)',
+        'inner-glow': 'inset 0 2px 4px 0 rgba(124, 58, 237, 0.1)',
+        'neon': '0 0 5px rgba(124, 58, 237, 0.5), 0 0 20px rgba(124, 58, 237, 0.3), 0 0 40px rgba(124, 58, 237, 0.2)',
+        'neon-cyan': '0 0 5px rgba(6, 182, 212, 0.5), 0 0 20px rgba(6, 182, 212, 0.3), 0 0 40px rgba(6, 182, 212, 0.2)',
+        'soft-dark': '0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3)',
+        'medium-dark': '0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3)',
+        'large-dark': '0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.3)',
+        'bento': '0 1px 2px rgba(0, 0, 0, 0.5), 0 4px 8px rgba(0, 0, 0, 0.3), 0 12px 24px rgba(0, 0, 0, 0.2)',
       },
     },
   },

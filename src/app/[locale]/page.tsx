@@ -1,4 +1,3 @@
-import DynamicIslandHeader from '@/components/DynamicIslandHeader'
 import Footer from '@/components/Footer'
 import Hero from '@/components/sections/Hero'
 import ClientWrapper from '@/components/ClientWrapper'
@@ -12,37 +11,19 @@ import Script from 'next/script'
 import { generateHomePageStructuredData } from '@/lib/structured-data'
 import { getPortfolioConfig } from '@/lib/localization-server'
 import { Metadata } from 'next'
+// Static imports for critical components to prevent loading errors
+import RevealAnimation from '@/components/RevealAnimation'
+import Expertise from '@/components/sections/Expertise'
+import EnhancedProjects from '@/components/sections/EnhancedProjects'
+import Experience from '@/components/sections/Experience'
+import Education from '@/components/sections/Education'
+import Testimonials from '@/components/sections/Testimonials'
+import Contact from '@/components/sections/Contact'
+import About from '@/components/sections/About'
 
 // Import the AdvancedPerformanceOptimizer component
 const AdvancedPerformanceOptimizer = dynamic(() => import('@/components/AdvancedPerformanceOptimizer'), {
   ssr: false
-})
-
-// Lazy load non-critical components for better initial performance
-const About = dynamic(() => import('@/components/sections/About').then(mod => ({ default: mod.default })), {
-  loading: () => <div className="min-h-screen bg-transparent" />
-})
-
-// Use the new professional skills component instead of the emoji-based one
-const ProfessionalSkills = dynamic(() => import('@/components/sections/ProfessionalSkills'), {
-  loading: () => <div className="min-h-screen bg-transparent" />
-})
-
-// Use the enhanced projects component with flippable cards
-const EnhancedProjects = dynamic(() => import('@/components/sections/EnhancedProjects'), {
-  loading: () => <div className="min-h-screen bg-transparent" />
-})
-
-const MobileProjects = dynamic(() => import('@/components/sections/MobileProjects'), {
-  loading: () => <div className="min-h-screen bg-transparent" />
-})
-
-const Education = dynamic(() => import('@/components/sections/Education'), {
-  loading: () => <div className="min-h-screen bg-transparent" />
-})
-
-const Contact = dynamic(() => import('@/components/sections/Contact'), {
-  loading: () => <div className="min-h-screen bg-transparent" />
 })
 
 // Lazy load heavy background components
@@ -56,9 +37,7 @@ const SmokeEffect = dynamic(() => import('@/components/SmokeEffect'), {
   loading: () => null
 })
 
-const RevealAnimation = dynamic(() => import('@/components/RevealAnimation'), {
-  loading: () => <div className="contents">{}</div>
-})
+
 
 // Define supported locales
 const locales = ['en', 'fr', 'de'] as const
@@ -74,15 +53,15 @@ interface LocalePageProps {
 export async function generateMetadata({ params }: LocalePageProps): Promise<Metadata> {
   const locale = params.locale as Locale;
   const config = getPortfolioConfig(locale);
-  
+
   return {
     title: `${config.personal.name} - ${config.personal.title} | Portfolio`,
     description: config.personal.bio,
     keywords: [
-      'Oussama Hattan', 
-      'Web Developer', 
-      'Full-Stack Developer', 
-      'React Developer', 
+      'Oussama Hattan',
+      'Web Developer',
+      'Full-Stack Developer',
+      'React Developer',
       'Moroccan Developer',
       'Frontend Engineer',
       'Portfolio',
@@ -128,7 +107,7 @@ export default function LocalePage({ params }: LocalePageProps) {
   if (!locales.includes(params.locale as Locale)) {
     notFound()
   }
-  
+
   const locale = params.locale as Locale;
   const structuredData = generateHomePageStructuredData(locale);
 
@@ -145,68 +124,72 @@ export default function LocalePage({ params }: LocalePageProps) {
           }}
         />
       ))}
-    
-      {/* Performance optimization for mobile and low-end devices */}
+
       <PerformanceOptimizer />
-      
-      {/* Advanced performance optimizer for better Lighthouse score */}
       <AdvancedPerformanceOptimizer />
-      
-      {/* Development Banner - Shows first to new visitors */}
       <DevelopmentBanner />
-      
+
       <main className="min-h-screen relative overflow-x-hidden">
-        {/* Enhanced smooth scrolling */}
         <SmoothScrollEnhancer />
-        
-        {/* Load background components after initial paint */}
         <ProgrammingSymbolsBackground />
         <SmokeEffect />
-        
-        {/* Critical above-the-fold content */}
+
         <ScrollProgress />
-        <DynamicIslandHeader />
-        
-        {/* Hero section loads immediately */}
+
+        {/* Navbar is now in Layout */}
+
+        {/* 1. Hero Section */}
         <Hero />
-        
-        {/* Other sections load progressively with class for content-visibility optimization */}
+
+        {/* 2. Expertise Section (New) */}
         <div className="lazy-section">
           <RevealAnimation direction="up" delay={0.1}>
-            <About />
+            <Expertise />
           </RevealAnimation>
         </div>
-        
-        <div className="lazy-section">
-          <RevealAnimation direction="up" delay={0.1}>
-            <ProfessionalSkills />
-          </RevealAnimation>
-        </div>
-        
+
+        {/* 3. Projects Section (Redesigned) */}
         <div className="lazy-section">
           <RevealAnimation direction="up" delay={0.1}>
             <EnhancedProjects />
           </RevealAnimation>
         </div>
 
+        {/* 4. Experience Section (New) */}
         <div className="lazy-section">
           <RevealAnimation direction="up" delay={0.1}>
-            <MobileProjects />
+            <Experience />
           </RevealAnimation>
         </div>
-        
+
+        {/* 4b. Education Section (New) */}
         <div className="lazy-section">
           <RevealAnimation direction="up" delay={0.1}>
             <Education />
           </RevealAnimation>
         </div>
-        
+
+        {/* 5. About (Optional, keeping as per plan) */}
+        <div className="lazy-section">
+          <RevealAnimation direction="up" delay={0.1}>
+            <About />
+          </RevealAnimation>
+        </div>
+
+        {/* 6. Testimonials (New) */}
+        <div className="lazy-section">
+          <RevealAnimation direction="up" delay={0.1}>
+            <Testimonials />
+          </RevealAnimation>
+        </div>
+
+        {/* 7. Contact (Redesigned) */}
         <div className="lazy-section">
           <RevealAnimation direction="up" delay={0.1}>
             <Contact />
           </RevealAnimation>
         </div>
-        
+
         <Footer />
       </main>
     </ClientWrapper>

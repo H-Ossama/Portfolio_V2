@@ -3,8 +3,10 @@
 import { useState, type TouchEvent } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ArrowLeft, ChevronLeft, ChevronRight, Download, ExternalLink } from 'lucide-react'
+import { ArrowLeft, ChevronLeft, ChevronRight, Download, ExternalLink, Minimize2, Maximize2 } from 'lucide-react'
+import { useTheme } from '@/contexts/ThemeContext'
 
 interface Certificate {
   name: string
@@ -32,6 +34,9 @@ export default function CertificateViewer({
 }: CertificateViewerProps) {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [touchStartX, setTouchStartX] = useState<number | null>(null)
+  const [isFullscreen, setIsFullscreen] = useState(false)
+  const { theme } = useTheme()
+  const router = useRouter()
 
   if (!certificates.length) {
     return null
@@ -82,154 +87,188 @@ export default function CertificateViewer({
   }
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white">
-      <div className="mx-auto flex min-h-screen w-full max-w-7xl flex-col px-4 pb-12 pt-6 sm:px-6 lg:px-10">
-        <header className="flex flex-col gap-6">
-          <Link
-            href={`/${locale}#education`}
-            className="inline-flex w-fit items-center gap-2 rounded-full bg-white/5 px-4 py-2 text-sm font-medium text-slate-200 transition hover:bg-white/10"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Back to Education
-          </Link>
+    <div className={`min-h-screen ${theme === 'dark' ? 'bg-dark-950 text-white' : 'bg-gray-50 text-dark-900'} selection:bg-accent-cyan selection:text-dark-950 relative`}>
 
-          <div className="grid gap-6 rounded-3xl border border-white/5 bg-white/[0.03] p-6 shadow-[0_30px_60px_-15px_rgba(15,23,42,0.65)] backdrop-blur lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+      {/* Global Navbar is used from Layout */}
+
+      {/* Floating Back Button */}
+      <motion.button
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.5, delay: 0.2 }}
+        onClick={() => router.push(`/${locale}#education`)}
+        className="fixed top-24 left-6 md:top-10 md:left-10 z-[60] w-12 h-12 rounded-full bg-dark-950/50 backdrop-blur-xl border border-white/10 flex items-center justify-center hover:bg-accent-cyan hover:text-dark-950 hover:scale-110 shadow-lg transition-all duration-300 group"
+        aria-label="Back to Education"
+      >
+        <ArrowLeft size={22} className="group-hover:-translate-x-1 transition-transform" />
+      </motion.button>
+
+      <div className="mx-auto flex min-h-screen w-full max-w-[1400px] flex-col px-4 pb-12 pt-32 sm:px-6 lg:px-10">
+
+        <div className="grid lg:grid-cols-[400px_1fr] gap-8 lg:gap-16 items-start">
+
+          {/* Left Column: Info */}
+          <div className="space-y-8 lg:sticky lg:top-24">
             <div className="space-y-4">
-              <div className="space-y-2">
-                <p className="text-xs font-semibold uppercase tracking-[0.25em] text-slate-400">
+              <div className="flex items-center gap-2">
+                <span className="h-px w-8 bg-accent-cyan/50"></span>
+                <p className="text-xs font-mono font-bold uppercase tracking-widest text-accent-cyan">
                   Institution
                 </p>
-                <h1 className="text-3xl font-semibold sm:text-4xl lg:text-5xl">
-                  {institutionName}
-                </h1>
               </div>
+              <h1 className={`text-4xl md:text-5xl font-bold leading-tight ${theme === 'dark' ? 'text-white' : 'text-dark-900'}`}>
+                {institutionName}
+              </h1>
+            </div>
 
+            <div className="space-y-6">
               {(degree || period) && (
-                <div className="flex flex-wrap items-center gap-3 text-sm text-slate-300">
+                <div className="flex flex-wrap gap-3">
                   {degree && (
-                    <span className="rounded-full bg-white/10 px-3 py-1 text-xs uppercase tracking-wide text-blue-200">
+                    <span className={`px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wide border ${theme === 'dark' ? 'bg-white/5 border-white/10 text-gray-300' : 'bg-gray-100 border-gray-200 text-gray-700'
+                      }`}>
                       {degree}
                     </span>
                   )}
                   {period && (
-                    <span className="rounded-full bg-white/5 px-3 py-1 text-xs uppercase tracking-wide text-slate-200/80">
+                    <span className={`px-4 py-1.5 rounded-full text-xs font-mono border ${theme === 'dark' ? 'bg-transparent border-white/10 text-gray-400' : 'bg-transparent border-gray-200 text-gray-500'
+                      }`}>
                       {period}
                     </span>
                   )}
-                  <span className="rounded-full bg-blue-500/10 px-3 py-1 text-xs font-medium text-blue-200">
-                    {currentIndex + 1} / {certificates.length}
-                  </span>
                 </div>
               )}
 
               {description && (
-                <p className="max-w-3xl text-base leading-relaxed text-slate-300">
+                <p className={`text-lg leading-relaxed ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
                   {description}
                 </p>
               )}
-
-              <div className="flex flex-wrap gap-3">
-                <button
-                  onClick={handleDownload}
-                  className="inline-flex items-center gap-2 rounded-full bg-blue-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-blue-500"
-                >
-                  <Download className="h-4 w-4" />
-                  Download
-                </button>
-                <a
-                  href={currentCertificate.image}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full border border-white/10 px-4 py-2 text-sm font-medium text-slate-200 transition hover:border-white/20 hover:bg-white/5"
-                >
-                  <ExternalLink className="h-4 w-4" />
-                  Open Original
-                </a>
-              </div>
             </div>
 
-            <div className="grid gap-4 rounded-3xl border border-white/5 bg-slate-900/30 p-5">
-              <div className="flex items-center justify-between text-sm text-slate-300">
-                <span className="font-semibold text-slate-200">
-                  {currentCertificate.name}
-                </span>
+            <div className="flex flex-wrap gap-4 pt-4 border-t border-white/10">
+              <button
+                onClick={handleDownload}
+                className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 rounded-xl bg-accent-cyan text-dark-950 px-6 py-3 text-sm font-bold uppercase tracking-wide hover:bg-white transition-all duration-300 shadow-[0_0_20px_rgba(102,217,237,0.2)] hover:shadow-[0_0_30px_rgba(102,217,237,0.4)]"
+              >
+                <Download className="h-4 w-4" />
+                Download
+              </button>
+              <a
+                href={currentCertificate.image}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`flex-1 sm:flex-none inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 text-sm font-bold uppercase tracking-wide transition-all duration-300 border ${theme === 'dark'
+                  ? 'border-white/10 text-white hover:bg-white/5 hover:border-accent-cyan/50'
+                  : 'border-gray-200 text-dark-900 hover:bg-gray-50 hover:border-accent-cyan'
+                  }`}
+              >
+                <ExternalLink className="h-4 w-4" />
+                Open Original
+              </a>
+            </div>
+          </div>
+
+          {/* Right Column: Viewer */}
+          <div className="relative space-y-6">
+            {/* Main Viewer */}
+            <div className={`relative rounded-3xl overflow-hidden border transition-all duration-500 group ${theme === 'dark' ? 'bg-dark-900 border-white/10 shadow-2xl' : 'bg-gray-100 border-gray-200 shadow-xl'
+              }`}>
+
+              {/* Controls overlay */}
+              <div className="absolute top-4 right-4 z-20 flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <button
+                  onClick={() => setIsFullscreen(!isFullscreen)}
+                  className="p-2 rounded-full bg-black/50 text-white backdrop-blur-md hover:bg-accent-cyan hover:text-dark-950 transition-colors"
+                >
+                  {isFullscreen ? <Minimize2 size={18} /> : <Maximize2 size={18} />}
+                </button>
+              </div>
+
+              <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 z-10 flex justify-between px-4 pointer-events-none">
                 {certificates.length > 1 && (
-                  <div className="flex items-center gap-2">
+                  <>
                     <button
                       onClick={handlePrevious}
-                      className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/5 transition hover:bg-white/10"
-                      aria-label="Previous certificate"
+                      className="pointer-events-auto p-3 rounded-full bg-black/20 text-white backdrop-blur-md border border-white/10 hover:bg-accent-cyan hover:text-dark-950 transition-all duration-300 hover:scale-110"
                     >
-                      <ChevronLeft className="h-4 w-4" />
+                      <ChevronLeft className="h-5 w-5" />
                     </button>
                     <button
                       onClick={handleNext}
-                      className="flex h-8 w-8 items-center justify-center rounded-full border border-white/10 bg-white/5 transition hover:bg-white/10"
-                      aria-label="Next certificate"
+                      className="pointer-events-auto p-3 rounded-full bg-black/20 text-white backdrop-blur-md border border-white/10 hover:bg-accent-cyan hover:text-dark-950 transition-all duration-300 hover:scale-110"
                     >
-                      <ChevronRight className="h-4 w-4" />
+                      <ChevronRight className="h-5 w-5" />
                     </button>
-                  </div>
+                  </>
                 )}
               </div>
 
               <div
-                className="relative aspect-[4/3] overflow-hidden rounded-2xl border border-white/5 bg-slate-900/60"
+                className={`relative w-full ${isFullscreen ? 'fixed inset-0 z-50 bg-black/90 h-screen' : 'aspect-[4/3] md:aspect-[16/10]'}`}
                 onTouchStart={handleTouchStart}
                 onTouchEnd={handleTouchEnd}
               >
-                <AnimatePresence mode="wait" initial={false}>
+                {isFullscreen && (
+                  <button
+                    onClick={() => setIsFullscreen(false)}
+                    className="absolute top-6 right-6 z-50 p-3 rounded-full bg-white/10 text-white hover:bg-white/20"
+                  >
+                    <Minimize2 size={24} />
+                  </button>
+                )}
+                <AnimatePresence mode="wait">
                   <motion.div
                     key={currentCertificate.image}
-                    initial={{ opacity: 0.2, scale: 0.95 }}
+                    initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.97 }}
-                    transition={{ duration: 0.25, ease: 'easeOut' }}
-                    className="absolute inset-0"
+                    exit={{ opacity: 0, scale: 1.05 }}
+                    transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                    className="absolute inset-0 flex items-center justify-center p-4 md:p-8"
                   >
                     <Image
                       src={currentCertificate.image}
                       alt={`${institutionName} - ${currentCertificate.name}`}
                       fill
+                      className={`object-contain drop-shadow-2xl ${isFullscreen ? '' : 'rounded-lg'}`}
                       priority
-                      sizes="(max-width: 1024px) 100vw, 60vw"
-                      className="object-contain"
                     />
                   </motion.div>
                 </AnimatePresence>
               </div>
+            </div>
 
-              {certificates.length > 1 && (
-                <div className="flex gap-3 overflow-x-auto pb-1">
-                  {certificates.map((certificate, index) => (
-                    <button
-                      key={certificate.name}
-                      onClick={() => goToIndex(index)}
-                      className={`group relative flex h-20 w-28 flex-none items-center justify-center overflow-hidden rounded-xl border transition ${
-                        index === currentIndex
-                          ? 'border-blue-400/80 bg-blue-500/10'
-                          : 'border-white/10 bg-white/5 hover:border-white/20'
+            {/* Thumbnails */}
+            {certificates.length > 1 && (
+              <div className="flex gap-4 overflow-x-auto pb-4 pt-2 scrollbar-hide">
+                {certificates.map((cert, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => goToIndex(idx)}
+                    className={`relative flex-none w-24 h-24 rounded-xl overflow-hidden border-2 transition-all duration-300 ${currentCertificate.image === cert.image
+                      ? 'border-accent-cyan scale-105 shadow-[0_0_15px_rgba(102,217,237,0.3)]'
+                      : 'border-transparent opacity-50 hover:opacity-100 hover:border-white/20'
                       }`}
-                    >
-                      <Image
-                        src={certificate.image}
-                        alt={certificate.name}
-                        fill
-                        sizes="120px"
-                        className="object-contain opacity-90 transition group-hover:opacity-100"
-                      />
-                      <span className="absolute bottom-1 left-1 right-1 truncate rounded-md bg-slate-900/80 px-2 py-1 text-[0.65rem] font-medium text-slate-100">
-                        {certificate.name}
-                      </span>
-                    </button>
-                  ))}
-                </div>
-              )}
+                  >
+                    <Image
+                      src={cert.image}
+                      alt={cert.name}
+                      fill
+                      className="object-cover"
+                    />
+                  </button>
+                ))}
+              </div>
+            )}
+
+            <div className="text-center md:text-left">
+              <p className="text-sm font-mono opacity-50 mb-1">CURRENT CERTIFICATE</p>
+              <h3 className={`text-xl font-bold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
+                {currentCertificate.name}
+              </h3>
             </div>
           </div>
-        </header>
-
-      
+        </div>
       </div>
     </div>
   )

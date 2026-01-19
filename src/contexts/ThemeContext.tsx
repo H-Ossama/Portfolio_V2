@@ -39,7 +39,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
       localStorage.setItem('portfolio-theme', theme)
       document.documentElement.classList.remove('light', 'dark')
       document.documentElement.classList.add(theme)
-      
+
       // Update meta theme-color
       const metaThemeColor = document.querySelector('meta[name="theme-color"]')
       if (metaThemeColor) {
@@ -52,10 +52,10 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     const newTheme = theme === 'dark' ? 'light' : 'dark'
     setTargetTheme(newTheme) // Set target theme first
     setIsLoading(true)
-    
+
     // Store the theme switch flag in sessionStorage
     sessionStorage.setItem('theme-switch-reload', 'true')
-    
+
     // Show loading animation with slower, smoother timing
     setTimeout(() => {
       setTheme(newTheme)
@@ -72,10 +72,10 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     setTheme: (newTheme: Theme) => {
       setTargetTheme(newTheme) // Set target theme first
       setIsLoading(true)
-      
+
       // Store the theme switch flag in sessionStorage
       sessionStorage.setItem('theme-switch-reload', 'true')
-      
+
       setTimeout(() => {
         setTheme(newTheme)
         setTimeout(() => {
@@ -88,16 +88,20 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
 
   // Prevent hydration mismatch by not rendering until mounted
   if (!mounted) {
-    return <div className="dark">{children}</div>
+    return (
+      <ThemeContext.Provider value={value}>
+        <div className="dark">{children}</div>
+      </ThemeContext.Provider>
+    )
   }
 
   return (
     <ThemeContext.Provider value={value}>
       <div className={theme}>
         {children}
-        <ThemeSwitchLoading 
-          isVisible={isLoading} 
-          targetTheme={targetTheme} 
+        <ThemeSwitchLoading
+          isVisible={isLoading}
+          targetTheme={targetTheme}
         />
       </div>
     </ThemeContext.Provider>

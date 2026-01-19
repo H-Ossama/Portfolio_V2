@@ -17,147 +17,83 @@ const ThemeSwitchLoading = ({ isVisible, targetTheme }: ThemeSwitchLoadingProps)
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.4 }}
+          transition={{ duration: 0.3 }}
         >
           {/* Background overlay with theme transition */}
           <motion.div
-            className={`absolute inset-0 ${
-              targetTheme === 'dark' 
-                ? 'bg-gradient-to-br from-dark-950 via-dark-900 to-dark-800' 
-                : 'bg-gradient-to-br from-white via-gray-50 to-gray-100'
-            }`}
-            initial={{ 
-              clipPath: 'circle(0% at 50% 50%)' 
+            className={`absolute inset-0 ${targetTheme === 'dark'
+                ? 'bg-dark-950'
+                : 'bg-gray-50'
+              }`}
+            initial={{
+              clipPath: 'circle(0% at 50% 50%)'
             }}
-            animate={{ 
-              clipPath: 'circle(150% at 50% 50%)' 
+            animate={{
+              clipPath: 'circle(150% at 50% 50%)'
             }}
-            exit={{ 
-              clipPath: 'circle(0% at 50% 50%)' 
+            exit={{
+              clipPath: 'circle(0% at 50% 50%)'
             }}
-            transition={{ 
-              duration: 1.0, 
-              ease: 'easeInOut' 
+            transition={{
+              duration: 0.8,
+              ease: [0.22, 1, 0.36, 1]
             }}
           />
 
           {/* Center animation */}
           <motion.div
             className="relative z-10 flex flex-col items-center"
-            initial={{ scale: 0, rotate: -180 }}
-            animate={{ scale: 1, rotate: 0 }}
-            exit={{ scale: 0, rotate: 180 }}
-            transition={{ duration: 0.8, ease: 'easeOut' }}
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 1.1 }}
+            transition={{ duration: 0.4, delay: 0.1 }}
           >
-            {/* Icon container */}
-            <motion.div
-              className={`relative w-20 h-20 rounded-full flex items-center justify-center mb-6 ${
-                targetTheme === 'dark'
-                  ? 'bg-dark-800/80 border border-gray-700/50'
-                  : 'bg-white/80 border border-gray-300/50'
-              } backdrop-blur-md shadow-2xl`}
-              animate={{
-                rotate: [0, 360],
-                scale: [1, 1.1, 1]
-              }}
-              transition={{
-                rotate: { duration: 1.5, ease: 'linear', repeat: Infinity },
-                scale: { duration: 2, ease: 'easeInOut', repeat: Infinity }
-              }}
-            >
-              {/* Rotating glow effect */}
+            {/* Tech Ring */}
+            <div className="relative mb-8">
               <motion.div
-                className={`absolute inset-0 rounded-full ${
-                  targetTheme === 'dark'
-                    ? 'bg-gradient-to-r from-blue-500/30 via-purple-500/30 to-cyan-500/30'
-                    : 'bg-gradient-to-r from-orange-400/30 via-yellow-400/30 to-amber-400/30'
-                }`}
-                animate={{ rotate: [0, -360] }}
-                transition={{ duration: 2, ease: 'linear', repeat: Infinity }}
+                className={`w-24 h-24 rounded-full border-2 border-dashed ${targetTheme === 'dark' ? 'border-accent-cyan/30' : 'border-blue-500/30'}`}
+                animate={{ rotate: 360 }}
+                transition={{ duration: 10, repeat: Infinity, ease: 'linear' }}
               />
-              
-              {/* Theme icon */}
-              <div className="relative z-10">
+              <motion.div
+                className={`absolute inset-0 rounded-full border-2 border-t-transparent border-l-transparent ${targetTheme === 'dark' ? 'border-accent-cyan' : 'border-blue-600'}`}
+                animate={{ rotate: -360 }}
+                transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+              />
+
+              <div className="absolute inset-0 flex items-center justify-center">
                 {targetTheme === 'dark' ? (
-                  <Moon 
-                    size={32} 
-                    className="text-blue-400 drop-shadow-lg" 
-                  />
+                  <Moon size={32} className="text-accent-cyan fill-accent-cyan/20" />
                 ) : (
-                  <Sun 
-                    size={32} 
-                    className="text-orange-400 drop-shadow-lg" 
-                  />
+                  <Sun size={32} className="text-blue-600 fill-blue-600/20" />
                 )}
               </div>
-            </motion.div>
+            </div>
 
             {/* Loading text */}
-            <motion.div
-              className={`text-center ${
-                targetTheme === 'dark' ? 'text-white' : 'text-gray-900'
-              }`}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2, duration: 0.4 }}
-            >
-              <h3 className="text-xl font-semibold mb-2">
-                Switching to {targetTheme} mode
+            <div className="text-center space-y-2">
+              <div className={`text-sm font-mono uppercase tracking-[0.3em] ${targetTheme === 'dark' ? 'text-accent-cyan' : 'text-blue-600'
+                }`}>
+                System Theme
+              </div>
+              <h3 className={`text-3xl font-bold ${targetTheme === 'dark' ? 'text-white' : 'text-dark-900'
+                }`}>
+                {targetTheme === 'dark' ? 'DARK_MODE' : 'LIGHT_MODE'}
               </h3>
-              
-              {/* Animated dots */}
-              <div className="flex justify-center space-x-1">
-                {[0, 1, 2].map((i) => (
+              <div className="flex items-center justify-center gap-1 h-4">
+                {[...Array(5)].map((_, i) => (
                   <motion.div
                     key={i}
-                    className={`w-2 h-2 rounded-full ${
-                      targetTheme === 'dark' ? 'bg-blue-400' : 'bg-orange-400'
-                    }`}
+                    className={`w-1 h-full ${targetTheme === 'dark' ? 'bg-white/20' : 'bg-dark-900/20'}`}
                     animate={{
-                      scale: [1, 1.5, 1],
-                      opacity: [0.5, 1, 0.5]
+                      backgroundColor: targetTheme === 'dark' ? ['rgba(255,255,255,0.2)', '#66d9ed', 'rgba(255,255,255,0.2)'] : ['rgba(0,0,0,0.2)', '#2563eb', 'rgba(0,0,0,0.2)']
                     }}
-                    transition={{
-                      duration: 1,
-                      repeat: Infinity,
-                      delay: i * 0.2,
-                      ease: 'easeInOut'
-                    }}
+                    transition={{ duration: 1, repeat: Infinity, delay: i * 0.1 }}
                   />
                 ))}
               </div>
-            </motion.div>
+            </div>
           </motion.div>
-
-          {/* Floating particles */}
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            {Array.from({ length: 20 }).map((_, i) => (
-              <motion.div
-                key={i}
-                className={`absolute w-1 h-1 rounded-full ${
-                  targetTheme === 'dark' 
-                    ? 'bg-gradient-to-r from-blue-400 to-purple-400' 
-                    : 'bg-gradient-to-r from-orange-400 to-yellow-400'
-                }`}
-                style={{
-                  left: `${Math.random() * 100}%`,
-                  top: `${Math.random() * 100}%`,
-                }}
-                animate={{
-                  y: [0, -100, 0],
-                  x: [0, Math.random() * 50 - 25, 0],
-                  opacity: [0, 1, 0],
-                  scale: [0, 1, 0]
-                }}
-                transition={{
-                  duration: 2 + Math.random() * 2,
-                  repeat: Infinity,
-                  delay: Math.random() * 2,
-                  ease: 'easeInOut'
-                }}
-              />
-            ))}
-          </div>
         </motion.div>
       )}
     </AnimatePresence>

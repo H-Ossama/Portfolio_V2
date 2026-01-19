@@ -4,7 +4,7 @@ import { motion, useScroll, useSpring, useTransform } from 'framer-motion'
 
 const ScrollProgress = () => {
   const { scrollYProgress } = useScroll()
-  
+
   // Enhanced spring configuration for smoother animation
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 400,
@@ -15,7 +15,7 @@ const ScrollProgress = () => {
 
   return (
     <motion.div
-      className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-400 origin-left z-50 will-change-transform"
+      className="fixed top-0 left-0 right-0 h-0.5 bg-accent-cyan origin-left z-50 will-change-transform shadow-[0_0_15px_rgba(102,217,237,0.7)]"
       style={{ scaleX }}
     />
   )

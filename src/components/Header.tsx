@@ -3,8 +3,6 @@
 import { useState, useEffect } from 'react'
 import { Menu, X, Code2, Sparkles } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
-import ThemeToggle from './ThemeToggle'
-import SimpleLanguageSwitcher from './SimpleLanguageSwitcher'
 import TestLanguageButton from './TestLanguageButton'
 import { useNavigationLabels } from '@/lib/localization'
 
@@ -55,16 +53,16 @@ export default function Header() {
       const pathname = window.location.pathname;
       const segments = pathname.split('/');
       const currentLocale = (segments[1] === 'en' || segments[1] === 'fr' || segments[1] === 'de') ? segments[1] : 'en';
-      
+
       // Navigate to the page with the current locale
       window.location.href = `/${currentLocale}${href}`;
       return;
     }
-    
+
     // For hash links - defer scroll to next frame to avoid sync layout during state updates
     const elementId = href.substring(1);
     const element = document.getElementById(elementId);
-    
+
     if (element) {
       window.requestAnimationFrame(() => {
         const targetTop = element.getBoundingClientRect().top + window.pageYOffset
@@ -74,17 +72,16 @@ export default function Header() {
         })
       })
     }
-    
+
     setIsMenuOpen(false);
   }
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        isScrolled
-          ? 'bg-dark-900/90 dark:bg-dark-900/90 bg-white/90 backdrop-blur-xl shadow-glow border-b border-gray-700/20 dark:border-gray-700/20 border-gray-300/20'
-          : 'bg-transparent'
-      }`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled
+        ? 'bg-dark-900/90 dark:bg-dark-900/90 bg-white/90 backdrop-blur-xl shadow-glow border-b border-gray-700/20 dark:border-gray-700/20 border-gray-300/20'
+        : 'bg-transparent'
+        }`}
       style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 999 }}
     >
       <div className="container-custom">
@@ -102,11 +99,11 @@ export default function Header() {
               </div>
               <motion.div
                 className="absolute -top-1 -right-1 w-3 h-3 bg-gradient-to-r from-blue-400 to-purple-400 rounded-full"
-                animate={{ 
+                animate={{
                   scale: [1, 1.2, 1],
                   opacity: [0.8, 1, 0.8]
                 }}
-                transition={{ 
+                transition={{
                   duration: 2,
                   repeat: Infinity,
                   ease: "easeInOut"
@@ -124,22 +121,29 @@ export default function Header() {
           </motion.div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-1">
+          <nav className="hidden md:flex items-center space-x-6">
             {navigation.map((item, index) => (
               <motion.button
                 key={item.name}
                 onClick={() => scrollToSection(item.href)}
-                className="px-4 py-2 text-theme-secondary hover:text-theme-primary font-medium transition-all duration-300 relative group rounded-lg hover:bg-white/5"
+                className="group relative px-2 py-1 text-sm font-mono text-theme-secondary transition-colors duration-300 hover:text-accent-cyan"
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: index * 0.1 }}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                {item.name}
-                <motion.span 
-                  className="absolute bottom-1 left-1/2 w-0 h-0.5 bg-gradient-to-r from-blue-400 to-purple-400 group-hover:w-6 transition-all duration-300"
-                  style={{ transform: 'translateX(-50%)' }}
+                <div className="flex items-center gap-2">
+                  <span className="text-accent-purple/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 contrast-more:opacity-100">
+                    {'//'}
+                  </span>
+                  <span>
+                    <span className="text-xs text-theme-muted mr-2 opacity-50">0{index + 1}</span>
+                    {item.name.toLowerCase()}
+                  </span>
+                </div>
+                <motion.span
+                  className="absolute -bottom-1 left-0 w-0 h-0.5 bg-accent-cyan group-hover:w-full transition-all duration-300"
                 />
               </motion.button>
             ))}
@@ -147,7 +151,7 @@ export default function Header() {
 
           {/* Desktop Actions */}
           <div className="hidden md:flex items-center space-x-3">
-            <SimpleLanguageSwitcher variant="compact" />
+            {/* <SimpleLanguageSwitcher variant="compact" /> */}
             <TestLanguageButton />
             {/* Test Button */}
             <motion.button
@@ -158,12 +162,12 @@ export default function Header() {
             >
               <span className="text-sm font-bold">TEST</span>
             </motion.button>
-            <ThemeToggle />
+            {/* <ThemeToggle /> */}
           </div>
 
           {/* Mobile Actions */}
           <div className="md:hidden flex items-center space-x-3">
-            <SimpleLanguageSwitcher variant="mobile" />
+            {/* <SimpleLanguageSwitcher variant="mobile" /> */}
             <TestLanguageButton />
             {/* Test Button Mobile */}
             <motion.button
@@ -174,7 +178,7 @@ export default function Header() {
             >
               <span className="text-xs font-bold">T</span>
             </motion.button>
-            <ThemeToggle />
+            {/* <ThemeToggle /> */}
             {/* Enhanced Mobile Menu Button */}
             <motion.button
               className="relative w-10 h-10 glass-card rounded-lg flex items-center justify-center text-theme-secondary hover:text-theme-primary hover:shadow-glow transition-all duration-300"
@@ -182,30 +186,30 @@ export default function Header() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-            <AnimatePresence mode="wait">
-              {isMenuOpen ? (
-                <motion.div
-                  key="close"
-                  initial={{ rotate: -90, opacity: 0 }}
-                  animate={{ rotate: 0, opacity: 1 }}
-                  exit={{ rotate: 90, opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <X size={20} />
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="menu"
-                  initial={{ rotate: 90, opacity: 0 }}
-                  animate={{ rotate: 0, opacity: 1 }}
-                  exit={{ rotate: -90, opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <Menu size={20} />
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </motion.button>
+              <AnimatePresence mode="wait">
+                {isMenuOpen ? (
+                  <motion.div
+                    key="close"
+                    initial={{ rotate: -90, opacity: 0 }}
+                    animate={{ rotate: 0, opacity: 1 }}
+                    exit={{ rotate: 90, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <X size={20} />
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="menu"
+                    initial={{ rotate: 90, opacity: 0 }}
+                    animate={{ rotate: 0, opacity: 1 }}
+                    exit={{ rotate: -90, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <Menu size={20} />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.button>
           </div>
         </div>
 

@@ -1,8 +1,9 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { GraduationCap, Calendar, MapPin, Award } from 'lucide-react'
+import { GraduationCap, Calendar, MapPin, Award, ArrowUpRight, BookOpen } from 'lucide-react'
 import { usePortfolioConfig, useNavigationLabels } from '@/lib/localization'
+import { useTheme } from '@/contexts/ThemeContext'
 import Link from 'next/link'
 import { slugify } from '@/lib/utils'
 
@@ -22,218 +23,172 @@ interface EducationEntry {
   screenshots?: string[]
 }
 
+const EducationCard = ({ edu, index, locale, theme }: { edu: EducationEntry, index: number, locale: string, theme: string }) => {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
+      viewport={{ once: true }}
+      className={`group relative p-8 rounded-2xl bg-white/5 border border-white/10 hover:border-accent-cyan/30 transition-all duration-500 hover:bg-white/10 flex flex-col h-full`}
+    >
+      <div className="flex items-start justify-between mb-6">
+        <div className="flex items-center gap-3">
+          <div className="w-12 h-12 rounded-full bg-accent-cyan/10 flex items-center justify-center text-accent-cyan group-hover:bg-accent-cyan group-hover:text-dark-950 transition-all duration-300">
+            <GraduationCap size={24} />
+          </div>
+          <div>
+            <div className="flex items-center gap-1 mb-1">
+              <span className="text-accent-cyan font-mono text-[10px]">{'//'}</span>
+              <span className={`text-xs font-mono uppercase tracking-widest ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
+                {edu.year}
+              </span>
+            </div>
+            <h3 className={`text-xl font-bold leading-tight group-hover:text-accent-cyan transition-colors duration-300 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
+              {edu.degree}
+            </h3>
+          </div>
+        </div>
+      </div>
+
+      <div className="mb-6 flex-grow">
+        <div className="flex items-center gap-2 mb-4 text-sm font-mono opacity-60">
+          <MapPin size={14} />
+          <span>{edu.institution}</span>
+          {edu.grade && (
+            <>
+              <span className="mx-2">•</span>
+              <span>GPA: {edu.grade}</span>
+            </>
+          )}
+        </div>
+        <p className={`text-sm leading-relaxed ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
+          {edu.description}
+        </p>
+      </div>
+
+      <div className="mt-auto pt-6 border-t border-white/5">
+        <div className="flex flex-wrap gap-3">
+          {/* Certificate Links */}
+          {edu.certificates && edu.certificates.length > 0 && (
+            <Link
+              href={`/${locale}/certificates/${slugify(`${edu.institution}-${edu.degree}`)}`}
+              className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-accent-cyan hover:text-white transition-colors"
+            >
+              <span>View Certificates</span>
+              <ArrowUpRight size={14} />
+            </Link>
+          )}
+          {/* ALX online link fallback */}
+          {edu.institution.includes('ALX') && (
+            <a
+              href="https://intranet.alxswe.com/certificates/rBExG37Lpm"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-accent-cyan hover:text-white transition-colors"
+            >
+              <span>Verify Online</span>
+              <ArrowUpRight size={14} />
+            </a>
+          )}
+        </div>
+      </div>
+    </motion.div>
+  )
+}
+
 export default function Education() {
   const { config, locale } = usePortfolioConfig()
   const labels = useNavigationLabels()
+  const { theme } = useTheme()
 
   return (
-    <section id="education" className="section-padding relative">
-      {/* Background elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-1/3 left-1/5 w-80 h-80 bg-gradient-glow rounded-full opacity-10 floating-element"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-gradient-purple-glow rounded-full opacity-15 floating-element-delayed"></div>
-      </div>
-      
-      <div className="container-custom relative z-10">
-        {/* Section Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: "easeOut" }}
-          viewport={{ once: true, margin: "-100px" }}
-          className="text-center mb-12 sm:mb-16 md:mb-20"
-        >
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-theme-primary mb-4 sm:mb-6">
-            <span className="text-gradient">{labels.education}</span> & Learning
-          </h2>
-          <p className="text-base sm:text-lg md:text-xl text-theme-secondary max-w-3xl mx-auto leading-relaxed px-4 sm:px-0">
-            {config.sections?.education?.description || "My academic foundation and continuous learning journey in web development"}
-          </p>
-        </motion.div>
+    <section id="education" className="py-24 relative overflow-hidden">
+      <div className="container-custom px-6 relative z-10">
 
-        {/* Education Cards */}
-        <div className="max-w-4xl mx-auto mb-20">
-          {config.education.map((edu: EducationEntry, index: number) => (
-            <motion.div
-              key={edu.degree}
-              initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8, ease: "easeOut", delay: index * 0.3 }}
-              viewport={{ once: true, margin: "-50px" }}
-              className="glass-card p-6 sm:p-8 md:p-10 mb-8 hover:shadow-glow-lg transition-all duration-500 group"
-            >
-              {/* Responsive layout with flex column on mobile, row on larger screens */}
-              <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-6 md:gap-8">
-                {/* Icon - centered on mobile, left-aligned on larger screens */}
-                <div className="flex-shrink-0 w-16 h-16 sm:w-20 sm:h-20 glass-card-theme rounded-full flex items-center justify-center floating-element group-hover:shadow-glow transition-all duration-500 mb-2 sm:mb-0">
-                  <GraduationCap className="icon-theme-primary group-hover:text-blue-400 group-hover:scale-110 transition-all duration-300" size={30} />
-                </div>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-end mb-20">
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
+            <h2 className={`text-6xl md:text-8xl font-bold mb-8 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
+              Education<br /><span className="text-accent-cyan opacity-80">& Learning</span>
+            </h2>
+            <p className={`text-lg leading-relaxed max-w-md opacity-80 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
+              {config.sections?.education?.description || "My academic foundation and continuous learning journey in web development."}
+            </p>
+          </motion.div>
 
-                {/* Content */}
-                <div className="flex-1 w-full text-center sm:text-left">
-                  <h3 className="text-2xl sm:text-2xl md:text-3xl font-bold text-theme-primary mb-3 sm:mb-4 group-hover:text-gradient transition-all duration-300">
-                    {edu.degree}
-                  </h3>
-                  
-                  {/* Meta information with better wrapping for mobile */}
-                  <div className="flex flex-wrap justify-center sm:justify-start items-center gap-3 sm:gap-4 md:gap-6 mb-4 sm:mb-6 text-theme-secondary text-sm sm:text-base">
-                    <div className="flex items-center gap-2">
-                      <MapPin size={16} className="text-blue-400 flex-shrink-0" />
-                      <span className="font-medium">{edu.institution}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Calendar size={16} className="text-purple-400 flex-shrink-0" />
-                      <span className="font-medium">{edu.year}</span>
-                    </div>
-                    {edu.grade && (
-                      <div className="flex items-center gap-2">
-                        <GraduationCap size={16} className="text-green-400 flex-shrink-0" />
-                        <span className="font-medium">GPA: {edu.grade}</span>
-                      </div>
-                    )}
-                  </div>
-
-                  <p className="text-theme-secondary leading-relaxed text-base sm:text-lg mb-5 sm:mb-6">
-                    {edu.description}
-                  </p>
-
-                  {/* Certificates are shown via the certificate viewer button below */}
-
-                  {/* Certificate buttons with better mobile layout */}
-                  <div className="flex flex-wrap justify-center sm:justify-start gap-3 sm:gap-4">
-                    {/* Certificate buttons */}
-                    {edu.certificates && edu.certificates.length > 0 && (
-                      // Localized slug keeps per-locale routing aligned with translated content
-                      <Link
-                        href={`/${locale}/certificates/${slugify(`${edu.institution}-${edu.degree}`)}`}
-                        className="inline-flex items-center gap-2 px-4 sm:px-5 md:px-6 py-2 sm:py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium text-sm sm:text-base rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
-                      >
-                        <Award size={16} className="flex-shrink-0" />
-                        <span className="whitespace-nowrap">View Certificate{edu.certificates.length > 1 ? 's' : ''}</span>
-                        {edu.certificates.length > 1 && (
-                          <span className="bg-white/20 px-2 py-1 rounded-full text-xs">
-                            {edu.certificates.length}
-                          </span>
-                        )}
-                      </Link>
-                    )}
-
-                    {/* ALX certificate link */}
-                    {edu.institution.includes('ALX') && (
-                      <a
-                        href="https://intranet.alxswe.com/certificates/rBExG37Lpm"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 px-4 sm:px-5 md:px-6 py-2 sm:py-3 bg-gradient-to-r from-green-600 to-teal-600 hover:from-green-700 hover:to-teal-700 text-white font-medium text-sm sm:text-base rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
-                      >
-                        <Award size={16} className="flex-shrink-0" />
-                        <span className="whitespace-nowrap">View Online Certificate</span>
-                        <span className="group-hover/link:translate-x-1 transition-transform duration-300">→</span>
-                      </a>
-                    )}
-                  </div>
-                </div>
+          {/* Decorative Element matching Hero/Projects */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            className="hidden lg:flex justify-end"
+          >
+            <div className="relative w-48 h-48">
+              <div className="absolute inset-0 border-2 border-dashed border-accent-cyan/30 rounded-full animate-spin-slow" />
+              <div className="absolute inset-4 border border-white/10 rounded-full" />
+              <div className="absolute inset-0 flex items-center justify-center">
+                <BookOpen size={48} className="text-accent-cyan opacity-50" />
               </div>
-            </motion.div>
+            </div>
+          </motion.div>
+        </div>
+
+        {/* Education Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
+          {config.education.map((edu: EducationEntry, index: number) => (
+            <EducationCard key={index} edu={edu} index={index} locale={locale} theme={theme} />
           ))}
         </div>
 
-        {/* Certifications Section (if any) */}
+        {/* Certifications Section */}
         {config.certifications && config.certifications.length > 0 && (
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: "easeOut", delay: 0.4 }}
-            viewport={{ once: true, margin: "-100px" }}
-            className="mb-20"
-          >
-            <h3 className="text-3xl sm:text-4xl font-bold text-theme-primary mb-8 sm:mb-12 text-center">
-              <span className="text-gradient">Certifications</span>
-            </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 md:gap-8 max-w-4xl mx-auto px-4 sm:px-0">
+          <div className="mb-20">
+            <div className="flex items-center gap-4 mb-12">
+              <div className="h-px bg-white/10 flex-grow" />
+              <h3 className={`text-2xl font-bold uppercase tracking-widest ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
+                Certifications
+              </h3>
+              <div className="h-px bg-white/10 flex-grow" />
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {config.certifications.map((cert: any, index: number) => (
                 <motion.div
                   key={`cert-${index}`}
-                  initial={{ opacity: 0, y: 30 }}
+                  initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, ease: "easeOut", delay: index * 0.2 }}
-                  viewport={{ once: true, margin: "-50px" }}
-                  className="glass-card p-5 sm:p-6 md:p-8 hover:shadow-glow transition-all duration-500 group"
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                  className="group flex items-center justify-between p-6 rounded-xl bg-white/5 border border-white/10 hover:border-accent-cyan/30 transition-all hover:bg-white/10"
                 >
-                  <h4 className="text-lg sm:text-xl font-bold text-theme-primary mb-2 sm:mb-3 group-hover:text-gradient transition-all duration-300 line-clamp-2">
-                    {cert.name}
-                  </h4>
-                  <p className="text-theme-secondary mb-2 sm:mb-3 font-medium text-sm sm:text-base">{cert.issuer}</p>
-                  <p className="text-theme-muted mb-3 sm:mb-4 text-sm">{cert.date}</p>
+                  <div className="flex items-center gap-4">
+                    <div className="w-10 h-10 rounded-full bg-accent-purple/10 flex items-center justify-center text-accent-purple">
+                      <Award size={20} />
+                    </div>
+                    <div>
+                      <h4 className={`font-bold ${theme === 'dark' ? 'text-white' : 'text-gray-900'} group-hover:text-accent-cyan transition-colors`}>
+                        {cert.name}
+                      </h4>
+                      <p className="text-xs font-mono text-gray-500 mt-1">{cert.issuer} • {cert.date}</p>
+                    </div>
+                  </div>
+
                   {cert.url && (
-                    <a
-                      href={cert.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-blue-400 hover:text-theme-primary font-medium transition-all duration-300 inline-flex items-center gap-1 sm:gap-2 group/link text-sm sm:text-base"
-                    >
-                      View Certificate 
-                      <span className="group-hover/link:translate-x-1 transition-transform duration-300">→</span>
+                    <a href={cert.url} target="_blank" rel="noopener noreferrer" className="p-2 rounded-full border border-white/10 text-gray-400 hover:text-white hover:bg-accent-cyan/20 hover:border-accent-cyan transition-all">
+                      <ArrowUpRight size={18} />
                     </a>
                   )}
                 </motion.div>
               ))}
             </div>
-          </motion.div>
+          </div>
         )}
 
-        {/* Learning Philosophy */}
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: "easeOut", delay: 0.6 }}
-          viewport={{ once: true, margin: "-100px" }}
-          className="text-center"
-        >
-          <div className="glass-card max-w-4xl mx-auto p-6 sm:p-8 md:p-12 hover:shadow-glow-lg transition-all duration-500">
-            <div className="relative">
-              {/* Glowing icon */}
-              <div className="absolute -top-12 sm:-top-16 left-1/2 transform -translate-x-1/2">
-                <div className="w-12 h-12 sm:w-16 sm:h-16 glass-card-theme rounded-full flex items-center justify-center text-2xl sm:text-3xl floating-element">
-                  📚
-                </div>
-              </div>
-              
-              <h3 className="text-2xl sm:text-3xl font-bold text-theme-primary mb-4 sm:mb-6 pt-6 sm:pt-8">
-                {config.sections?.education?.continuousLearning || 'Continuous Learning Mindset'}
-              </h3>
-              <p className="text-theme-secondary leading-relaxed text-base sm:text-lg">
-                {config.sections?.education?.learningDescription || `Beyond formal education, I believe in the importance of continuous learning 
-                in the rapidly evolving tech industry. I regularly engage with online courses, 
-                technical blogs, developer communities, and open-source projects to stay current 
-                with the latest technologies and best practices. My goal is to never stop learning 
-                and growing as a developer.`}
-              </p>
-              
-              {/* Learning stats - Responsive grid */}
-              <div className="grid grid-cols-3 gap-2 sm:gap-4 md:gap-6 mt-6 sm:mt-8 md:mt-10 max-w-xs sm:max-w-md mx-auto">
-                <div className="text-center">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 glass-card-theme rounded-full flex items-center justify-center text-lg sm:text-xl mb-2 floating-element mx-auto">
-                    💡
-                  </div>
-                  <span className="text-xs sm:text-sm text-theme-muted">Always Curious</span>
-                </div>
-                <div className="text-center">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 glass-card-theme rounded-full flex items-center justify-center text-lg sm:text-xl mb-2 floating-element-delayed mx-auto">
-                    🎯
-                  </div>
-                  <span className="text-xs sm:text-sm text-theme-muted">Goal Oriented</span>
-                </div>
-                <div className="text-center">
-                  <div className="w-10 h-10 sm:w-12 sm:h-12 glass-card-theme rounded-full flex items-center justify-center text-lg sm:text-xl mb-2 floating-element mx-auto">
-                    🚀
-                  </div>
-                  <span className="text-xs sm:text-sm text-theme-muted">Future Ready</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </motion.div>
       </div>
     </section>
   )
