@@ -241,6 +241,7 @@ export const portfolioConfig = {
       techStack: ["React Native", "Firebase", "Gemini AI", "Node.js Function"],
       githubUrl: "https://github.com/H-Ossama/TIJARATI",
       image: "/images/Mobile_apps_screenshots/TIJARATI-screenshots/Screenshot_20260108_021801_TIJARATI.jpg",
+      featured: false,
       screenshots: [
         "/images/Mobile_apps_screenshots/TIJARATI-screenshots/Screenshot_20260108_021801_TIJARATI.jpg",
         "/images/Mobile_apps_screenshots/TIJARATI-screenshots/Screenshot_20260108_021812_TIJARATI.jpg",

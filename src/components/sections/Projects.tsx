@@ -15,15 +15,16 @@ interface ProjectCardProps {
     githubUrl?: string
     liveUrl?: string
     image: string
-    featured: boolean
+    featured?: boolean
     period?: string
+    [key: string]: any
   }
   index: number
 }
 
 function ProjectCard({ project, index }: ProjectCardProps) {
   const { theme } = useTheme()
-  
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 50 }}
@@ -40,12 +41,11 @@ function ProjectCard({ project, index }: ProjectCardProps) {
           fill
           className="object-cover transition-transform duration-700 group-hover:scale-110"
         />
-        <div className={`absolute inset-0 bg-gradient-to-t ${
-          theme === 'dark' 
-            ? 'from-dark-900/80 via-dark-900/20 to-transparent' 
+        <div className={`absolute inset-0 bg-gradient-to-t ${theme === 'dark'
+            ? 'from-dark-900/80 via-dark-900/20 to-transparent'
             : 'from-gray-900/80 via-gray-900/20 to-transparent'
-        }`}></div>
-        
+          }`}></div>
+
         {/* Project Links Overlay */}
         <div className="absolute inset-0 flex items-center justify-center gap-4 opacity-0 group-hover:opacity-100 transition-all duration-500">
           {project.githubUrl && (
@@ -79,15 +79,13 @@ function ProjectCard({ project, index }: ProjectCardProps) {
 
       {/* Project Content */}
       <div className="p-8">
-        <h3 className={`text-2xl font-bold mb-4 group-hover:text-gradient transition-all duration-300 ${
-          theme === 'dark' ? 'text-white' : 'text-gray-900'
-        }`}>
+        <h3 className={`text-2xl font-bold mb-4 group-hover:text-gradient transition-all duration-300 ${theme === 'dark' ? 'text-white' : 'text-gray-900'
+          }`}>
           {project.title}
         </h3>
-        
-        <p className={`mb-6 leading-relaxed ${
-          theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
-        }`}>
+
+        <p className={`mb-6 leading-relaxed ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
+          }`}>
           {project.description}
         </p>
 
@@ -96,11 +94,10 @@ function ProjectCard({ project, index }: ProjectCardProps) {
           {project.techStack.map((tech: string) => (
             <span
               key={tech}
-              className={`px-4 py-2 glass-pill text-sm hover:shadow-glow transition-all duration-300 ${
-                theme === 'dark' 
-                  ? 'text-gray-300 hover:text-white' 
+              className={`px-4 py-2 glass-pill text-sm hover:shadow-glow transition-all duration-300 ${theme === 'dark'
+                  ? 'text-gray-300 hover:text-white'
                   : 'text-gray-600 hover:text-gray-900'
-              }`}
+                }`}
             >
               {tech}
             </span>
@@ -150,7 +147,7 @@ export default function Projects() {
         <div className="absolute bottom-1/4 left-1/4 w-80 h-80 bg-gradient-glow rounded-full opacity-15 floating-element-delayed"></div>
         <div className="absolute top-2/3 right-1/3 w-64 h-64 bg-gradient-glow rounded-full opacity-10 floating-element"></div>
       </div>
-      
+
       <div className="container-custom relative z-10">
         {/* Section Header */}
         <motion.div
@@ -160,14 +157,12 @@ export default function Projects() {
           viewport={{ once: true, margin: "-100px" }}
           className="text-center mb-20"
         >
-          <h2 className={`text-5xl lg:text-6xl font-bold mb-6 ${
-            theme === 'dark' ? 'text-white' : 'text-gray-900'
-          }`}>
+          <h2 className={`text-5xl lg:text-6xl font-bold mb-6 ${theme === 'dark' ? 'text-white' : 'text-gray-900'
+            }`}>
             {config.sections?.projects?.featuredProjects?.split(' ')[0] || 'Featured'} <span className="text-gradient">{config.sections?.projects?.featuredProjects?.split(' ').slice(1).join(' ') || 'Projects'}</span>
           </h2>
-          <p className={`text-xl max-w-3xl mx-auto leading-relaxed ${
-            theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
-          }`}>
+          <p className={`text-xl max-w-3xl mx-auto leading-relaxed ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
+            }`}>
             {config.sections?.projects?.description || 'A showcase of my recent work, demonstrating various technologies and problem-solving approaches'}
           </p>
         </motion.div>
@@ -195,10 +190,10 @@ export default function Projects() {
               {config.projects
                 .filter(project => !project.featured)
                 .map((project, index) => (
-                  <ProjectCard 
-                    key={project.id} 
-                    project={project} 
-                    index={index + config.projects.filter(project => project.featured).length} 
+                  <ProjectCard
+                    key={project.id}
+                    project={project}
+                    index={index + config.projects.filter(project => project.featured).length}
                   />
                 ))}
             </div>
@@ -221,7 +216,7 @@ export default function Projects() {
                   <Github size={32} className="icon-theme-primary group-hover:text-blue-400 group-hover:scale-110 transition-all duration-300" />
                 </div>
               </div>
-              
+
               <h3 className="text-3xl font-bold text-theme-primary mb-6 pt-8">
                 {config.sections?.projects?.wantToSeeMore || 'Want to see more?'}
               </h3>

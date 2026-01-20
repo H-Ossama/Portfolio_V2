@@ -20,22 +20,22 @@ interface Connection {
   distance: number
 }
 
+// Particle colors matching huly.io theme
+const colors = [
+  '#3b82f6', // blue-500
+  '#8b5cf6', // purple-500
+  '#06b6d4', // cyan-500
+  '#10b981', // emerald-500
+  '#f59e0b', // amber-500
+  '#ef4444', // red-500
+]
+
 const ParticleBackground = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const animationRef = useRef<number>()
   const [particles, setParticles] = useState<Particle[]>([])
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [isVisible, setIsVisible] = useState(false)
-
-  // Particle colors matching huly.io theme
-  const colors = [
-    '#3b82f6', // blue-500
-    '#8b5cf6', // purple-500
-    '#06b6d4', // cyan-500
-    '#10b981', // emerald-500
-    '#f59e0b', // amber-500
-    '#ef4444', // red-500
-  ]
 
   // Initialize particles
   useEffect(() => {
@@ -45,7 +45,7 @@ const ParticleBackground = () => {
     const initParticles = () => {
       const newParticles: Particle[] = []
       const particleCount = Math.min(50, Math.floor((window.innerWidth * window.innerHeight) / 15000))
-      
+
       for (let i = 0; i < particleCount; i++) {
         newParticles.push({
           x: Math.random() * canvas.width,
@@ -69,7 +69,7 @@ const ParticleBackground = () => {
 
     handleResize()
     window.addEventListener('resize', handleResize)
-    
+
     // Show particles after a delay
     setTimeout(() => setIsVisible(true), 1000)
 
