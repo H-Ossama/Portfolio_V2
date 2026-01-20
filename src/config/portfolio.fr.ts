@@ -68,7 +68,13 @@ export const portfolioConfig = {
       screenshots: [
         "/images/Mobile_apps_screenshots/Familly_Guard-screenshots/Screenshot_20260108_021123.jpg",
         "/images/Mobile_apps_screenshots/Familly_Guard-screenshots/Screenshot_20260108_021143.jpg",
-        "/images/Mobile_apps_screenshots/Familly_Guard-screenshots/Screenshot_20260108_021157.jpg"
+        "/images/Mobile_apps_screenshots/Familly_Guard-screenshots/Screenshot_20260108_021157.jpg",
+        "/images/Mobile_apps_screenshots/Familly_Guard-screenshots/Screenshot_20260108_021226.jpg",
+        "/images/Mobile_apps_screenshots/Familly_Guard-screenshots/Screenshot_20260108_021231.jpg",
+        "/images/Mobile_apps_screenshots/Familly_Guard-screenshots/Screenshot_20260108_021241.jpg",
+        "/images/Mobile_apps_screenshots/Familly_Guard-screenshots/Screenshot_20260108_022151.jpg",
+        "/images/Mobile_apps_screenshots/Familly_Guard-screenshots/Screenshot_20260108_022247.jpg",
+        "/images/Mobile_apps_screenshots/Familly_Guard-screenshots/Screenshot_20260108_022252.jpg"
       ],
       image: "/images/Mobile_apps_screenshots/Familly_Guard-screenshots/Screenshot_20260108_021123.jpg",
       featured: true,
@@ -127,7 +133,9 @@ export const portfolioConfig = {
       image: "/images/efet-screenshots/efet-screenshot-1.png",
       screenshots: [
         "/images/efet-screenshots/efet-screenshot-1.png",
-        "/images/efet-screenshots/efet-screenshot-2.png"
+        "/images/efet-screenshots/efet-screenshot-2.png",
+        "/images/efet-screenshots/efet-screenshot-3.png",
+        "/images/efet-screenshots/efet-screenshot-4.png"
       ],
       featured: false,
       strategy: "Modernisation axée sur la performance",
@@ -147,9 +155,14 @@ export const portfolioConfig = {
         "/images/job-cv/hero.png",
         "/images/job-cv/dashboard.png",
         "/images/job-cv/builder-1.png",
+        "/images/job-cv/builder-2.png",
         "/images/job-cv/job-search.png",
         "/images/job-cv/analytics.png",
-        "/images/job-cv/interview.png"
+        "/images/job-cv/interview.png",
+        "/images/job-cv/billing.png",
+        "/images/job-cv/my-resumes.png",
+        "/images/job-cv/preferences.png",
+        "/images/job-cv/hero-alt.png"
       ],
       strategy: "Services IA intégrés avec un backend Supabase robuste",
       client: "Projet Personnel",
@@ -186,7 +199,12 @@ export const portfolioConfig = {
       githubUrl: "https://github.com/H-Ossama/CinimaHalal",
       screenshots: [
         "/images/Cinima-Halal/screenshot-1.png",
-        "/images/Cinima-Halal/screenshot-2.png"
+        "/images/Cinima-Halal/screenshot-2.png",
+        "/images/Cinima-Halal/screenshot-3.png",
+        "/images/Cinima-Halal/screenshot-4.png",
+        "/images/Cinima-Halal/screenshot-5.png",
+        "/images/Cinima-Halal/screenshot-6.png",
+        "/images/Cinima-Halal/screenshot-7.png"
       ],
       image: "/images/Cinima-Halal/screenshot-1.png",
       featured: false,
@@ -223,7 +241,18 @@ export const portfolioConfig = {
       techStack: ["React Native", "Firebase", "Gemini AI", "Node.js Function"],
       githubUrl: "https://github.com/H-Ossama/TIJARATI",
       image: "/images/Mobile_apps_screenshots/TIJARATI-screenshots/Screenshot_20260108_021801_TIJARATI.jpg",
-      featured: false,
+      screenshots: [
+        "/images/Mobile_apps_screenshots/TIJARATI-screenshots/Screenshot_20260108_021801_TIJARATI.jpg",
+        "/images/Mobile_apps_screenshots/TIJARATI-screenshots/Screenshot_20260108_021812_TIJARATI.jpg",
+        "/images/Mobile_apps_screenshots/TIJARATI-screenshots/Screenshot_20260108_021820_TIJARATI.jpg",
+        "/images/Mobile_apps_screenshots/TIJARATI-screenshots/Screenshot_20260108_021827_TIJARATI.jpg",
+        "/images/Mobile_apps_screenshots/TIJARATI-screenshots/Screenshot_20260108_021835_TIJARATI.jpg",
+        "/images/Mobile_apps_screenshots/TIJARATI-screenshots/Screenshot_20260108_021848_TIJARATI.jpg",
+        "/images/Mobile_apps_screenshots/TIJARATI-screenshots/Screenshot_20260108_021857_TIJARATI.jpg",
+        "/images/Mobile_apps_screenshots/TIJARATI-screenshots/Screenshot_20260108_021905_TIJARATI.jpg",
+        "/images/Mobile_apps_screenshots/TIJARATI-screenshots/Screenshot_20260108_021922_TIJARATI.jpg",
+        "/images/Mobile_apps_screenshots/TIJARATI-screenshots/Screenshot_20260108_021936_TIJARATI.jpg"
+      ],
       strategy: "Inventaire synchronisé avec le cloud et couche IA",
       client: "Communauté de Marchands",
       technology: "React Native, IA"

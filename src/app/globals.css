@@ -73,8 +73,8 @@
       /* Optimize paint performance on mobile */
       -webkit-backface-visibility: hidden;
       backface-visibility: hidden;
-      perspective: 1000;
-      transform-style: preserve-3d;
+      /* perspective: 1000; */
+      /* transform-style: preserve-3d; */
       will-change: scroll-position;
     }
 
@@ -597,5 +597,8 @@
     animation: bounce-in 0.8s ease-out forwards;
   }
 }
-.vertical-text { writing-mode: vertical-rl; text-orientation: mixed; }
 
+.vertical-text {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}
