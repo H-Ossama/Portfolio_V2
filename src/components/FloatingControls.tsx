@@ -17,9 +17,14 @@ export default function FloatingControls() {
     const router = useRouter()
     const pathname = usePathname()
     const [mounted, setMounted] = useState(false)
+    const [isDesktop, setIsDesktop] = useState(false)
 
     useEffect(() => {
         setMounted(true)
+        const checkSize = () => setIsDesktop(window.innerWidth >= 768)
+        checkSize()
+        window.addEventListener('resize', checkSize)
+        return () => window.removeEventListener('resize', checkSize)
     }, [])
 
     const getCurrentLocale = () => {
@@ -45,7 +50,7 @@ export default function FloatingControls() {
     if (!mounted) return null
 
     return (
-        <div className="fixed bottom-6 right-6 md:bottom-auto md:right-auto md:left-0 md:top-1/2 md:-translate-y-1/2 z-50 flex flex-row md:flex-col gap-4 md:gap-6 pointer-events-none">
+        <div className="fixed bottom-6 left-6 md:bottom-auto md:left-0 md:top-1/2 md:-translate-y-1/2 z-50 flex flex-row md:flex-col gap-4 md:gap-6 pointer-events-none md:pl-4">
             <div className="pointer-events-auto flex flex-row md:flex-col gap-4 md:gap-6">
                 {/* Theme Switcher */}
                 <div
@@ -56,8 +61,8 @@ export default function FloatingControls() {
                     <motion.div
                         className="absolute top-1 bottom-1 h-[calc(100%-8px)] w-[calc(50%-4px)] md:left-1 md:right-1 md:w-[calc(100%-8px)] md:h-[calc(50%-4px)] bg-white dark:bg-gray-800 rounded-full shadow-md z-0"
                         animate={{
-                            left: theme === 'light' ? '4px' : '52%',
-                            top: typeof window !== 'undefined' && window.innerWidth >= 768 ? (theme === 'light' ? '4px' : '52%') : '4px',
+                            left: isDesktop ? '4px' : (theme === 'light' ? '4px' : '52%'),
+                            top: isDesktop ? (theme === 'light' ? '4px' : '52%') : '4px',
                         }}
                         transition={{ type: "spring", stiffness: 300, damping: 30 }}
                     />
@@ -88,8 +93,8 @@ export default function FloatingControls() {
                     <motion.div
                         className="absolute top-1 bottom-1 h-[calc(100%-8px)] w-[calc(33.33%-5px)] md:left-1 md:right-1 md:w-[calc(100%-8px)] md:h-[calc(33.33%-5px)] bg-white dark:bg-gray-800 rounded-full shadow-md z-0"
                         animate={{
-                            left: currentLocale === 'en' ? '4px' : currentLocale === 'fr' ? 'calc(33.33% + 2px)' : 'calc(66.66%)',
-                            top: typeof window !== 'undefined' && window.innerWidth >= 768 ? (currentLocale === 'en' ? '4px' : currentLocale === 'fr' ? 'calc(33.33% + 2px)' : 'calc(66.66%)') : '4px',
+                            left: isDesktop ? '4px' : (currentLocale === 'en' ? '4px' : currentLocale === 'fr' ? 'calc(33.33% + 2px)' : 'calc(66.66%)'),
+                            top: isDesktop ? (currentLocale === 'en' ? '4px' : currentLocale === 'fr' ? 'calc(33.33% + 2px)' : 'calc(66.66%)') : '4px',
                         }}
                         transition={{ type: "spring", stiffness: 300, damping: 30 }}
                     />
@@ -101,7 +106,7 @@ export default function FloatingControls() {
                             onClick={() => changeLanguage(lang.code)}
                         >
                             <span
-                                className={`transform -rotate-90 text-xs md:text-sm font-medium tracking-wider transition-colors duration-200 ${currentLocale === lang.code
+                                className={`transform md:-rotate-90 text-[10px] md:text-sm font-medium tracking-wider transition-colors duration-200 ${currentLocale === lang.code
                                     ? 'text-gray-900 dark:text-white font-bold'
                                     : 'text-gray-500 dark:text-gray-400'
                                     }`}
