@@ -38,7 +38,7 @@ export default function Hero() {
   }
 
   return (
-    <section id="home" className="min-h-screen flex flex-col items-center justify-center relative overflow-hidden pt-20">
+    <section id="home" className="min-h-[100dvh] flex flex-col items-center justify-center relative overflow-hidden pt-20">
 
       {/* Background Elements */}
       <div className="absolute inset-0 z-0">
@@ -121,7 +121,7 @@ export default function Hero() {
 
       </div>
 
-      <div className="absolute bottom-6 sm:bottom-12 left-0 right-0 z-10 hidden sm:block">
+      <div className="absolute bottom-6 sm:bottom-12 left-0 right-0 z-10">
         <div className="container-custom px-6 flex flex-col items-center justify-center">
           <motion.div
             initial={{ opacity: 0 }}
