@@ -3,6 +3,7 @@
 import { useState, useEffect, ReactNode } from 'react'
 import { AnimatePresence } from 'framer-motion'
 import dynamic from 'next/dynamic'
+import { useNavigation } from '@/contexts/NavigationContext'
 
 // Dynamically import LoadingScreen to reduce initial bundle size
 const LoadingScreen = dynamic(() => import('./LoadingScreen'), {
@@ -14,6 +15,7 @@ interface ClientWrapperProps {
 }
 
 const ClientWrapper = ({ children }: ClientWrapperProps) => {
+  const { setIsLoading: setGlobalIsLoading } = useNavigation()
   const [isLoading, setIsLoading] = useState(true)
   const [isInitialized, setIsInitialized] = useState(false)
   const [showInitialLoading, setShowInitialLoading] = useState(true)
@@ -39,12 +41,13 @@ const ClientWrapper = ({ children }: ClientWrapperProps) => {
 
     // Check if this is a theme switch reload
     const isThemeSwitch = sessionStorage.getItem('theme-switch-reload') === 'true'
-    
+
     if (isThemeSwitch) {
       // This is a theme switch reload - don't show initial loading screen
       sessionStorage.removeItem('theme-switch-reload')
       setShowInitialLoading(false)
       setIsLoading(false)
+      setGlobalIsLoading(false)
       setIsInitialized(true)
     } else {
       // Reduce initial loading delay significantly for faster first paint
@@ -58,6 +61,7 @@ const ClientWrapper = ({ children }: ClientWrapperProps) => {
 
   const handleLoadingComplete = () => {
     setIsLoading(false)
+    setGlobalIsLoading(false)
   }
 
   return (
@@ -67,7 +71,7 @@ const ClientWrapper = ({ children }: ClientWrapperProps) => {
           <LoadingScreen onComplete={handleLoadingComplete} theme={currentTheme} />
         )}
       </AnimatePresence>
-      
+
       {(!isLoading || !showInitialLoading) && (
         <div className="min-h-screen">
           {children}

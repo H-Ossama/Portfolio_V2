@@ -129,14 +129,12 @@ export default function LocalePage({ params }: LocalePageProps) {
       <AdvancedPerformanceOptimizer />
       <DevelopmentBanner />
 
-      <main className="min-h-screen relative">
+      <div className="relative">
         <SmoothScrollEnhancer />
         <ProgrammingSymbolsBackground />
         <SmokeEffect />
 
         <ScrollProgress />
-
-        {/* Navbar is now in Layout */}
 
         {/* 1. Hero Section */}
         <Hero />
@@ -191,7 +189,7 @@ export default function LocalePage({ params }: LocalePageProps) {
         </div>
 
         <Footer />
-      </main>
+      </div>
     </ClientWrapper>
   )
 }

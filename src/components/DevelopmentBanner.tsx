@@ -65,10 +65,10 @@ const DevelopmentBanner = () => {
         aria-hidden="true"
       />
 
-      {/* Banner */}
-      <div className={`fixed top-0 left-0 right-0 z-[9999] transform transition-all duration-500 ease-out ${isClosing ? '-translate-y-full opacity-0' : 'translate-y-0 opacity-100'
+      {/* Banner - Moved lower down and centered to avoid nav conflict */}
+      <div className={`fixed top-24 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-4xl z-[9999] transform transition-all duration-500 ease-out ${isClosing ? 'translate-y-10 opacity-0' : 'translate-y-0 opacity-100'
         }`}>
-        <div className="bg-dark-900 border-b border-accent-cyan/20 shadow-[0_0_30px_rgba(102,217,237,0.15)] text-gray-300 backdrop-blur-xl">
+        <div className="bg-dark-900/90 border border-white/10 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] text-gray-300 backdrop-blur-xl overflow-hidden">
           {/* Cyber Decorative Line */}
           <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-accent-cyan/50 to-transparent" />
 

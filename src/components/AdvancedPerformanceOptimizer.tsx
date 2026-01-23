@@ -20,7 +20,7 @@ export default function AdvancedPerformanceOptimizer() {
   useEffect(() => {
     // Apply performance optimizations when component mounts
     applyPerformanceOptimizations()
-    
+
     // Clean up on component unmount
     return () => {
       cleanupPerformanceOptimizations()
@@ -31,16 +31,13 @@ export default function AdvancedPerformanceOptimizer() {
   const applyPerformanceOptimizations = () => {
     // 1. Implement lazy loading for all off-screen images
     implementLazyLoading()
-    
+
     // 2. Add resource hints (preconnect, dns-prefetch) for external domains
     addResourceHints()
-    
+
     // 3. Optimize font loading
     optimizeFontLoading()
-    
-    // 4. Apply content-visibility to off-screen sections
-    applyContentVisibility()
-    
+
     // 5. Defer non-critical JavaScript
     deferNonCriticalJavaScript()
   }
@@ -92,18 +89,18 @@ export default function AdvancedPerformanceOptimizer() {
         link.rel = type
         link.href = url
         link.setAttribute('data-performance-hint', 'true')
-        
+
         if (type === 'preconnect') {
           link.setAttribute('crossorigin', 'anonymous')
         }
-        
+
         document.head.appendChild(link)
       }
     }
 
     // Add preconnect hints
     preconnectDomains.forEach(domain => addResourceHint('preconnect', domain))
-    
+
     // Add dns-prefetch hints
     dnsPrefetchDomains.forEach(domain => addResourceHint('dns-prefetch', domain))
   }
@@ -120,45 +117,33 @@ export default function AdvancedPerformanceOptimizer() {
     document.head.appendChild(style)
   }
 
-  // Apply content-visibility to sections that are not in the initial viewport
-  const applyContentVisibility = () => {
-    // Apply content-visibility: auto to lazy sections
-    const lazySections = document.querySelectorAll('.lazy-section')
-    lazySections.forEach(section => {
-      if (section instanceof HTMLElement) {
-        section.style.containIntrinsicSize = '0 500px' // Estimate height to reduce CLS
-        section.style.contentVisibility = 'auto'
-      }
-    })
-  }
-
   // Defer non-critical JavaScript to improve page load time
   const deferNonCriticalJavaScript = () => {
     // Find all script tags that don't have async or defer attributes
     const scripts = Array.from(document.querySelectorAll('script:not([async]):not([defer])'))
-    
+
     scripts.forEach(script => {
       // Skip inline scripts, module scripts, and critical scripts
-      if (!(script instanceof HTMLScriptElement) || 
-          !script.src || 
-          script.type === 'module' || 
-          script.hasAttribute('data-critical')) {
+      if (!(script instanceof HTMLScriptElement) ||
+        !script.src ||
+        script.type === 'module' ||
+        script.hasAttribute('data-critical')) {
         return
       }
-      
+
       // Clone the script and set it to defer
       const deferredScript = document.createElement('script')
       deferredScript.src = script.src
       deferredScript.defer = true
       deferredScript.setAttribute('data-deferred', 'true')
-      
+
       // Copy other attributes
       Array.from(script.attributes).forEach(attr => {
         if (attr.name !== 'src' && attr.name !== 'type') {
           deferredScript.setAttribute(attr.name, attr.value)
         }
       })
-      
+
       // Replace the original script
       script.parentNode?.replaceChild(deferredScript, script)
     })

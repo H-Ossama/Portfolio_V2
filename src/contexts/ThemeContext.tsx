@@ -90,20 +90,18 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   if (!mounted) {
     return (
       <ThemeContext.Provider value={value}>
-        <div className="dark">{children}</div>
+        {children}
       </ThemeContext.Provider>
     )
   }
 
   return (
     <ThemeContext.Provider value={value}>
-      <div className={theme}>
-        {children}
-        <ThemeSwitchLoading
-          isVisible={isLoading}
-          targetTheme={targetTheme}
-        />
-      </div>
+      {children}
+      <ThemeSwitchLoading
+        isVisible={isLoading}
+        targetTheme={targetTheme}
+      />
     </ThemeContext.Provider>
   )
 }
