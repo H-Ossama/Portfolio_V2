@@ -122,24 +122,14 @@ export default function AdvancedPerformanceOptimizer() {
 
     // Apply a comprehensive set of performance optimizations
     const applyPerformanceOptimizations = () => {
-      // 1. Implement lazy loading for all off-screen images
-      implementLazyLoading()
-
-      // 2. Add resource hints (preconnect, dns-prefetch) for external domains
+      // 1. Add resource hints (preconnect, dns-prefetch) for external domains
       addResourceHints()
-
-      // 3. Optimize font loading
-      optimizeFontLoading()
-
-      // 5. Defer non-critical JavaScript
-      deferNonCriticalJavaScript()
     }
 
     // Clean up any performance optimizations when component unmounts
     const cleanupPerformanceOptimizations = () => {
       // Remove any dynamically added elements or listeners
       document.querySelectorAll('link[data-performance-hint]').forEach(el => el.remove())
-      document.querySelectorAll('script[data-deferred]').forEach(el => el.remove())
     }
 
     // Apply performance optimizations when component mounts
