@@ -19,8 +19,6 @@ const navigation = [
 
 export default function DynamicIslandHeader() {
   const { isMenuOpen, setIsMenuOpen, isLoading } = useNavigation()
-
-  if (isLoading) return null
   const [isScrolled, setIsScrolled] = useState(false)
   const { theme } = useTheme()
   const router = useRouter()
@@ -37,6 +35,8 @@ export default function DynamicIslandHeader() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+
+
   // Lock body scroll when menu is open
   useEffect(() => {
     if (isMenuOpen) {
@@ -48,6 +48,8 @@ export default function DynamicIslandHeader() {
       document.body.style.overflow = 'unset'
     }
   }, [isMenuOpen])
+
+  if (isLoading) return null
 
   const scrollToSection = (href: string) => {
     if (href.startsWith('#')) {

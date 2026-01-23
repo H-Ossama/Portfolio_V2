@@ -57,7 +57,7 @@ const ClientWrapper = ({ children }: ClientWrapperProps) => {
 
       return () => clearTimeout(timer)
     }
-  }, [])
+  }, [setGlobalIsLoading])
 
   const handleLoadingComplete = () => {
     setIsLoading(false)
