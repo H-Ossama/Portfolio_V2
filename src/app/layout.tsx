@@ -1,3 +1,4 @@
+import { Analytics } from '@vercel/analytics/react'
 import './globals.css'
 import type { Metadata, Viewport } from 'next'
 import { SITE_URL } from '@/lib/seo-utils'
@@ -55,6 +56,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning className={`${inter.variable} scroll-smooth overflow-x-hidden nav-scroll`}>
       <body suppressHydrationWarning className="font-sans overflow-x-hidden will-change-scroll backface-hidden">
         {children}
+        <Analytics />
       </body>
     </html>
   )
