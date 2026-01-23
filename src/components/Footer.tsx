@@ -75,7 +75,7 @@ export default function Footer() {
             <span>© {currentYear}</span>
             <span className="opacity-30">|</span>
             <span className="flex items-center gap-1">
-              Developed with <Heart size={10} className="text-red-500 fill-red-500" /> in Morocco
+              Developed By Hattan Oussama
             </span>
           </div>
 
