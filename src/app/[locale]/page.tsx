@@ -129,7 +129,7 @@ export default function LocalePage({ params }: LocalePageProps) {
       <AdvancedPerformanceOptimizer />
       <DevelopmentBanner />
 
-      <main className="min-h-screen relative overflow-x-hidden">
+      <main className="min-h-screen relative">
         <SmoothScrollEnhancer />
         <ProgrammingSymbolsBackground />
         <SmokeEffect />
