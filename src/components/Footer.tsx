@@ -41,7 +41,7 @@ export default function Footer() {
               : 'bg-green-100 border-green-200 text-green-700'
               }`}>
               <div className="w-1.5 h-1.5 rounded-full bg-current animate-pulse" />
-              SYSTEM_STATUS: OPEN_FOR_WORK
+              SYSTEM STATUS: OPEN FOR WORK
             </div>
           </div>
 
