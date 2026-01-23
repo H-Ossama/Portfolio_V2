@@ -44,7 +44,7 @@ export default function GoUpButton() {
       {isVisible && (
         <button
           onClick={scrollToTop}
-          className="fixed bottom-6 right-6 z-50 p-3 bg-primary text-white rounded-full shadow-lg hover:bg-primary-dark focus:outline-none focus:ring-2 focus:ring-primary transition-all duration-300 md:hidden"
+          className="fixed bottom-6 right-6 z-[9999] p-3 bg-accent-cyan text-dark-950 rounded-full shadow-lg hover:scale-110 focus:outline-none transition-all duration-300 md:hidden"
           aria-label="Go to top"
         >
           <ArrowUpCircle className="w-6 h-6" />

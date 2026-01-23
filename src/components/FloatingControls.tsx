@@ -50,16 +50,21 @@ export default function FloatingControls() {
     if (!mounted) return null
 
     return (
-        <div className="fixed bottom-6 left-6 md:bottom-auto md:left-0 md:top-1/2 md:-translate-y-1/2 z-50 flex flex-row md:flex-col gap-4 md:gap-6 pointer-events-none md:pl-4">
+        <div
+            className="fixed z-[9999] bottom-6 left-1/2 -translate-x-1/2 md:left-6 md:translate-x-0 md:bottom-auto md:top-1/2 md:-translate-y-1/2 flex flex-row md:flex-col gap-4 md:gap-6 pointer-events-none md:pl-4"
+            style={{ position: 'fixed', zIndex: 9999 }}
+        >
             <div className="pointer-events-auto flex flex-row md:flex-col gap-4 md:gap-6">
                 {/* Theme Switcher */}
                 <div
-                    className="relative w-32 md:w-12 h-10 md:h-36 bg-gray-200/20 backdrop-blur-md dark:bg-black/40 border border-white/10 rounded-full p-1 flex flex-row md:flex-col justify-between cursor-pointer shadow-lg transition-transform hover:scale-105"
+                    className={`relative w-32 md:w-12 h-10 md:h-36 backdrop-blur-md border rounded-full p-1 flex flex-row md:flex-col justify-between cursor-pointer shadow-xl transition-all duration-300 hover:scale-105 ${theme === 'dark' ? 'bg-black/60 border-white/10' : 'bg-white/80 border-gray-200'
+                        }`}
                     onClick={toggleTheme}
                 >
                     {/* Sliding Pill */}
                     <motion.div
-                        className="absolute top-1 bottom-1 h-[calc(100%-8px)] w-[calc(50%-4px)] md:left-1 md:right-1 md:w-[calc(100%-8px)] md:h-[calc(50%-4px)] bg-white dark:bg-gray-800 rounded-full shadow-md z-0"
+                        className={`absolute top-1 bottom-1 h-[calc(100%-8px)] w-[calc(50%-4px)] md:left-1 md:right-1 md:w-[calc(100%-8px)] md:h-[calc(50%-4px)] rounded-full shadow-md z-0 ${theme === 'dark' ? 'bg-gray-800' : 'bg-accent-cyan'
+                            }`}
                         animate={{
                             left: isDesktop ? '4px' : (theme === 'light' ? '4px' : '52%'),
                             top: isDesktop ? (theme === 'light' ? '4px' : '52%') : '4px',
@@ -87,11 +92,13 @@ export default function FloatingControls() {
                 </div>
 
                 {/* Language Switcher - Horizontal on mobile, Vertical on md */}
-                <div className="relative w-40 md:w-12 h-10 md:h-48 bg-gray-200/20 backdrop-blur-md dark:bg-black/40 border border-white/10 rounded-full p-1 flex flex-row md:flex-col justify-between shadow-lg transition-transform hover:scale-105">
+                <div className={`relative w-40 md:w-12 h-10 md:h-48 backdrop-blur-md border rounded-full p-1 flex flex-row md:flex-col justify-between shadow-xl transition-all duration-300 hover:scale-105 ${theme === 'dark' ? 'bg-black/60 border-white/10' : 'bg-white/80 border-gray-200'
+                    }`}>
 
                     {/* Sliding Pill Indicator for Language */}
                     <motion.div
-                        className="absolute top-1 bottom-1 h-[calc(100%-8px)] w-[calc(33.33%-5px)] md:left-1 md:right-1 md:w-[calc(100%-8px)] md:h-[calc(33.33%-5px)] bg-white dark:bg-gray-800 rounded-full shadow-md z-0"
+                        className={`absolute top-1 bottom-1 h-[calc(100%-8px)] w-[calc(33.33%-5px)] md:left-1 md:right-1 md:w-[calc(100%-8px)] md:h-[calc(33.33%-5px)] rounded-full shadow-md z-0 ${theme === 'dark' ? 'bg-gray-800' : 'bg-accent-cyan'
+                            }`}
                         animate={{
                             left: isDesktop ? '4px' : (currentLocale === 'en' ? '4px' : currentLocale === 'fr' ? 'calc(33.33% + 2px)' : 'calc(66.66%)'),
                             top: isDesktop ? (currentLocale === 'en' ? '4px' : currentLocale === 'fr' ? 'calc(33.33% + 2px)' : 'calc(66.66%)') : '4px',

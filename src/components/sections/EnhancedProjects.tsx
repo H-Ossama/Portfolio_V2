@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import { ArrowUpRight } from 'lucide-react'
 import { usePortfolioConfig } from '@/lib/localization'
+import { useTheme } from '@/contexts/ThemeContext'
 import Image from 'next/image'
 import { useState } from 'react'
 import Link from 'next/link'
@@ -21,7 +22,7 @@ interface Project {
   category?: string
 }
 
-const ProjectCard = ({ project, index, locale }: { project: Project, index: number, locale: string }) => {
+const ProjectCard = ({ project, index, locale, theme }: { project: Project, index: number, locale: string, theme: string }) => {
   const isMobile = project.category?.toLowerCase().includes('mobile') || project.category === 'Mobile Security'
 
   // Featured large cards: CinemaHalal (2), Job Finder (3), Immigration Pathways (5)
@@ -105,7 +106,8 @@ const ProjectCard = ({ project, index, locale }: { project: Project, index: numb
 
         {/* Project Info Below Card */}
         <div className="mt-4 text-center">
-          <h3 className="text-white text-lg font-bold mb-1 group-hover:text-accent-cyan transition-colors">
+          <h3 className={`text-lg font-bold mb-1 group-hover:text-accent-cyan transition-colors ${theme === 'dark' ? 'text-white' : 'text-gray-900'
+            }`}>
             {project.title}
           </h3>
           <p className="text-gray-500 text-sm font-mono">
@@ -140,6 +142,7 @@ const CurvedArrow = () => (
 
 export default function EnhancedProjects() {
   const { config } = usePortfolioConfig()
+  const { theme } = useTheme()
   const params = useParams()
   const locale = (params?.locale as string) || 'en'
   const [filter, setFilter] = useState('All')
@@ -168,10 +171,11 @@ export default function EnhancedProjects() {
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            <h2 className="text-7xl md:text-9xl font-bold text-white mb-10 leading-[0.9]">
+            <h2 className={`text-7xl md:text-9xl font-bold mb-10 leading-[0.9] ${theme === 'dark' ? 'text-white' : 'text-gray-900'
+              }`}>
               My<br />Work
             </h2>
-            <p className="text-gray-400 font-mono text-sm leading-relaxed max-w-sm">
+            <p className={`${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'} font-mono text-sm leading-relaxed max-w-sm`}>
               Deployed scalable travel, event and telemedicine web and hybrid mobile apps using React SPA and PWA.<br /><br />
               Collaborated in 140+ projects with 50+ clients all around the world. I am also interested in data analytics and visualization.
             </p>
@@ -216,7 +220,7 @@ export default function EnhancedProjects() {
               {/* Featured Project Info */}
               <div className="mt-8 text-center">
                 <p className="text-accent-cyan font-mono text-sm mb-2 tracking-wider">Featured Project</p>
-                <h3 className="text-white text-2xl font-bold mb-6">{featuredProject.title}</h3>
+                <h3 className={`text-2xl font-bold mb-6 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>{featuredProject.title}</h3>
                 <Link
                   href={`/${locale}/projects/${featuredProject.id}`}
                   className="inline-flex items-center gap-2 bg-accent-cyan hover:bg-accent-cyan/80 text-dark-950 font-bold py-3 px-8 rounded-lg transition-colors group"
@@ -244,7 +248,7 @@ export default function EnhancedProjects() {
                 onClick={() => setFilter(cat.name)}
                 className={`font-mono text-sm transition-all duration-300 px-1 ${filter === cat.name
                   ? 'text-accent-cyan'
-                  : 'text-gray-400 hover:text-white'
+                  : theme === 'dark' ? 'text-gray-400 hover:text-white' : 'text-gray-500 hover:text-gray-900'
                   }`}
               >
                 <span>{cat.name}</span>
@@ -260,7 +264,7 @@ export default function EnhancedProjects() {
         {/* Projects Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 grid-flow-dense">
           {displayProjects.map((project, index) => (
-            <ProjectCard key={project.id} project={project} index={index} locale={locale} />
+            <ProjectCard key={project.id} project={project} index={index} locale={locale} theme={theme} />
           ))}
         </div>
 

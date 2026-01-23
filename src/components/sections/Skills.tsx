@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { portfolioConfig } from '@/config/portfolio.en'
+import { useTheme } from '@/contexts/ThemeContext'
 
 interface SkillCategoryProps {
   title: string
@@ -27,16 +28,19 @@ function SkillCategory({ title, skills, delay }: SkillCategoryProps) {
             key={skill}
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
-            transition={{ 
-              duration: 0.5, 
-              ease: "easeOut", 
-              delay: delay + (index * 0.1) 
+            transition={{
+              duration: 0.5,
+              ease: "easeOut",
+              delay: delay + (index * 0.1)
             }}
             viewport={{ once: true }}
             className="relative group/skill"
           >
-            <div className="absolute inset-0 bg-gradient-to-r from-primary-500/20 to-purple-500/20 rounded-lg opacity-0 group-hover/skill:opacity-100 transition-opacity duration-300"></div>
-            <div className="relative bg-glass-light hover:bg-glass-medium text-theme-secondary hover:text-theme-primary px-4 py-3 rounded-lg text-center font-medium transition-all duration-300 cursor-default transform hover:scale-105 border border-gray-600/30 hover:border-primary-500/50">
+            <div className={`absolute inset-0 bg-gradient-to-r from-primary-500/20 to-purple-500/20 rounded-lg opacity-0 group-hover/skill:opacity-100 transition-opacity duration-300`}></div>
+            <div className={`relative px-4 py-3 rounded-lg text-center font-medium transition-all duration-300 cursor-default transform hover:scale-105 border ${document.documentElement.classList.contains('dark')
+                ? 'bg-glass-light hover:bg-glass-medium text-gray-300 hover:text-white border-gray-600/30 hover:border-primary-500/50'
+                : 'bg-black/5 hover:bg-black/10 text-gray-700 hover:text-gray-900 border-black/10 hover:border-primary-500/50'
+              }`}>
               {skill}
             </div>
           </motion.div>
@@ -47,6 +51,7 @@ function SkillCategory({ title, skills, delay }: SkillCategoryProps) {
 }
 
 export default function Skills() {
+  const { theme } = useTheme()
   const skillCategories = [
     {
       title: "Frontend",
@@ -77,7 +82,7 @@ export default function Skills() {
         <div className="absolute top-1/2 left-1/4 w-72 h-72 bg-gradient-glow rounded-full opacity-10 floating-element"></div>
         <div className="absolute bottom-1/4 right-1/3 w-64 h-64 bg-gradient-purple-glow rounded-full opacity-15 floating-element-delayed"></div>
       </div>
-      
+
       <div className="container-custom relative z-10">
         {/* Section Header */}
         <motion.div
@@ -87,10 +92,10 @@ export default function Skills() {
           viewport={{ once: true, margin: "-100px" }}
           className="text-center mb-20"
         >
-          <h2 className="text-5xl lg:text-6xl font-bold text-theme-primary mb-6">
+          <h2 className={`text-5xl lg:text-6xl font-bold mb-6 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
             My <span className="text-gradient">Skills</span>
           </h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+          <p className={`text-xl max-w-3xl mx-auto leading-relaxed ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
             A comprehensive toolkit of technologies and tools I use to bring ideas to life
           </p>
         </motion.div>
@@ -123,17 +128,17 @@ export default function Skills() {
                   🧠
                 </div>
               </div>
-              
-              <h3 className="text-3xl font-bold text-theme-primary mb-6 pt-8">
+
+              <h3 className={`text-3xl font-bold mb-6 pt-8 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
                 Continuous Learning
               </h3>
-              <p className="text-gray-300 leading-relaxed text-lg">
-                I'm always eager to learn new technologies and frameworks. Currently exploring 
-                advanced React patterns, TypeScript, and cloud deployment strategies. 
-                The tech world evolves rapidly, and I'm committed to staying current with 
+              <p className={`leading-relaxed text-lg ${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'}`}>
+                I'm always eager to learn new technologies and frameworks. Currently exploring
+                advanced React patterns, TypeScript, and cloud deployment strategies.
+                The tech world evolves rapidly, and I'm committed to staying current with
                 industry best practices and emerging trends.
               </p>
-              
+
               {/* Progress indicators */}
               <div className="flex justify-center space-x-8 mt-8">
                 <div className="text-center">

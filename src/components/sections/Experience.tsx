@@ -60,8 +60,8 @@ export default function Experience() {
                             className="group relative"
                         >
                             <div className={`p-8 rounded-2xl glass-card border transition-all duration-500 overflow-hidden ${theme === 'dark'
-                                    ? 'bg-white/5 border-white/5 hover:border-accent-cyan/30'
-                                    : 'bg-black/5 border-black/5 hover:border-accent-cyan/30'
+                                ? 'bg-white/5 border-white/5 hover:border-accent-cyan/30'
+                                : 'bg-black/5 border-black/10 hover:border-accent-cyan/30 shadow-sm'
                                 }`}>
                                 <div className="flex flex-col md:flex-row md:items-start justify-between gap-6 relative z-10">
                                     <div className="flex-1">

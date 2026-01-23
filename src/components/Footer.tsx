@@ -19,8 +19,8 @@ export default function Footer() {
 
   return (
     <footer className={`relative border-t transition-colors duration-500 ${theme === 'dark'
-        ? 'bg-dark-950 border-white/5 text-gray-400'
-        : 'bg-gray-50 border-gray-200 text-gray-600'
+      ? 'bg-dark-950 border-white/5 text-gray-400'
+      : 'bg-gray-50 border-gray-200 text-gray-600'
       }`}>
       <div className="container-custom px-6 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start mb-16">
@@ -31,14 +31,14 @@ export default function Footer() {
               <h2 className={`text-2xl font-bold tracking-tight mb-2 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
                 {config.personal.name}
               </h2>
-              <p className={`text-sm max-w-sm leading-relaxed ${theme === 'dark' ? 'text-gray-500' : 'text-gray-500'}`}>
+              <p className={`text-sm max-w-sm leading-relaxed ${theme === 'dark' ? 'text-gray-500' : 'text-gray-600'}`}>
                 Scaleable backend architectures, secure APIs, and responsive web solutions. Building the digital future one line of code at a time.
               </p>
             </div>
 
             <div className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-mono border ${theme === 'dark'
-                ? 'bg-green-500/10 border-green-500/20 text-green-400'
-                : 'bg-green-100 border-green-200 text-green-700'
+              ? 'bg-green-500/10 border-green-500/20 text-green-400'
+              : 'bg-green-100 border-green-200 text-green-700'
               }`}>
               <div className="w-1.5 h-1.5 rounded-full bg-current animate-pulse" />
               SYSTEM_STATUS: OPEN_FOR_WORK
@@ -56,8 +56,8 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className={`p-3 rounded-xl border transition-all duration-300 group ${theme === 'dark'
-                      ? 'bg-white/5 border-white/5 hover:bg-white/10 hover:border-accent-cyan/50 hover:text-accent-cyan'
-                      : 'bg-white border-gray-200 hover:border-blue-400 hover:text-blue-500 hover:shadow-lg'
+                    ? 'bg-white/5 border-white/5 hover:bg-white/10 hover:border-accent-cyan/50 hover:text-accent-cyan'
+                    : 'bg-white border-gray-200 hover:border-blue-400 hover:text-blue-500 hover:shadow-lg'
                     }`}
                   aria-label={link.name}
                 >

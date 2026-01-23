@@ -53,8 +53,8 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" suppressHydrationWarning className={`${inter.variable} scroll-smooth overflow-x-hidden nav-scroll`}>
-      <body suppressHydrationWarning className="font-sans overflow-x-hidden will-change-scroll backface-hidden">
+    <html lang="en" suppressHydrationWarning className={inter.variable}>
+      <body suppressHydrationWarning className="font-sans">
         {children}
         <Analytics />
       </body>

@@ -49,7 +49,8 @@ export default function Contact() {
 
             <a
               href={`mailto:${config.contact.email}`}
-              className="text-2xl md:text-4xl font-mono text-gray-400 hover:text-white transition-colors duration-300 border-b-2 border-transparent hover:border-accent-cyan pb-2 inline-block"
+              className={`text-2xl md:text-4xl font-mono transition-colors duration-300 border-b-2 border-transparent hover:border-accent-cyan pb-2 inline-block ${theme === 'dark' ? 'text-gray-400 hover:text-white' : 'text-gray-600 hover:text-gray-900'
+                }`}
             >
               {config.contact.email}
             </a>
@@ -66,7 +67,10 @@ export default function Contact() {
                 href={social.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-3 rounded-xl bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-all duration-300 border border-white/5 hover:border-white/20"
+                className={`p-3 rounded-xl transition-all duration-300 border ${theme === 'dark'
+                    ? 'bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white border-white/5 hover:border-white/20'
+                    : 'bg-black/5 hover:bg-black/10 text-gray-600 hover:text-gray-900 border-black/5 hover:border-black/10'
+                  }`}
               >
                 <social.icon size={24} />
               </a>
@@ -91,7 +95,8 @@ export default function Contact() {
                 value={formData.name}
                 onChange={e => setFormData({ ...formData, name: e.target.value })}
                 placeholder="Your Name"
-                className="w-full bg-transparent border-b border-gray-700 focus:border-accent-cyan py-4 outline-none text-xl transition-colors placeholer-gray-700 font-medium"
+                className={`w-full bg-transparent border-b py-4 outline-none text-xl transition-colors font-medium ${theme === 'dark' ? 'border-gray-700 focus:border-accent-cyan placeholder-gray-700' : 'border-gray-300 focus:border-accent-cyan placeholder-gray-400'
+                  }`}
               />
             </div>
 
@@ -103,7 +108,8 @@ export default function Contact() {
                 value={formData.email}
                 onChange={e => setFormData({ ...formData, email: e.target.value })}
                 placeholder="your@email.com"
-                className="w-full bg-transparent border-b border-gray-700 focus:border-accent-cyan py-4 outline-none text-xl transition-colors placeholer-gray-700 font-medium"
+                className={`w-full bg-transparent border-b py-4 outline-none text-xl transition-colors font-medium ${theme === 'dark' ? 'border-gray-700 focus:border-accent-cyan placeholder-gray-700' : 'border-gray-300 focus:border-accent-cyan placeholder-gray-400'
+                  }`}
               />
             </div>
 
@@ -115,14 +121,16 @@ export default function Contact() {
                 value={formData.message}
                 onChange={e => setFormData({ ...formData, message: e.target.value })}
                 placeholder="Tell me about your project..."
-                className="w-full bg-transparent border-b border-gray-700 focus:border-accent-cyan py-4 outline-none text-xl transition-colors placeholer-gray-700 font-medium resize-none"
+                className={`w-full bg-transparent border-b py-4 outline-none text-xl transition-colors font-medium resize-none ${theme === 'dark' ? 'border-gray-700 focus:border-accent-cyan placeholder-gray-700' : 'border-gray-300 focus:border-accent-cyan placeholder-gray-400'
+                  }`}
               />
             </div>
 
             <button
               type="submit"
               disabled={isSubmitting}
-              className="mt-8 px-8 py-4 bg-white text-black rounded-full font-bold hover:bg-accent-cyan hover:text-black transition-all duration-300 flex items-center gap-2 disabled:opacity-50"
+              className={`mt-8 px-8 py-4 rounded-full font-bold transition-all duration-300 flex items-center gap-2 disabled:opacity-50 ${theme === 'dark' ? 'bg-white text-black hover:bg-accent-cyan' : 'bg-gray-900 text-white hover:bg-accent-cyan hover:text-black'
+                }`}
             >
               {isSubmitting ? 'Sending...' : 'Send Message'} <ArrowRight size={20} />
             </button>

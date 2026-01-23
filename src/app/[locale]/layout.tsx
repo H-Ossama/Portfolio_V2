@@ -110,7 +110,7 @@ export default function LocaleLayout({ children, params }: LocaleLayoutProps) {
 
   return (
     <ThemeProvider>
-      <div className={`${inter.variable} ${spaceGrotesk.variable} scroll-smooth nav-scroll font-sans relative`}>
+      <div className={`${inter.variable} ${spaceGrotesk.variable} font-sans`}>
         {/* Structured data for better SEO - non-blocking */}
         <Script
           id="schema-person"
@@ -144,12 +144,14 @@ export default function LocaleLayout({ children, params }: LocaleLayoutProps) {
         {/* Google Analytics */}
         <GoogleAnalytics measurementId="G-MEASUREMENT_ID" />
 
-        {/* Fixed controls should be high in the DOM to avoid clipping/positioning issues */}
+        {/* Fixed controls should be before children for reliable stacking */}
         <DynamicIslandHeader />
         <FloatingControls />
         <GoUpButton />
 
-        {children}
+        <main id="main-content">
+          {children}
+        </main>
       </div>
     </ThemeProvider>
   )

@@ -54,10 +54,15 @@ export default function Expertise() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.5, delay: index * 0.1 }}
-                            className="group relative p-8 rounded-2xl bg-white/5 border border-white/10 hover:border-accent-purple/50 transition-all duration-300 hover:-translate-y-1"
+                            className={`group relative p-8 rounded-2xl transition-all duration-300 hover:-translate-y-1 ${theme === 'dark'
+                                ? 'bg-white/5 border border-white/10'
+                                : 'bg-black/5 border border-black/5 shadow-sm'
+                                } hover:border-accent-purple/50`}
                         >
-                            <div className="mb-6 p-4 rounded-xl bg-white/5 w-fit group-hover:bg-accent-purple/10 transition-colors duration-300">
-                                <item.icon size={32} className="text-gray-300 group-hover:text-accent-purple transition-colors duration-300" />
+                            <div className={`mb-6 p-4 rounded-xl w-fit transition-colors duration-300 ${theme === 'dark' ? 'bg-white/5' : 'bg-black/5'
+                                } group-hover:bg-accent-purple/10`}>
+                                <item.icon size={32} className={`${theme === 'dark' ? 'text-gray-300' : 'text-gray-600'
+                                    } group-hover:text-accent-purple transition-colors duration-300`} />
                             </div>
 
                             <h3 className={`text-xl font-bold mb-4 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
@@ -72,7 +77,10 @@ export default function Expertise() {
                                 {item.techs.map((tech) => (
                                     <span
                                         key={tech}
-                                        className="text-xs font-mono px-2 py-1 rounded bg-white/5 text-gray-400 border border-white/5"
+                                        className={`text-xs font-mono px-2 py-1 rounded border ${theme === 'dark'
+                                            ? 'bg-white/5 text-gray-400 border-white/5'
+                                            : 'bg-black/5 text-gray-600 border-black/5'
+                                            }`}
                                     >
                                         {tech}
                                     </span>

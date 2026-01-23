@@ -25,9 +25,12 @@ export default function DynamicIslandHeader() {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50)
+      // Use both window.scrollY and document.documentElement.scrollTop for better compatibility
+      const scrollPos = window.scrollY || document.documentElement.scrollTop || window.pageYOffset;
+      setIsScrolled(scrollPos > 30)
     }
-    window.addEventListener('scroll', handleScroll)
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    handleScroll() // Initialize on mount
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
@@ -58,16 +61,23 @@ export default function DynamicIslandHeader() {
   return (
     <>
       {/* Mobile Header */}
-      <header className="md:hidden fixed top-0 left-0 right-0 z-50 transition-all duration-300">
-        <div className={`flex items-center justify-between px-6 h-18 ${isScrolled ? (theme === 'dark' ? 'bg-dark-900/90 backdrop-blur-lg border-b border-white/5' : 'bg-white/90 backdrop-blur-lg border-b border-black/5') : ''
+      <header className="md:hidden fixed top-0 left-0 right-0 z-[9999] transition-all duration-500">
+        <div className={`flex items-center justify-between px-6 h-16 transition-all duration-300 ${isScrolled
+          ? (theme === 'dark' ? 'bg-dark-900/95 backdrop-blur-xl border-b border-white/10 shadow-lg' : 'bg-white/95 backdrop-blur-xl border-b border-black/10 shadow-md')
+          : 'bg-transparent'
           }`}>
           <div className="flex items-center gap-2 cursor-pointer" onClick={() => scrollToSection('#home')}>
-            <span className="font-mono text-lg font-bold">H_Oussama<span className="text-accent-cyan">._</span></span>
+            <span className={`font-mono text-lg font-bold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
+              H_Oussama<span className="text-accent-cyan">._</span>
+            </span>
           </div>
 
           <div className="flex items-center gap-4">
             {/* <ThemeToggle /> */}
-            <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="p-2">
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className={`p-2 transition-colors ${theme === 'dark' ? 'text-white hover:text-accent-cyan' : 'text-gray-900 hover:text-accent-cyan'}`}
+            >
               {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
@@ -99,29 +109,23 @@ export default function DynamicIslandHeader() {
       </header>
 
       {/* Desktop Header */}
-      <header className="hidden md:block fixed top-8 left-1/2 -translate-x-1/2 z-50">
+      <header className="hidden md:block fixed top-8 left-1/2 -translate-x-1/2 z-[9999]">
         <motion.div
           layout
-          className={`px-8 py-4 rounded-full border transition-colors duration-500 ${isScrolled
-            ? (theme === 'dark' ? 'bg-dark-900/80 border-white/10 shadow-2xl backdrop-blur-xl' : 'bg-white/80 border-black/10 shadow-xl backdrop-blur-xl')
-            : (theme === 'dark' ? 'bg-white/5 border-white/10 backdrop-blur-md' : 'bg-black/5 border-black/10 backdrop-blur-md')
+          className={`px-8 py-4 rounded-full border transition-all duration-500 ${isScrolled
+            ? (theme === 'dark' ? 'bg-dark-900/90 border-white/10 shadow-2xl backdrop-blur-xl' : 'bg-white/90 border-black/10 shadow-xl backdrop-blur-xl')
+            : (theme === 'dark' ? 'bg-black/60 border-white/10 backdrop-blur-md shadow-lg' : 'bg-white/60 border-black/10 backdrop-blur-md shadow-md')
             }`}
         >
           <div className="flex items-center gap-12">
-            <AnimatePresence mode="wait">
-              {!isScrolled && (
-                <motion.div
-                  initial={{ opacity: 0, width: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, width: 'auto', scale: 1 }}
-                  exit={{ opacity: 0, width: 0, scale: 0.8 }}
-                  transition={{ duration: 0.3, ease: 'easeInOut' }}
-                  className="flex items-center gap-2 cursor-pointer group overflow-hidden whitespace-nowrap origin-left"
-                  onClick={() => scrollToSection('#home')}
-                >
-                  <span className="font-mono text-lg font-bold">H_Oussama<span className="text-accent-cyan">._</span></span>
-                </motion.div>
-              )}
-            </AnimatePresence>
+            <div
+              className="flex items-center gap-2 cursor-pointer group overflow-hidden whitespace-nowrap origin-left"
+              onClick={() => scrollToSection('#home')}
+            >
+              <span className={`font-mono text-lg font-bold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
+                H_Oussama<span className="text-accent-cyan">._</span>
+              </span>
+            </div>
 
             <nav className="flex items-center gap-8">
               {navigation.map((item) => (
@@ -132,8 +136,9 @@ export default function DynamicIslandHeader() {
                 >
                   <div className="flex items-center gap-1">
                     <span className="text-accent-cyan font-mono text-[10px] opacity-0 group-hover:opacity-100 transition-opacity">{'//'}</span>
-                    <span className="font-mono text-[10px] text-gray-500 mr-1">{item.num}</span>
-                    <span className="text-xs uppercase tracking-widest font-bold group-hover:text-accent-cyan transition-colors">{item.name}</span>
+                    <span className={`font-mono text-[10px] mr-1 ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>{item.num}</span>
+                    <span className={`text-xs uppercase tracking-widest font-bold transition-colors ${theme === 'dark' ? 'text-white group-hover:text-accent-cyan' : 'text-gray-900 group-hover:text-accent-cyan'
+                      }`}>{item.name}</span>
                   </div>
                   <div className="absolute -bottom-1 left-0 right-0 h-px bg-accent-cyan scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
                 </button>

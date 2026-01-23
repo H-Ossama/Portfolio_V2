@@ -3,14 +3,16 @@
 import { motion } from 'framer-motion'
 import { ArrowUpRight, FileText, Download } from 'lucide-react'
 import { usePortfolioConfig, useNavigationLabels } from '@/lib/localization'
+import { useTheme } from '@/contexts/ThemeContext'
 import Image from 'next/image'
 
 export default function About() {
   const { config } = usePortfolioConfig()
   const labels = useNavigationLabels()
+  const { theme } = useTheme()
 
   return (
-    <section id="about" className="py-32 relative overflow-hidden bg-dark-950">
+    <section id="about" className={`py-32 relative overflow-hidden ${theme === 'dark' ? 'bg-dark-950' : 'bg-white'}`}>
       {/* Decorative background effects */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-accent-purple/5 rounded-full blur-[120px] -z-10" />
       <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-accent-cyan/5 rounded-full blur-[120px] -z-10" />
@@ -51,7 +53,7 @@ export default function About() {
           >
             <div className="relative aspect-[4/5] rounded-2xl overflow-hidden mb-12 group">
               <div className="absolute inset-0 bg-accent-cyan/10 group-hover:bg-transparent transition-colors duration-700 z-10" />
-              <div className="absolute inset-0 border-[1px] border-white/10 rounded-2xl z-20 pointer-events-none" />
+              <div className="absolute inset-0 border-[1px] rounded-2xl z-20 pointer-events-none transition-colors duration-300 border-white/10 dark:border-white/10" />
               <Image
                 src={config.personal.profileImage}
                 alt={config.personal.name}
@@ -60,15 +62,16 @@ export default function About() {
                 unoptimized
               />
               <div className="absolute bottom-6 left-6 z-30">
-                <div className="bg-dark-950/80 backdrop-blur-md px-4 py-2 rounded-full border border-white/10 flex items-center gap-2">
+                <div className={`backdrop-blur-md px-4 py-2 rounded-full border flex items-center gap-2 ${theme === 'dark' ? 'bg-dark-950/80 border-white/10' : 'bg-white/80 border-black/10'
+                  }`}>
                   <span className="w-2 h-2 rounded-full bg-accent-cyan animate-pulse" />
-                  <span className="text-[10px] font-mono text-white/80 uppercase tracking-widest">Available for Hire</span>
+                  <span className={`text-[10px] font-mono uppercase tracking-widest ${theme === 'dark' ? 'text-white/80' : 'text-gray-900/80'}`}>Available for Hire</span>
                 </div>
               </div>
             </div>
 
             <div className="space-y-6">
-              <p className="text-xl text-white/60 leading-relaxed font-light italic">
+              <p className={`text-xl leading-relaxed font-light italic ${theme === 'dark' ? 'text-white/60' : 'text-gray-600'}`}>
                 {config.personal.bio}
               </p>
               <div className="h-px w-20 bg-accent-cyan/50" />
@@ -99,12 +102,13 @@ export default function About() {
                 </div>
               </div>
 
-              <div className="glass-card-theme p-8 rounded-2xl border border-white/5 bg-gradient-to-br from-white/5 to-transparent">
-                <blockquote className="text-2xl font-bold italic tracking-tight text-white mb-6">
+              <div className={`glass-card-theme p-8 rounded-2xl border ${theme === 'dark' ? 'border-white/5 bg-gradient-to-br from-white/5 to-transparent' : 'border-black/5 bg-gradient-to-br from-black/5 to-transparent shadow-sm'
+                }`}>
+                <blockquote className={`text-2xl font-bold italic tracking-tight mb-6 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
                   "Solving complex problems through elegant code and architectural precision."
                 </blockquote>
                 <div className="flex items-center gap-4">
-                  <div className="w-10 h-px bg-white/20" />
+                  <div className={`w-10 h-px ${theme === 'dark' ? 'bg-white/20' : 'bg-black/20'}`} />
                   <span className="text-xs font-mono text-gray-500 uppercase tracking-widest">{config.personal.name}</span>
                 </div>
               </div>
@@ -119,7 +123,7 @@ export default function About() {
                 transition={{ duration: 0.6, delay: 0.3 }}
                 className="space-y-1"
               >
-                <span className="text-4xl md:text-5xl font-bold font-mono text-white italic">2<span className="text-accent-cyan">+</span></span>
+                <span className={`text-4xl md:text-5xl font-bold font-mono italic ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>2<span className="text-accent-cyan">+</span></span>
                 <span className="text-[10px] font-mono text-gray-500 uppercase tracking-widest block">Years Experience</span>
               </motion.div>
               <motion.div
@@ -129,7 +133,7 @@ export default function About() {
                 transition={{ duration: 0.6, delay: 0.4 }}
                 className="space-y-1"
               >
-                <span className="text-4xl md:text-5xl font-bold font-mono text-white italic">{config.projects.length + (config.mobileProjects?.length || 0)}<span className="text-accent-cyan">+</span></span>
+                <span className={`text-4xl md:text-5xl font-bold font-mono italic ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>{config.projects.length + (config.mobileProjects?.length || 0)}<span className="text-accent-cyan">+</span></span>
                 <span className="text-[10px] font-mono text-gray-500 uppercase tracking-widest block">Projets Réalisés</span>
               </motion.div>
               <motion.div
@@ -139,7 +143,7 @@ export default function About() {
                 transition={{ duration: 0.6, delay: 0.5 }}
                 className="space-y-1 md:col-span-1 col-span-2"
               >
-                <span className="text-4xl md:text-5xl font-bold font-mono text-white italic">100<span className="text-accent-cyan">%</span></span>
+                <span className={`text-4xl md:text-5xl font-bold font-mono italic ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>100<span className="text-accent-cyan">%</span></span>
                 <span className="text-[10px] font-mono text-gray-500 uppercase tracking-widest block">Client Satisfaction</span>
               </motion.div>
             </div>
@@ -152,10 +156,12 @@ export default function About() {
               className="flex flex-wrap items-center gap-8"
             >
               <a href="#contact" className="inline-flex items-center gap-4 group">
-                <div className="w-12 h-12 rounded-full bg-white text-dark-950 flex items-center justify-center group-hover:scale-110 transition-transform duration-500">
+                <div className={`w-12 h-12 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-500 ${theme === 'dark' ? 'bg-white text-dark-950' : 'bg-gray-900 text-white'
+                  }`}>
                   <ArrowUpRight size={24} />
                 </div>
-                <span className="text-sm font-bold uppercase tracking-widest group-hover:text-accent-cyan transition-colors">Start a Project</span>
+                <span className={`text-sm font-bold uppercase tracking-widest group-hover:text-accent-cyan transition-colors ${theme === 'dark' ? 'text-white' : 'text-gray-900'
+                  }`}>Start a Project</span>
               </a>
 
               <div className="flex items-center gap-6">
@@ -163,7 +169,8 @@ export default function About() {
                   href={config.resume}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex items-center gap-2 text-xs font-mono text-gray-500 hover:text-accent-cyan transition-colors uppercase tracking-widest"
+                  className={`group flex items-center gap-2 text-xs font-mono transition-colors uppercase tracking-widest ${theme === 'dark' ? 'text-gray-500 hover:text-accent-cyan' : 'text-gray-600 hover:text-accent-cyan'
+                    }`}
                 >
                   <FileText size={16} />
                   <span>{labels.viewCV}</span>
@@ -171,7 +178,8 @@ export default function About() {
                 <a
                   href={config.resume}
                   download
-                  className="group flex items-center gap-2 text-xs font-mono text-gray-500 hover:text-accent-cyan transition-colors uppercase tracking-widest"
+                  className={`group flex items-center gap-2 text-xs font-mono transition-colors uppercase tracking-widest ${theme === 'dark' ? 'text-gray-500 hover:text-accent-cyan' : 'text-gray-600 hover:text-accent-cyan'
+                    }`}
                 >
                   <Download size={16} />
                   <span>{labels.downloadCV}</span>

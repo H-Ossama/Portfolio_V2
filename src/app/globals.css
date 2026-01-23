@@ -71,11 +71,8 @@
     html,
     body {
       /* Optimize paint performance on mobile */
-      -webkit-backface-visibility: hidden;
-      backface-visibility: hidden;
       /* perspective: 1000; */
       /* transform-style: preserve-3d; */
-      will-change: scroll-position;
     }
 
     /* Reduce transition durations for better performance */
@@ -519,8 +516,6 @@
   }
 
   .backface-hidden {
-    backface-visibility: hidden;
-    -webkit-backface-visibility: hidden;
   }
 
   .transform-3d {

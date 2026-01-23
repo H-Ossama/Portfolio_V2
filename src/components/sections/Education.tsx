@@ -30,7 +30,10 @@ const EducationCard = ({ edu, index, locale, theme }: { edu: EducationEntry, ind
       whileInView={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
       viewport={{ once: true }}
-      className={`group relative p-8 rounded-2xl bg-white/5 border border-white/10 hover:border-accent-cyan/30 transition-all duration-500 hover:bg-white/10 flex flex-col h-full`}
+      className={`group relative p-8 rounded-2xl transition-all duration-500 flex flex-col h-full ${theme === 'dark'
+          ? 'bg-white/5 border border-white/10 hover:bg-white/10'
+          : 'bg-black/5 border border-black/5 hover:bg-black/10 shadow-sm'
+        } hover:border-accent-cyan/30`}
     >
       <div className="flex items-start justify-between mb-6">
         <div className="flex items-center gap-3">
@@ -149,11 +152,11 @@ export default function Education() {
         {config.certifications && config.certifications.length > 0 && (
           <div className="mb-20">
             <div className="flex items-center gap-4 mb-12">
-              <div className="h-px bg-white/10 flex-grow" />
+              <div className={`h-px flex-grow ${theme === 'dark' ? 'bg-white/10' : 'bg-black/10'}`} />
               <h3 className={`text-2xl font-bold uppercase tracking-widest ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
                 Certifications
               </h3>
-              <div className="h-px bg-white/10 flex-grow" />
+              <div className={`h-px flex-grow ${theme === 'dark' ? 'bg-white/10' : 'bg-black/10'}`} />
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -164,7 +167,10 @@ export default function Education() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
-                  className="group flex items-center justify-between p-6 rounded-xl bg-white/5 border border-white/10 hover:border-accent-cyan/30 transition-all hover:bg-white/10"
+                  className={`group flex items-center justify-between p-6 rounded-xl transition-all ${theme === 'dark'
+                      ? 'bg-white/5 border border-white/10 hover:bg-white/10'
+                      : 'bg-black/5 border border-black/5 hover:bg-black/10 shadow-sm'
+                    } hover:border-accent-cyan/30`}
                 >
                   <div className="flex items-center gap-4">
                     <div className="w-10 h-10 rounded-xl bg-accent-purple/10 flex items-center justify-center text-accent-purple">
@@ -179,7 +185,10 @@ export default function Education() {
                   </div>
 
                   {cert.url && (
-                    <a href={cert.url} target="_blank" rel="noopener noreferrer" className="p-2 rounded-full border border-white/10 text-gray-400 hover:text-white hover:bg-accent-cyan/20 hover:border-accent-cyan transition-all">
+                    <a href={cert.url} target="_blank" rel="noopener noreferrer" className={`p-2 rounded-full border transition-all ${theme === 'dark'
+                        ? 'border-white/10 text-gray-400 hover:text-white'
+                        : 'border-black/10 text-gray-600 hover:text-gray-900'
+                      } hover:bg-accent-cyan/20 hover:border-accent-cyan`}>
                       <ArrowUpRight size={18} />
                     </a>
                   )}

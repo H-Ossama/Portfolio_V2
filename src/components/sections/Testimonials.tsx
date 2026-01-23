@@ -51,7 +51,8 @@ export default function Testimonials() {
                             whileInView={{ opacity: 1, scale: 1 }}
                             viewport={{ once: true }}
                             transition={{ duration: 0.5, delay: index * 0.1 }}
-                            className="relative p-8 rounded-2xl bg-white/5 border border-white/10"
+                            className={`relative p-8 rounded-2xl transition-all duration-300 ${theme === 'dark' ? 'bg-white/5 border border-white/10' : 'bg-black/5 border border-black/5 shadow-sm'
+                                }`}
                         >
                             <Quote size={40} className="text-accent-purple/20 absolute top-6 right-6" />
 
