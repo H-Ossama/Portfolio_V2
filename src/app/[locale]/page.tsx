@@ -130,7 +130,6 @@ export default function LocalePage({ params }: LocalePageProps) {
       <DevelopmentBanner />
 
       <div className="relative">
-        <SmoothScrollEnhancer />
         <ProgrammingSymbolsBackground />
         <SmokeEffect />
 

@@ -99,6 +99,7 @@ import GoogleAnalytics from '@/components/OptimizedGoogleAnalytics'
 import GoUpButton from '@/components/GoUpButton'
 import FloatingControls from '@/components/FloatingControls'
 import DynamicIslandHeader from '@/components/DynamicIslandHeader'
+// import SmoothScrollEnhancer from '@/components/SmoothScrollEnhancer'
 
 import { NavigationProvider } from '@/contexts/NavigationContext'
 
@@ -152,6 +153,7 @@ export default function LocaleLayout({ children, params }: LocaleLayoutProps) {
                     </main>
 
                     {/* Fixed controls moved to end for correct stacking on all platforms */}
+                    {/* <SmoothScrollEnhancer /> */}
                     <DynamicIslandHeader />
                     <FloatingControls />
                     <GoUpButton />

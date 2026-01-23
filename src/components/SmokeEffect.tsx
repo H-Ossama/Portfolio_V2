@@ -8,14 +8,14 @@ import { usePerformanceMode, getAnimationConfig } from '@/lib/usePerformanceMode
 const SmokeEffect = () => {
   const { theme } = useTheme()
   const performanceMode = usePerformanceMode()
-  const { 
-    enableSmokeEffects, 
-    particleCount, 
+  const {
+    enableSmokeEffects,
+    particleCount,
     durationMultiplier,
     enableBlurEffects,
     enableMotionEffects
   } = getAnimationConfig(performanceMode)
-  
+
   const [smokeParticles, setSmokeParticles] = useState<Array<{
     id: number
     x: number
@@ -32,10 +32,10 @@ const SmokeEffect = () => {
       setSmokeParticles([])
       return
     }
-    
+
     // Reduce particle count for better performance on mobile
     const count = Math.min(particleCount, 15)
-    
+
     // Generate smoke particles
     const particles = Array.from({ length: count }, (_, i) => ({
       id: i,
@@ -55,21 +55,20 @@ const SmokeEffect = () => {
   }
 
   // Determine blur level based on performance mode
-  const blurLevel = enableBlurEffects 
+  const blurLevel = enableBlurEffects
     ? (performanceMode === 'high' ? 'blur-xl' : 'blur-lg')
     : 'blur-md'
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-[1] overflow-hidden">
+    <div className="fixed inset-0 pointer-events-none z-[1] overflow-hidden select-none">
       {/* Smoke particles */}
       {smokeParticles.map((particle) => (
         <motion.div
           key={particle.id}
-          className={`absolute rounded-full ${blurLevel} ${
-            theme === 'dark' 
-              ? 'bg-gradient-radial from-white/40 via-white/20 to-transparent' 
+          className={`absolute rounded-full ${blurLevel} ${theme === 'dark'
+              ? 'bg-gradient-radial from-white/40 via-white/20 to-transparent'
               : 'bg-gradient-radial from-gray-600/40 via-gray-400/20 to-transparent'
-          }`}
+            }`}
           style={{
             left: `${particle.x}%`,
             top: `${particle.y}%`,
@@ -108,11 +107,10 @@ const SmokeEffect = () => {
       {performanceMode === 'high' && (
         <>
           <motion.div
-            className={`absolute top-1/4 left-1/4 w-32 h-32 rounded-full ${blurLevel} ${
-              theme === 'dark'
+            className={`absolute top-1/4 left-1/4 w-32 h-32 rounded-full ${blurLevel} ${theme === 'dark'
                 ? 'bg-gradient-radial from-blue-300/20 via-purple-300/10 to-transparent'
                 : 'bg-gradient-radial from-blue-500/30 via-purple-500/15 to-transparent'
-            }`}
+              }`}
             animate={{
               x: [0, 60, 120, 60, 0],
               y: [0, -30, -60, -30, 0],
@@ -127,11 +125,10 @@ const SmokeEffect = () => {
           />
 
           <motion.div
-            className={`absolute top-2/3 right-1/3 w-40 h-40 rounded-full ${blurLevel} ${
-              theme === 'dark'
+            className={`absolute top-2/3 right-1/3 w-40 h-40 rounded-full ${blurLevel} ${theme === 'dark'
                 ? 'bg-gradient-radial from-cyan-300/15 via-teal-300/8 to-transparent'
                 : 'bg-gradient-radial from-cyan-500/25 via-teal-500/12 to-transparent'
-            }`}
+              }`}
             animate={{
               x: [0, -80, -160, -80, 0],
               y: [0, 40, 80, 40, 0],
@@ -147,11 +144,10 @@ const SmokeEffect = () => {
           />
 
           <motion.div
-            className={`absolute top-1/2 left-2/3 w-28 h-28 rounded-full ${blurLevel} ${
-              theme === 'dark'
+            className={`absolute top-1/2 left-2/3 w-28 h-28 rounded-full ${blurLevel} ${theme === 'dark'
                 ? 'bg-gradient-radial from-pink-300/20 via-rose-300/10 to-transparent'
                 : 'bg-gradient-radial from-pink-500/30 via-rose-500/15 to-transparent'
-            }`}
+              }`}
             animate={{
               x: [0, 40, 80, 40, 0],
               y: [0, -50, -100, -50, 0],
@@ -172,11 +168,10 @@ const SmokeEffect = () => {
       {performanceMode !== 'low' && (
         <>
           <motion.div
-            className={`absolute inset-0 ${
-              theme === 'dark'
+            className={`absolute inset-0 ${theme === 'dark'
                 ? 'bg-gradient-to-br from-purple-900/5 via-transparent to-blue-900/5'
                 : 'bg-gradient-to-br from-purple-200/10 via-transparent to-blue-200/10'
-            }`}
+              }`}
             animate={{
               opacity: [0.3, 0.5, 0.4, 0.3],
             }}
@@ -188,11 +183,10 @@ const SmokeEffect = () => {
           />
 
           <motion.div
-            className={`absolute inset-0 ${
-              theme === 'dark'
+            className={`absolute inset-0 ${theme === 'dark'
                 ? 'bg-gradient-to-tl from-emerald-900/3 via-transparent to-cyan-900/3'
                 : 'bg-gradient-to-tl from-emerald-200/8 via-transparent to-cyan-200/8'
-            }`}
+              }`}
             animate={{
               opacity: [0.2, 0.4, 0.3, 0.2],
             }}
@@ -208,11 +202,10 @@ const SmokeEffect = () => {
 
       {/* Simplified fog for better performance */}
       <motion.div
-        className={`absolute bottom-0 left-0 right-0 h-32 ${
-          theme === 'dark'
+        className={`absolute bottom-0 left-0 right-0 h-32 ${theme === 'dark'
             ? 'bg-gradient-to-t from-gray-900/10 via-gray-800/5 to-transparent'
             : 'bg-gradient-to-t from-gray-300/15 via-gray-200/8 to-transparent'
-        } ${enableBlurEffects ? 'blur-sm' : ''}`}
+          } ${enableBlurEffects ? 'blur-sm' : ''}`}
         animate={enableMotionEffects ? {
           x: [0, 100, -50, 0],
           opacity: [0.3, 0.5, 0.4, 0.3],
@@ -228,11 +221,10 @@ const SmokeEffect = () => {
 
       {performanceMode !== 'low' && (
         <motion.div
-          className={`absolute top-0 left-0 right-0 h-24 ${
-            theme === 'dark'
+          className={`absolute top-0 left-0 right-0 h-24 ${theme === 'dark'
               ? 'bg-gradient-to-b from-gray-900/8 via-gray-800/4 to-transparent'
               : 'bg-gradient-to-b from-gray-300/12 via-gray-200/6 to-transparent'
-          } ${enableBlurEffects ? 'blur-sm' : ''}`}
+            } ${enableBlurEffects ? 'blur-sm' : ''}`}
           animate={enableMotionEffects ? {
             x: [0, -80, 40, 0],
             opacity: [0.2, 0.4, 0.3, 0.2],

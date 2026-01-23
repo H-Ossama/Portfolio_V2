@@ -6,6 +6,21 @@
 /* Import mobile header styles */
 @import './mobile-header.css';
 
+/* Force disable smooth scroll globally to fix Chromium scroll lag */
+html {
+  scroll-behavior: auto !important;
+  scroll-padding-top: 5rem;
+}
+
+body {
+  scroll-behavior: auto !important;
+  /* overscroll-behavior-y: none; */
+  /* Prevent scroll chaining/bounce if that's the issue */
+  /* Remove overflow-x: hidden again if user says it causes issues, but typically it is needed. 
+     If the user says "still the same issue", it implies sticky scroll. 
+     Let's try WITHOUT explicit overflow first in root, relying on default. */
+}
+
 @layer base {
   :root {
     --bg-primary: #050505;
@@ -18,30 +33,24 @@
     --text-secondary: rgba(255, 255, 255, 0.7);
   }
 
-  html {
-    scroll-behavior: smooth;
-    scroll-padding-top: 5rem;
-    /* Account for fixed header */
-  }
+  /* html rules moved to root level */
 
   body {
     @apply antialiased transition-colors duration-300;
     font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
-    /* Improve scrolling performance */
-    overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
-    /* iOS smooth scrolling */
+    /* scroll-behavior moved to root level */
   }
 
   /* Enhanced smooth scrolling for all elements */
   * {
-    scroll-behavior: smooth;
+    /* scroll-behavior: smooth; -- Removed to fix scroll delay */
   }
 
   /* Optimize scroll performance */
   body,
   html {
-    scroll-behavior: smooth;
+    scroll-behavior: auto !important;
+    /* Force disable native smooth scroll */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
@@ -55,14 +64,16 @@
       radial-gradient(circle at 50% -10%, rgba(155, 81, 224, 0.1) 0%, transparent 50%),
       radial-gradient(circle at 0% 100%, rgba(255, 140, 0, 0.05) 0%, transparent 40%),
       radial-gradient(circle at 100% 100%, rgba(0, 242, 255, 0.05) 0%, transparent 40%);
-    background-attachment: fixed;
+    background-attachment: initial;
+    /* Fixed background can cause scroll lag */
   }
 
   /* Light mode styles */
   .light body {
     @apply bg-light-50 text-gray-900;
     background: linear-gradient(135deg, #ffffff 0%, #f8fafc 50%, #f1f5f9 100%);
-    background-attachment: fixed;
+    background-attachment: initial;
+    /* Fixed background can cause scroll lag */
   }
 
   /* Performance optimizations for mobile and low-end devices */
@@ -496,11 +507,11 @@
   }
 
   /* Enhanced scroll utilities for smoother experience */
-  .scroll-smooth-enhanced {
-    scroll-behavior: smooth;
+  /* .scroll-smooth-enhanced {
+    scroll-behavior: smooth; -- Removed
     scroll-padding-top: 6rem;
     -webkit-overflow-scrolling: touch;
-  }
+  } */
 
   .scroll-margin-enhanced {
     scroll-margin-top: 6rem;
@@ -515,8 +526,7 @@
     will-change: scroll-position;
   }
 
-  .backface-hidden {
-  }
+  .backface-hidden {}
 
   .transform-3d {
     transform-style: preserve-3d;
@@ -531,7 +541,7 @@
 
   /* Custom smooth scroll for navigation */
   .nav-scroll {
-    scroll-behavior: smooth;
+    /* scroll-behavior: smooth; -- Removed */
     scroll-padding-top: 5rem;
   }
 
